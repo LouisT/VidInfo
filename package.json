@@ -1,0 +1,43 @@
+{
+    "name": "vidinfo",
+    "version": "0.1.6",
+    "author": {
+        "name": "Louis T.",
+        "email": "louist@ltdev.im",
+        "url": "http://github.com/LouisT/vidinfo"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/LouisT/vidinfo.git"
+    },
+    "licenses": [
+        {
+          "type": "unlicensed",
+          "url": "http://unlicense.org/"
+        }
+    ],
+    "keywords": [
+        "video",
+        "information",
+        "api",
+        "youtube",
+        "vimeo",
+        "dailymotion",
+        "bambuser",
+        "onaol",
+        "twitchtv",
+        "justintv",
+        "ustream",
+        "giantbomb",
+        "magma",
+        "videolog",
+        "archive",
+        "muzu",
+        "webcams",
+        "livevideo",
+        "traileraddict"       
+    ],
+    "description": "Get video information from different APIs.",
+    "engine": "node => 0.6",
+    "main": "index.js"
+}
