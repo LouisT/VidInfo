@@ -1,4 +1,4 @@
-VidInfo (v0.1.6)
+VidInfo (v0.1.7)
 ======
 
 Install: npm install vidinfo
@@ -24,9 +24,12 @@ Current APIs supported:
    [mag.ma](http://mag.ma/ "Title")
    [webcams.travel (1)](http://www.webcams.travel/developers/ "Title")
    [archive.org](http://archive.org/ "Title")
+   [imdb.com (2,3)](http://imdb.com/ "Title")
+   [themoviedb.org (1)](http://themoviedb.org/ "Title")
 
     1) API key required. See "bambuser" example at the bottom.
     2) This method is BETA.
+    3) 3rd party API. See "3rd pary APIs" below.
 
 Experimental APIs: 
 ------
@@ -38,6 +41,12 @@ Experimental APIs:
     2) This method is BETA.
 
 NOTE: These use [YQL](http://developer.yahoo.com/yql/console/ "Title") to convert XML to JSON.
+
+3rd party APIs:
+------
+    IMDB - http://imdbapi.org/
+
+NOTE: Not directly supported by the original content owners.
 
 TODO:
 ------
@@ -64,27 +73,29 @@ Settings usage:
 
 Shortcuts:
 ------
-    YouTube.com:                yt, youtube
+    YouTube.com:                yt, youtube, youtubecom
     Justin.tv (stream):         jtvs, jstream, justintvstream
     Justin.tv (video clip):     jtvc, jclip, justintvclip
-    Bambuser.com:               bam, bambuser
-    Dailymotion.com:            dmo, dailymo, dailymotion
-    Vimeo.com:                  vimeo   
+    Bambuser.com:               bam, bambuser, bambusercom
+    Dailymotion.com:            dmo, dailymo, dailymotion, dailymotioncom
+    Vimeo.com:                  vimeo, vimeocom
     Twitch.tv (stream):         ttvs, tstream, twitchtvstream
     Twitch.tv (video clip):     ttvc, tclip, twitchtvclip
     Ustream.tv (stream):        utvs, ustream, ustreamtvstream
     Ustream.tv (video clip):    utvc, uclip, ustreamtvclip
-    on.aol.com:                 onaol 
-    GiantBomb.com:              gbomb, giantbomb
-    Videolog.tv:                vlog, videolog
+    on.aol.com:                 onaol, onaolcom
+    GiantBomb.com:              gbomb, giantbomb, giantbombcom
+    Videolog.tv:                vlog, videolog, videologtv
     Mag.ma:                     mag, magma
-    Livevideo.com*:             lvid, lvideo, livevideo
+    Livevideo.com*:             lvid, lvideo, livevideo, livevideocom
     Muzu.tv*:                   muzu, muzutv
-    Traileraddict.com:          tadd, taddict, traileraddict
+    Traileraddict.com*:         tadd, taddict, traileraddict, traileraddictcom
     Webcams.travel:             wct, webtra, wtravel, webcamstravel
-    Archive.org                 arch, archive, archiveorg
+    Archive.org:                arch, archive, archiveorg
+    IMDB.com:                   imdb, imdbapiorg
+    Themoviedb.org:             tdb, tmdb, themoviedborg
 
-    * See "Experimental APIs" above.
+    *  See "Experimental APIs" above.
 
     Examples:
         VidInfo.youtube('ZRAr354usf8',console.log);
@@ -93,8 +104,13 @@ Shortcuts:
 
 Functions:
 ------
-    VidInfo.detect(url,[callback[,options]]) - Parse a URL and create an object used for 'byurl'.
+    VidInfo.detect(url[,callback[,options]]) - Parse a URL and create an object used for 'byurl'.
          See ./examples/detect.js
+
+    VidInfo.detectAll(string[,callback[,options]]) - Parse a string and return an object with all the IDs.
+         Options: keys - The list of keys for APIs that might need them.
+                  Example: {keys:{bambuser:'EXAMPLE-KEY',themoviedb:'ANOTHER-KEY'}}
+         See ./examples/detectAll.js
 
     VidInfo.byid(id,api,callback[,options]) - Connects to the (should be) correct API for video information.
          See ./examples/byid.js

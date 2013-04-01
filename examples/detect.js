@@ -1,5 +1,5 @@
 /*
- vidinfo/examples/detect.js - v0.1.6
+ vidinfo/examples/detect.js - v0.1.7
 
  This file is part of the 'VidInfo' project.
  https://github.com/LouisT/VidInfo
@@ -20,5 +20,8 @@ vidinfo.detect('http://on.aol.com/video/study--comet-caused-mass-extinction-5177
 vidinfo.detect('http://bambuser.com/v/3453034',function (obj) {
    console.log('(detect) bambuser: '+JSON.stringify(obj)+'\n\n');
 },{apikey:'APIKEY'});
+vidinfo.detect('http://bambuser.com/v/3453034',function (obj) {
+   console.log('(detect/nokey) bambuser: '+JSON.stringify(obj)+'\n\n');
+});
 
 // console.log(vidinfo.detect('http://www.youtube.com/watch?v=QK8mJJJvaes'));

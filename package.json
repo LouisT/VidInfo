@@ -1,6 +1,6 @@
 {
     "name": "vidinfo",
-    "version": "0.1.6",
+    "version": "0.1.7",
     "author": {
         "name": "Louis T.",
         "email": "louist@ltdev.im",
@@ -35,7 +35,9 @@
         "muzu",
         "webcams",
         "livevideo",
-        "traileraddict"       
+        "traileraddict",
+        "imdb",
+        "themoviedb"
     ],
     "description": "Get video information from different APIs.",
     "engine": "node => 0.6",

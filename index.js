@@ -1,5 +1,5 @@
 /*
- VidInfo - v0.1.6 - Louis T. <LouisT@ltdev.im>
+ VidInfo - v0.1.7 - Louis T. <LouisT@ltdev.im>
  https://github.com/LouisT/VidInfo
 */
 (function(){
@@ -53,9 +53,10 @@
            if (!cb) {
               return false; // Needs a callback!
            };
-           var opts = opts||{};
+           var opts = opts||{},
+               api = this.byShortcut(api);
            if ((api in this.apis)) {
-              var apidat = this.apis[api],
+              var apidat = this.copyObj(this.apis[api]),
                   fields = ((apidat['fields']||[]).join((apidat['fieldsJoiner']||','))),
                   foropts = {id:id,fields:fields};
               if (('apikey' in opts || 'needkey' in apidat)) {
@@ -76,7 +77,7 @@
            var  opts = opts||{};
            apiloop:
            for (var api in this.apis) {
-               var apidat = this.apis[api],
+               var apidat = this.copyObj(this.apis[api]),
                    fields = ((apidat['fields']||[]).join((apidat['fieldsJoiner']||',')));
                if (!(apidat['regex'] instanceof Array)) {
                   apidat['regex'] = [apidat['regex']];
@@ -87,8 +88,8 @@
                       var foropts = {id:matches[1],fields:fields};
                       if (('apikey' in opts || 'needkey' in apidat)) {
                          if (!('apikey' in opts)) {
-                            apidat = {error:true,message:'API key is required!'};
-                            break apiloop;
+                            apidat['error'] = true;
+                            apidat['message'] = 'API key is required!';
                           } else {
                             foropts['apikey'] = opts['apikey'];
                          };
@@ -111,10 +112,62 @@
            }
    };
 
+   // Get ALL IDs within a string. Not currently used for anything. -- Improve this! 
+   VidInfo.prototype.detectAll = function (str,cb,opts) {
+           var str = str.replace(/^\s+|\s+$/g,'').replace(/ +/g,' ').split(' '),
+               strlen = str.length,
+               ret = {},
+               opts = opts||{};
+
+           // Attempt to get the key by API shortcut.
+           if (('keys' in opts)) {
+              for (var apin in opts['keys']) {
+                  opts['keys'][this.byShortcut(apin)] = opts['keys'][apin];
+              };
+           };
+
+           // Scan the split string for URLs.
+           for (var i = 0; i < strlen; i++) {
+               for (var api in this.apis) {
+                   var apidat = this.copyObj(this.apis[api]),
+                       fields = ((apidat['fields']||[]).join((apidat['fieldsJoiner']||',')));
+                   if (!(apidat['regex'] instanceof Array)) {
+                      apidat['regex'] = [apidat['regex']];
+                   };
+                   for (var num in apidat['regex']) {
+                       var regex = apidat['regex'][num];
+                       if ((matches = regex.exec(str[i])) !== null) {
+                          if (!(api in ret)) {
+                             ret[api] = [];
+                          };
+                          var foropts = {id:matches[1],fields:fields};
+                          if ((('keys' in opts && api in opts['keys']) || 'needkey' in apidat)) {
+                             if (!('keys' in opts) || !opts['keys'][api]) {
+                                apidat['error'] = true;
+                                apidat['message'] = 'API key is required!';
+                              } else {
+                                foropts['apikey'] = opts['keys'][api];
+                             };
+                          };
+                          apidat['url'] = this.formatter(apidat["url"],foropts);
+                          apidat['api'] = api;
+                          apidat['id']  = matches[1];
+                          ret[api].push(apidat);
+                       };
+                   };
+               };
+           };
+           if (!cb) {
+              return ret;
+            } else {
+              cb(ret,false); 
+           }
+   };
+
    // Make http requests! -- Moved from 'byurl' and 'byid'
    VidInfo.prototype.doRequest = function (url,apidat,cb,opts) {
-           // Default to JSON for requests.
-           var getopts = {type:'json',headers:{'User-Agent':this.userAgent}};
+           // Default to JSON for requests. Custom user agent, accept everything!
+           var getopts = {type:'json',headers:{'User-Agent':this.userAgent,'Accept':'*/*'}};
 
            // Support for JSON, CVS and INI. Maybe XML at some point.
            if (apidat['type']) {
@@ -131,11 +184,44 @@
            }.bind(this,apidat,cb,(opts['formatter']||(apidat['formatter']||false))));
    };
 
+   // Do not overwrite an existing object, just copy it! - For for "this.apis" overwrite.
+   VidInfo.prototype.copyObj = function (obj) {
+           var newObj = ((obj.constructor===Array)?[]:{});
+           for (var key in obj) {
+               if ((this.getType(obj[key]).match(/(object|array)/i))) {
+                  newObj[key] = this.copyObj(obj[key]);
+                } else {
+                  if (obj.hasOwnProperty(key)) {
+                     newObj[key] = obj[key];
+                  };
+               }
+           };
+           return newObj;
+   };
+
+   // Try and detect the API by shortcut.
+   VidInfo.prototype.byShortcut  = function (api) {
+           if (!(api in this.apis)) {
+              for (var apin in this.apis) {
+                  if ('shortcuts' in this.apis[apin] && this.apis[apin].shortcuts.indexOf(api) > -1) {
+                     api = apin;
+                  };
+              };
+           };
+           return api;
+   };
+
    // Format strings, used with URLs in ./apis.js
    VidInfo.prototype.formatter = function (str,opts) {
-           return str.replace(/{(\\?:)([^}]+)}/g,function(m,o,k) {
-                  return (Object.prototype.toString.call((v=(this[k]?this[k]:m))).match(/^\[object (.*)\]$/)[1]=="Function"?v(k,m,this):v);
-           }.bind(opts));
+           return str.replace(/{(\\?:)([^}]+)}/g,function(parent,m,o,k) {
+                  return (parent.getType((v=(this[k]?this[k]:m)))=="Function"?v(k,m,this):v);
+           }.bind(opts,this));
    };
+
+   // Get the type of an object.
+   VidInfo.prototype.getType = function (obj) {
+           return Object.prototype.toString.call(obj).match(/^\[object (.*)\]$/)[1];
+   };
+
    module.exports = VidInfo;
 }).call(this);

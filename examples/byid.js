@@ -1,5 +1,5 @@
 /*
- vidinfo/examples/byid.js - v0.1.6
+ vidinfo/examples/byid.js - v0.1.7
 
  This file is part of the 'VidInfo' project.
  https://github.com/LouisT/VidInfo
