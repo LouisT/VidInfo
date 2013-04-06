@@ -1,4 +1,4 @@
-VidInfo (v0.1.8)
+VidInfo (v0.1.9)
 ======
 
 Install: npm install vidinfo

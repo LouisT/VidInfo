@@ -9,7 +9,7 @@ module.exports = {
           url: 'http://gdata.youtube.com/feeds/api/videos/{:id}?v=2&alt=json',
           regex: [/(?:https?:\/\/)?(?:.*\.)?youtu(?:\.be\/|be\.com\/(?:watch\?.*?v=)?)([^\?#&\s\[\]\(\)]+)/i],
           shortcuts: 'yt',
-          formatter: function (data,cb) {
+          formatter: function (data, error, cb) {
                 var ret = {};
                 if ('$t' in data.entry.title) {
                    ret.title = data.entry.title.$t;

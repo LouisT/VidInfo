@@ -7,9 +7,7 @@
 (function(){
    http_get = function (url, options, cb) {
             if (http_get._conf['useIPv6']) {
-               if (!options) {
-                  options = {};
-               };
+               options = options||{};
                if (options['useIPv6'] !== false) {
                   options['useIPv6'] = options['useIPv6']||true;
                }
@@ -36,7 +34,7 @@
             }
    };
    http_get.parseReq = function (url, options, cb) {
-            var opts = {}, p;
+            var opts = {}, p, http;
             if (!cb) {
                cb = options;
                options = {};
@@ -97,35 +95,28 @@
             var body = "";
             var req = method.request(opts, function(res) {
                 res.setEncoding('utf8');
-                res.on('data', function(req, res, chunk) {
+                res.on('data', function(chunk) {
                     body += chunk;
                     if (opts.type == "title") {
                        body = body.replace(/(\r\n|\n|\r)/gm,"");
                        if (/<title>(.*?)<\/title>/i.test(body)) {
-                          res.title = http_get.trim(body.replace(/.*<title>(.*?)<\/title>.*/i,"$1"));
+                          this.title = http_get.trim(body.replace(/.*<title>(.*?)<\/title>.*/i,"$1"));
                           req.abort();
                        }
                     }
-                }.bind(null,req,res)).on('end', function() {
+                }).on('end', function() {
                     if (this.timeout) { 
                        clearTimeout(this.timeout);
                     }
                     if (opts.type) {
                        if (opts.type != 'default') {
-                          var parsed = returnType(opts.type, body, res);
-                          return cb((parsed?parsed:"No content for requested type."),!parsed,res);
+                          var parsed = returnType(opts.type, body, this);
+                          return cb((parsed?parsed:"No content for requested type."), !parsed, this);
                        }
                     }
-                    cb(body,null,res);
-                }.bind(this));
-            });
-            if (opts.timeout) {
-               req.timeout = setTimeout(function(){
-                    this.abort();
-                    this.emit('error',{message:'request reached timeout'});
-               }.bind(req),(!isNaN(opts.timeout)?opts.timeout:30000));
-            }
-            req.on('error', function(e) {
+                    cb(body,null,this);
+                });
+            }).on('error', function(e) {
                if (this.timeout) {
                   clearTimeout(this.timeout);
                }
@@ -134,6 +125,12 @@
                }
                this.haderr = true;
             });
+            if (opts.timeout) {
+               req.timeout = setTimeout(function(){
+                    req.abort();
+                    req.emit('error',{message:'request reached timeout'});
+               },(!isNaN(opts.timeout)?opts.timeout:30000));
+            }
             if (opts.postData) {
                req.write(opts.postData);
             }
@@ -203,7 +200,7 @@
                 return id;
             });
             var isEmptyObj = function (obj) {
-                for (prop in obj) {
+                for (var prop in obj) {
                     if (obj[prop] != obj.constructor.prototype[prop]) {
                        return false;
                     };
@@ -227,7 +224,9 @@
             return (jsonify?JSON.stringify(obj):obj);
    };
    http_get.ini2obj = function (input,jsonify) {
-            var obj = {comments:[]}, cursec = false;
+            var obj = {comments:[]},
+                cursec = false,
+                param, section, comment;
             input.split(/\r\n|\r|\n/).forEach(function(line) {
                   if ((param = line.match(/^\s*([\w\.\-\_]+)\s*=\s*(.*?)\s*$/))) {
                      if (cursec) {

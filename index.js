@@ -1,5 +1,5 @@
 /*
- VidInfo - v0.1.8 - Louis T. <LouisT@ltdev.im>
+ VidInfo - v0.1.9 - Louis T. <LouisT@ltdev.im>
  https://github.com/LouisT/VidInfo
 */
 (function(){
@@ -14,7 +14,7 @@
           this.settings = settings||{format:true};
 
           // User-Agent sent on API requests.
-          this.userAgent = 'Mozilla/5.0+(compatible; VidInfo/0.1.8; https://github.com/LouisT/VidInfo)';
+          this.userAgent = 'Mozilla/5.0+(compatible; VidInfo/0.1.9; https://github.com/LouisT/VidInfo)';
 
           // Import supported APIs. -- Change this to prevent a massive API (./apis.js) file?
           // Might put each API in it's own file. (./apis/enabled/youtube.js, ./apis/disabled/vimeo.js)
@@ -30,17 +30,16 @@
                   this[shortcuts[num]] = function (api,id,cb,opts) {
                        this.byid(id,api,cb,opts);
                   }.bind(this,api);
-               };
+              };
            };
    };
 
    // Pull information from the url.
    VidInfo.prototype.byurl = function (url,cb,opts) {
+           var apidat,
+               opts = opts||{};
            if (!cb) {
               return false; // Needs a callback!
-           };
-           if (!opts) {
-              opts = {};
            };
            if (!('error' in (apidat = this.detect(url,null,opts)))) {
               this.doRequest(apidat['url'],apidat,cb,opts);
@@ -74,7 +73,7 @@
                     foropts['basicauth'] = opts['basicauth'];
                  };
               };
-              this.doRequest(this.formatter(apidat["url"],foropts),apidat,cb,opts);
+              this.doRequest(this.stringFormat(apidat["url"],foropts),apidat,cb,opts);
             } else {
               cb({error:true,message:'No such API!'},true);
            };
@@ -82,7 +81,8 @@
 
    // Detect what API to use by video url.
    VidInfo.prototype.detect = function (url,cb,opts) {
-           var  opts = opts||{};
+           var opts = opts||{},
+               matches;
            apiloop:
            for (var api in this.apis) {
                var apidat = this.copyObj(this.apis[api]),
@@ -110,7 +110,7 @@
                             foropts['basicauth'] = opts['basicauth'];
                          };
                       };
-                      apidat['url'] = this.formatter(apidat["url"],foropts);
+                      apidat['url'] = this.stringFormat(apidat["url"],foropts);
                       apidat['api'] = api;
                       apidat['id']  = matches[1];
                       break apiloop;
@@ -133,7 +133,8 @@
            var str = str.replace(/^\s+|\s+$/g,'').replace(/ +/g,' ').split(' '),
                strlen = str.length,
                ret = {},
-               opts = opts||{};
+               opts = opts||{},
+               matches;
 
            // Attempt to get the key by API shortcut.
            if (('keys' in opts)) {
@@ -173,7 +174,7 @@
                                 foropts['basicauth'] = opts['auths'][api];
                              };
                           };
-                          apidat['url'] = this.formatter(apidat["url"],foropts);
+                          apidat['url'] = this.stringFormat(apidat["url"],foropts);
                           apidat['api'] = api;
                           apidat['id']  = matches[1];
                           ret[api].push(apidat);
@@ -199,13 +200,11 @@
            };
    
            // Run the request.
-           http_get(url,getopts,function(apidat,cb,formatter,b,e) {
-                if (!e && (formatter||apidat['formatter']) && this.settings['format']) {
-                   (formatter||apidat['formatter'])(b,cb); // Clean up returned data. (./apis.js)
-                 } else {
-                   cb(b,e);
-                };
-           }.bind(this,apidat,cb,(opts['formatter']||(apidat['formatter']||false))));
+           var formatter = (opts['formatter']||(apidat['formatter']||false)),
+               parent = this;
+           http_get(url,getopts,function(content,error) {
+                (formatter&&parent.settings['format']?formatter:cb)(content,error,cb);
+           });
    };
 
    // Do not overwrite an existing object, just copy it! - For for "this.apis" overwrite.
@@ -236,10 +235,11 @@
    };
 
    // Format strings, used with URLs in ./apis.js
-   VidInfo.prototype.formatter = function (str,opts) {
-           return str.replace(/{(\\?:)([^}]+)}/g,function(parent,m,o,k) {
-                  return (parent.getType((v=(this[k]?this[k]:m)))=="Function"?v(k,m,this):v);
-           }.bind(opts,this));
+   VidInfo.prototype.stringFormat = function (str,opts) {
+           var parent = this;
+           return str.replace(/{(\\?:)([^}]+)}/g,function(m,o,k) {
+                  return (parent.getType((v=(opts[k]?opts[k]:m)))=="Function"?v(k,m,opts):v);
+           });
    };
 
    // Get the type of an object.
