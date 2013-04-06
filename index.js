@@ -1,5 +1,5 @@
 /*
- VidInfo - v0.1.7 - Louis T. <LouisT@ltdev.im>
+ VidInfo - v0.1.8 - Louis T. <LouisT@ltdev.im>
  https://github.com/LouisT/VidInfo
 */
 (function(){
@@ -16,7 +16,8 @@
           // User-Agent sent on API requests.
           this.userAgent = 'Mozilla/5.0+(compatible; VidInfo/0.1.6; https://github.com/LouisT/VidInfo)';
 
-          // Import supported APIs
+          // Import supported APIs. -- Change this to prevent a massive API (./apis.js) file?
+          // Might put each API in it's own file. (./apis/enabled/youtube.js, ./apis/disabled/vimeo.js)
           this.apis = require('./apis');
 
           // Add 'byid' shortcuts. See ./examples/byapi.js
@@ -66,6 +67,13 @@
                     foropts['apikey'] = opts['apikey'];
                  };
               };
+              if (('basicauth' in opts || 'basicauth' in apidat)) {
+                 if (!('basicauth' in opts)) {
+                    return cb({error:true,message:'Basic auth `username:password` is required!'},true);
+                  } else {
+                    foropts['basicauth'] = opts['basicauth'];
+                 };
+              };
               this.doRequest(this.formatter(apidat["url"],foropts),apidat,cb,opts);
             } else {
               cb({error:true,message:'No such API!'},true);
@@ -92,6 +100,14 @@
                             apidat['message'] = 'API key is required!';
                           } else {
                             foropts['apikey'] = opts['apikey'];
+                         };
+                      };
+                      if (('basicauth' in opts || 'basicauth' in apidat)) {
+                         if (!('basicauth' in opts)) {
+                            apidat['error'] = true;
+                            apidat['message'] = 'Basic auth `username:password` is required!';
+                          } else {
+                            foropts['basicauth'] = opts['basicauth'];
                          };
                       };
                       apidat['url'] = this.formatter(apidat["url"],foropts);
@@ -147,6 +163,14 @@
                                 apidat['message'] = 'API key is required!';
                               } else {
                                 foropts['apikey'] = opts['keys'][api];
+                             };
+                          };
+                          if ((('auths' in opts && api in opts['auths']) || 'basicauth' in apidat)) {
+                             if (!('auths' in opts) || !opts['auths'][api]) {
+                                apidat['error'] = true;
+                                apidat['message'] = 'Basic auth `username:password` is required!';
+                              } else {
+                                foropts['basicauth'] = opts['auths'][api];
                              };
                           };
                           apidat['url'] = this.formatter(apidat["url"],foropts);

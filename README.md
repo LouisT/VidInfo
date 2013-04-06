@@ -1,4 +1,4 @@
-VidInfo (v0.1.7)
+VidInfo (v0.1.8)
 ======
 
 Install: npm install vidinfo
@@ -9,7 +9,7 @@ However, if you make something interesting, I would like to check it out.
 
 Current APIs supported:
 ------
-   Supported Formats: JSON, CSV, INI -- Only JSON is used at the moment.
+   Supported Formats: JSON, CSV, INI -- XML via [YQL](http://developer.yahoo.com/yql/console/ "Title").
 
    [dailymotion.com](http://www.dailymotion.com/ "Title")
    [bambuser.com (1)](http://bambuser.com/api/ "Title")
@@ -25,20 +25,23 @@ Current APIs supported:
    [webcams.travel (1)](http://www.webcams.travel/developers/ "Title")
    [archive.org](http://archive.org/ "Title")
    [imdb.com (2,3)](http://imdb.com/ "Title")
-   [themoviedb.org (1)](http://themoviedb.org/ "Title")
+   [themoviedb.org (1)](http://www.themoviedb.org/documentation/api "Title")
+   [vzaar.com](http://vzaar.com/ "Title")
+   [wistia.com (4)](http://wistia.com/doc/developers "Title")
+   [flickr.com (1)](http://www.flickr.com/services/api/ "Title")
 
     1) API key required. See "bambuser" example at the bottom.
     2) This method is BETA.
     3) 3rd party API. See "3rd pary APIs" below.
+    4) Requires basic auth (username:password). See "wista" example at the bottom.
 
 Experimental APIs: 
 ------
-   [livevideo.com (1,2)](http://www.livevideo.com/api/ "Title")
-   [muzu.tv (1,2)](http://www.muzu.tv/api/ "Title")
-   [traileraddict.com (2)](http://www.traileraddict.com/ "Title")
+   [livevideo.com (1)](http://www.livevideo.com/api/ "Title")
+   [muzu.tv (1)](http://www.muzu.tv/api/ "Title")
+   [traileraddict.com](http://www.traileraddict.com/ "Title")
   
-    1) API key required. See "bambuser" example at the bottom
-    2) This method is BETA.
+    1) API key required. See "bambuser" example at the bottom.
 
 NOTE: These use [YQL](http://developer.yahoo.com/yql/console/ "Title") to convert XML to JSON.
 
@@ -52,8 +55,8 @@ TODO:
 ------
     1) Find more API's to use. -- Please suggest some.
     2) Create tests.
-    3) Better README.md!
-    4) Basic auth support.
+    3) Improve basic auth and API key support.
+    4) Clean up code and find a use for "detectAll".
 
     *) Support events? I'm not sure about this yet.
     **) Support XML API's maybe? -- I dislike XML.
@@ -61,6 +64,7 @@ TODO:
 Options:
 ------
     apikey - The API key, when needed.
+    basicauth - Your basic auth `username:password`, when needed.
     formatter - The formatter to use on your JSON data. See ./examples/apis.js
 
 Settings:
@@ -94,6 +98,9 @@ Shortcuts:
     Archive.org:                arch, archive, archiveorg
     IMDB.com:                   imdb, imdbapiorg
     Themoviedb.org:             tdb, tmdb, themoviedborg
+    Vzaar.com:                  vzaar, vzaarcom
+    Wistia.com:                 wistia, wistacom
+    Flickr.com:                 flickr, flickrcom
 
     *  See "Experimental APIs" above.
 
@@ -160,6 +167,18 @@ VidInfo.byurl('http://bambuser.com/v/3453034',function (obj) {
        console.log(obj);
 },{apikey:'APIKEY'});
 
+// Wista (Basic auth required)
+VidInfo.byurl('http://ltdev.wistia.com/medias/piywx9v8rr',function (obj,e) {
+   if (!e) {
+      console.log('(byapi) wista: '+JSON.stringify(obj)+'\n\n');
+    } else {
+      console.log('(byapi - ERROR) wista: '+JSON.stringify({error:true,message:obj})+'\n\n');
+   }
+},{basicauth:'USERNAME:PASSWORD'});
+
 // 'detect' example. -- Prints video ID and API link in an object.
 console.log(VidInfo.detect('http://www.youtube.com/watch?v=ZRAr354usf8'));
+
+// 'detectAll' example. Prints an object with multiple 'detect' objects.
+console.log(VidInfo.detectAll('http://www.youtube.com/watch?v=ZRAr354usf8 http://bambuser.com/v/3453034 http://ltdev.wistia.com/medias/piywx9v8rr http://flic.kr/p/e9964e'));
 ```

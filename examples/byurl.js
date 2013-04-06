@@ -1,5 +1,5 @@
 /*
- vidinfo/examples/byurl.js - v0.1.7
+ vidinfo/examples/byurl.js - v0.1.8
 
  This file is part of the 'VidInfo' project.
  https://github.com/LouisT/VidInfo
@@ -20,3 +20,10 @@ vidinfo.byurl('http://on.aol.com/video/study--comet-caused-mass-extinction-51772
 vidinfo.byurl('http://bambuser.com/v/3453034',function (obj) {
    console.log('(byurl) bambuser: '+JSON.stringify(obj)+'\n\n');
 },{apikey:'APIKEY'});
+vidinfo.byurl('https://www.flickr.com/photos/94717151@N07/8624747855/',function (obj) {
+   console.log('(byurl) flickr: '+JSON.stringify(obj)+'\n\n');
+},{apikey:'APIKEY'});
+vidinfo.byurl('http://flic.kr/p/e9964e',function (obj) {
+   console.log('(byurl) flickr - shorturl: '+JSON.stringify(obj)+'\n\n');
+},{apikey:'APIKEY'});
+

@@ -1,5 +1,5 @@
 /*
- vidinfo/examples/detect.js - v0.1.7
+ vidinfo/examples/detectAll.js - v0.1.8
 
  This file is part of the 'VidInfo' project.
  https://github.com/LouisT/VidInfo
@@ -7,7 +7,8 @@
 var vidinfo = require('../')();
 
 var string = "This is a string. http://www.dailymotion.com/embed/video/xycczk_top-10-supergroups_music#.UU35k1GNNAs "+
-             "http://vimeo.com/61969130 http://www.youtube.com/watch?v=QK8mJJJvaes http://bambuser.com/v/3453034";
+             "http://vimeo.com/61969130 http://www.youtube.com/watch?v=QK8mJJJvaes http://bambuser.com/v/3453034 --"+
+             " It will scan the entire thing.";
 
 vidinfo.detectAll(string,function (obj) {
    console.log('(detectAll) '+JSON.stringify(obj)+'\n\n');

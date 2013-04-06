@@ -1,5 +1,5 @@
 /*
- vidinfo/apis.js - v0.1.7
+ vidinfo/apis.js - v0.1.8
 
  This file is part of the 'VidInfo' project.
  https://github.com/LouisT/VidInfo
@@ -91,6 +91,25 @@ module.exports = {
           url: 'http://archive.org/details/{:id}?output=json',
           regex: /(?:https?:\/\/)?(?:.*\.)?archive.org\/details\/(.[^\/#\?&]+)/i,
           shortcuts: ['arch','archive'],
+       },
+       flickrcom: {
+          url: 'http://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key={:apikey}&photo_id={:id}&format=json&nojsoncallback=1',
+          regex: [/(?:http:\/\/)?(?:.*\.)?flickr.com\/photos\/(?:.+)\/(\d+)/i,/(?:http:\/\/)?flic.kr\/p\/(.+)/i],
+          needkey: true,
+          shortcuts: 'flickr',
+       },
+
+       // Paid video distribution services. Some have free/trial accounts.
+       vzaarcom: {
+          url: 'http://vzaar.com/api/videos/{:id}.json',
+          regex: /(?:https?:\/\/)?(?:.*\.)?vzaar.(?:com\/videos|me)?\/(\d+)/i,
+          shortcuts: 'vzaar',
+       },
+       wistiacom: {
+          url: 'https://{:basicauth}@api.wistia.com/v1/medias/{:id}.json',
+          regex: /(?:https?:\/\/)?(?:.*\.)?wistia.com(?:\/stats)?\/medias\/(.+)/i,
+          basicauth: true,
+          shortcuts: 'wistia',
        },
 
        // Not really direct video links, but video information nevertheless. 

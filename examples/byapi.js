@@ -1,5 +1,5 @@
 /*
- vidinfo/examples/byapi.js - v0.1.7
+ vidinfo/examples/byapi.js - v0.1.8
 
  This file is part of the 'VidInfo' project.
  https://github.com/LouisT/VidInfo
@@ -19,4 +19,14 @@ vidinfo.onaol('517675925',function (obj) {
 });
 vidinfo.bambuser('3453034',function (obj) {
    console.log('(byapi) bambuser: '+JSON.stringify(obj)+'\n\n');
+},{apikey:'APIKEY'});
+vidinfo.wistia('piywx9v8rr',function (obj,e) {
+   if (!e) {
+      console.log('(byapi) wista: '+JSON.stringify(obj)+'\n\n');
+    } else {
+      console.log('(byapi - ERROR) wista: '+JSON.stringify({error:true,message:obj})+'\n\n');
+   }
+},{basicauth:'USERNAME:PASSWORD'});
+vidinfo.flickr('e9964e',function (obj) {
+   console.log('(byapi) flickr: '+JSON.stringify(obj)+'\n\n');
 },{apikey:'APIKEY'});
