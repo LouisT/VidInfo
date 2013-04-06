@@ -14,7 +14,7 @@
           this.settings = settings||{format:true};
 
           // User-Agent sent on API requests.
-          this.userAgent = 'Mozilla/5.0+(compatible; VidInfo/0.1.6; https://github.com/LouisT/VidInfo)';
+          this.userAgent = 'Mozilla/5.0+(compatible; VidInfo/0.1.8; https://github.com/LouisT/VidInfo)';
 
           // Import supported APIs. -- Change this to prevent a massive API (./apis.js) file?
           // Might put each API in it's own file. (./apis/enabled/youtube.js, ./apis/disabled/vimeo.js)
