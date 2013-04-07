@@ -7,7 +7,9 @@
 (function(){
    http_get = function (url, options, cb) {
             if (http_get._conf['useIPv6']) {
-               options = options||{};
+               if (!options) {
+                  options = {};
+               };
                if (options['useIPv6'] !== false) {
                   options['useIPv6'] = options['useIPv6']||true;
                }
@@ -192,7 +194,7 @@
    };
    http_get.csv2obj = function (input,jsonify) {
             var data = String(input).split(/\r?\n/),
-                obj = {records:[]}
+                obj = {records:[]},
                 pattern = /(?:^|,)("(?:[^"]+)*"|[^,]*)/g;
             obj.ids = data.shift().split(pattern).map(function(id){
                 return id.toLowerCase().replace(/[\"']/g,'');
@@ -252,12 +254,12 @@
    };
    http_get.applyQuerystring = function(url, opts) {
             var qs = require("querystring"),
-                ourl = require('url');
-                uo = ourl.parse(url)
-            us = qs.parse(uo.query||{});
+                ourl = require('url'),
+                uo = ourl.parse(url),
+                us = qs.parse(uo.query||{});
             for (var i in opts) {
                 if (opts.hasOwnProperty(i)) {
-                   us[i] = opts[i]
+                   us[i] = opts[i];
                 }
             }
             uo.query = qs.stringify(us);
