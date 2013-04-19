@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>Vidinfo by LouisT</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Vidinfo</h1>
+        <h2>Get video information from different APIs.</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/LouisT/VidInfo/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/LouisT/VidInfo/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/LouisT/VidInfo" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>VidInfo (v0.1.9)</h1>
+
+<p>Install: npm install vidinfo</p>
+
+<p>This project is <a href="http://unlicense.org/" title="Title">Unlicensed</a>.
+In other words, I don't care what you do with it.
+However, if you make something interesting, I would like to check it out.</p>
+
+<h2>Current APIs supported:</h2>
+
+<p>Supported Formats: JSON, CSV, INI -- XML via <a href="http://developer.yahoo.com/yql/console/" title="Title">YQL</a>.</p>
+
+<p><a href="http://www.dailymotion.com/" title="Title">dailymotion.com</a>
+   <a href="http://bambuser.com/api/" title="Title">bambuser.com (1)</a>
+   <a href="http://on.aol.com/" title="Title">on.aol.com</a>
+   <a href="http://vimeo.com/" title="Title">vimeo.com</a>
+   <a href="http://www.youtube.com/" title="Title">youtube.com</a>
+   <a href="http://www.justin.tv/" title="Title">justin.tv (2)</a>
+   <a href="http://www.twitch.tv/" title="Title">twitch.tv (2)</a> 
+   <a href="http://www.ustream.tv/" title="Title">ustream.tv (2)</a>
+   <a href="http://www.giantbomb.com/api/" title="Title">giantbomb.com (1,2)</a>
+   <a href="http://videolog.tv/" title="Title">videolog.tv</a>
+   <a href="http://mag.ma/" title="Title">mag.ma</a>
+   <a href="http://www.webcams.travel/developers/" title="Title">webcams.travel (1)</a>
+   <a href="http://archive.org/" title="Title">archive.org</a>
+   <a href="http://imdb.com/" title="Title">imdb.com (2,3)</a>
+   <a href="http://www.themoviedb.org/documentation/api" title="Title">themoviedb.org (1)</a>
+   <a href="http://vzaar.com/" title="Title">vzaar.com</a>
+   <a href="http://wistia.com/doc/developers" title="Title">wistia.com (4)</a>
+   <a href="http://www.flickr.com/services/api/" title="Title">flickr.com (1)</a></p>
+
+<pre><code>1) API key required. See "bambuser" example at the bottom.
+2) This method is BETA.
+3) 3rd party API. See "3rd pary APIs" below.
+4) Requires basic auth (username:password). See "wista" example at the bottom.
+</code></pre>
+
+<h2>Experimental APIs: </h2>
+
+<p><a href="http://www.livevideo.com/api/" title="Title">livevideo.com (1)</a>
+   <a href="http://www.muzu.tv/api/" title="Title">muzu.tv (1)</a>
+   <a href="http://www.traileraddict.com/" title="Title">traileraddict.com</a></p>
+
+<pre><code>1) API key required. See "bambuser" example at the bottom.
+</code></pre>
+
+<p>NOTE: These use <a href="http://developer.yahoo.com/yql/console/" title="Title">YQL</a> to convert XML to JSON.</p>
+
+<h2>3rd party APIs:</h2>
+
+<pre><code>IMDB - http://imdbapi.org/
+</code></pre>
+
+<p>NOTE: Not directly supported by the original content owners.</p>
+
+<h2>TODO:</h2>
+
+<pre><code>1) Find more API's to use. -- Please suggest some.
+2) Create tests.
+3) Improve basic auth and API key support.
+4) Clean up code and find a use for "detectAll".
+
+*) Support events? I'm not sure about this yet.
+**) Support XML API's maybe? -- I dislike XML.
+</code></pre>
+
+<h2>Options:</h2>
+
+<pre><code>apikey - The API key, when needed.
+basicauth - Your basic auth `username:password`, when needed.
+formatter - The formatter to use on your JSON data. See ./examples/apis.js
+</code></pre>
+
+<h2>Settings:</h2>
+
+<pre><code>format - Use the formatter, true or false.
+</code></pre>
+
+<h2>Settings usage:</h2>
+
+<pre><code>var VidInfo = require('vidinfo')({format:true});
+</code></pre>
+
+<h2>Shortcuts:</h2>
+
+<pre><code>YouTube.com:                yt, youtube, youtubecom
+Justin.tv (stream):         jtvs, jstream, justintvstream
+Justin.tv (video clip):     jtvc, jclip, justintvclip
+Bambuser.com:               bam, bambuser, bambusercom
+Dailymotion.com:            dmo, dailymo, dailymotion, dailymotioncom
+Vimeo.com:                  vimeo, vimeocom
+Twitch.tv (stream):         ttvs, tstream, twitchtvstream
+Twitch.tv (video clip):     ttvc, tclip, twitchtvclip
+Ustream.tv (stream):        utvs, ustream, ustreamtvstream
+Ustream.tv (video clip):    utvc, uclip, ustreamtvclip
+on.aol.com:                 onaol, onaolcom
+GiantBomb.com:              gbomb, giantbomb, giantbombcom
+Videolog.tv:                vlog, videolog, videologtv
+Mag.ma:                     mag, magma
+Livevideo.com*:             lvid, lvideo, livevideo, livevideocom
+Muzu.tv*:                   muzu, muzutv
+Traileraddict.com*:         tadd, taddict, traileraddict, traileraddictcom
+Webcams.travel:             wct, webtra, wtravel, webcamstravel
+Archive.org:                arch, archive, archiveorg
+IMDB.com:                   imdb, imdbapiorg
+Themoviedb.org:             tdb, tmdb, themoviedborg
+Vzaar.com:                  vzaar, vzaarcom
+Wistia.com:                 wistia, wistacom
+Flickr.com:                 flickr, flickrcom
+
+*  See "Experimental APIs" above.
+
+Examples:
+    VidInfo.youtube('ZRAr354usf8',console.log);
+    VidInfo.yt('ZRAr354usf8',console.log); // YouTube
+    VidInfo.dmo('xycczk',console.log); // Dailymotion
+</code></pre>
+
+<h2>Functions:</h2>
+
+<pre><code>VidInfo.detect(url[,callback[,options]]) - Parse a URL and create an object used for 'byurl'.
+     See ./examples/detect.js
+
+VidInfo.detectAll(string[,callback[,options]]) - Parse a string and return an object with all the IDs.
+     Options: keys - The list of keys for APIs that might need them.
+              Example: {keys:{bambuser:'EXAMPLE-KEY',themoviedb:'ANOTHER-KEY'}}
+     See ./examples/detectAll.js
+
+VidInfo.byid(id,api,callback[,options]) - Connects to the (should be) correct API for video information.
+     See ./examples/byid.js
+
+VidInfo.byurl(url,callback[,options]) - Connects to the (should be) correct API for video information.
+     See ./examples/byurl.js
+
+VidInfo.&lt;apiname&gt;(id,callback[,options]) -- Shortcut for 'byid'.
+     See ./examples/byapi.js
+</code></pre>
+
+<h2>Example Usage - Look in "examples" folder for more examples.</h2>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">VidInfo</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'vidinfo'</span><span class="p">)({</span><span class="nx">format</span><span class="o">:</span><span class="kc">true</span><span class="p">});</span>
+
+<span class="c1">// YouTube -- Only return the title and published date, using 'formatter'.</span>
+<span class="nx">VidInfo</span><span class="p">.</span><span class="nx">byurl</span><span class="p">(</span><span class="s1">'http://www.youtube.com/watch?v=ZRAr354usf8'</span><span class="p">,</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">,{</span><span class="nx">formatter</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
+       <span class="kd">var</span> <span class="nx">ret</span> <span class="o">=</span> <span class="p">{};</span>
+       <span class="k">if</span> <span class="p">(</span><span class="s1">'$t'</span> <span class="k">in</span> <span class="nx">data</span><span class="p">.</span><span class="nx">entry</span><span class="p">.</span><span class="nx">title</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">ret</span><span class="p">.</span><span class="nx">title</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">entry</span><span class="p">.</span><span class="nx">title</span><span class="p">.</span><span class="nx">$t</span><span class="p">;</span>
+          <span class="k">if</span> <span class="p">(</span><span class="s1">'$t'</span> <span class="k">in</span> <span class="nx">data</span><span class="p">.</span><span class="nx">entry</span><span class="p">.</span><span class="nx">published</span><span class="p">)</span> <span class="p">{</span>
+             <span class="nx">ret</span><span class="p">.</span><span class="nx">published</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nb">Date</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">entry</span><span class="p">.</span><span class="nx">published</span><span class="p">.</span><span class="nx">$t</span><span class="p">));</span>
+          <span class="p">}</span>
+       <span class="p">};</span>
+       <span class="nx">cb</span><span class="p">(</span><span class="nx">ret</span><span class="p">);</span>
+<span class="p">}});</span>
+
+<span class="c1">// YouTube by video ID.</span>
+<span class="nx">VidInfo</span><span class="p">.</span><span class="nx">byid</span><span class="p">(</span><span class="s1">'ZRAr354usf8'</span><span class="p">,</span><span class="s1">'youtube'</span><span class="p">,</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">,{</span><span class="nx">formatter</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
+       <span class="kd">var</span> <span class="nx">ret</span> <span class="o">=</span> <span class="p">{};</span>
+       <span class="k">if</span> <span class="p">(</span><span class="s1">'$t'</span> <span class="k">in</span> <span class="nx">data</span><span class="p">.</span><span class="nx">entry</span><span class="p">.</span><span class="nx">title</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">ret</span><span class="p">.</span><span class="nx">title</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">entry</span><span class="p">.</span><span class="nx">title</span><span class="p">.</span><span class="nx">$t</span><span class="p">;</span>
+          <span class="k">if</span> <span class="p">(</span><span class="s1">'$t'</span> <span class="k">in</span> <span class="nx">data</span><span class="p">.</span><span class="nx">entry</span><span class="p">.</span><span class="nx">published</span><span class="p">)</span> <span class="p">{</span>
+             <span class="nx">ret</span><span class="p">.</span><span class="nx">published</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nb">Date</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">entry</span><span class="p">.</span><span class="nx">published</span><span class="p">.</span><span class="nx">$t</span><span class="p">));</span>
+          <span class="p">}</span>
+       <span class="p">};</span>
+       <span class="nx">cb</span><span class="p">(</span><span class="nx">ret</span><span class="p">);</span>
+<span class="p">}});</span>
+
+<span class="c1">// 'byid' shortcut.</span>
+<span class="nx">VidInfo</span><span class="p">.</span><span class="nx">vimeo</span><span class="p">(</span><span class="s1">'61969130'</span><span class="p">,</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">);</span>
+<span class="nx">VidInfo</span><span class="p">.</span><span class="nx">youtube</span><span class="p">(</span><span class="s1">'ZRAr354usf8'</span><span class="p">,</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">);</span>
+<span class="nx">VidInfo</span><span class="p">.</span><span class="nx">yt</span><span class="p">(</span><span class="s1">'ZRAr354usf8'</span><span class="p">,</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">);</span> <span class="c1">// YouTube</span>
+
+<span class="c1">// Bambuser (API Key required)</span>
+<span class="nx">VidInfo</span><span class="p">.</span><span class="nx">byurl</span><span class="p">(</span><span class="s1">'http://bambuser.com/v/3453034'</span><span class="p">,</span><span class="kd">function</span> <span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+       <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+<span class="p">},{</span><span class="nx">apikey</span><span class="o">:</span><span class="s1">'APIKEY'</span><span class="p">});</span>
+
+<span class="c1">// Wista (Basic auth required)</span>
+<span class="nx">VidInfo</span><span class="p">.</span><span class="nx">byurl</span><span class="p">(</span><span class="s1">'http://ltdev.wistia.com/medias/piywx9v8rr'</span><span class="p">,</span><span class="kd">function</span> <span class="p">(</span><span class="nx">obj</span><span class="p">,</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+   <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'(byapi) wista: '</span><span class="o">+</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span><span class="o">+</span><span class="s1">'\n\n'</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'(byapi - ERROR) wista: '</span><span class="o">+</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="nx">error</span><span class="o">:</span><span class="kc">true</span><span class="p">,</span><span class="nx">message</span><span class="o">:</span><span class="nx">obj</span><span class="p">})</span><span class="o">+</span><span class="s1">'\n\n'</span><span class="p">);</span>
+   <span class="p">}</span>
+<span class="p">},{</span><span class="nx">basicauth</span><span class="o">:</span><span class="s1">'USERNAME:PASSWORD'</span><span class="p">});</span>
+
+<span class="c1">// 'detect' example. -- Prints video ID and API link in an object.</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">VidInfo</span><span class="p">.</span><span class="nx">detect</span><span class="p">(</span><span class="s1">'http://www.youtube.com/watch?v=ZRAr354usf8'</span><span class="p">));</span>
+
+<span class="c1">// 'detectAll' example. Prints an object with multiple 'detect' objects.</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">VidInfo</span><span class="p">.</span><span class="nx">detectAll</span><span class="p">(</span><span class="s1">'http://www.youtube.com/watch?v=ZRAr354usf8 http://bambuser.com/v/3453034 http://ltdev.wistia.com/medias/piywx9v8rr http://flic.kr/p/e9964e'</span><span class="p">));</span>
+</pre></div>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
