@@ -1,0 +1,71 @@
+<html>
+<head>
+<title> VidInfo Facebook Access Token Generator </title>
+<script src="https://connect.facebook.net/en_US/all.js" type="text/javascript"></script>
+<script type="text/javascript">
+window.onload = function () {
+       FB.init({appId:'335837366538659',cookie:true,xfbml:true,status:true});
+       login();
+};
+
+function getToken () {
+       // Check for login.
+       FB.getLoginStatus(function (response) {
+          if (response.authResponse) {
+             var resp = response.authResponse;             
+             if ('accessToken' in resp) {
+                $('info').innerHTML = '<strong>Access token:</strong> <input id="AccessToken" type="text"'+
+                                      'value="'+resp.accessToken+'" style="border:0px;width:60%;" />';
+                if ('expiresIn' in resp) {
+                   $('info').innerHTML += '<br /><strong>Expires in:</strong> '+getExpire(resp.expiresIn)+'<br />';
+                };
+             };
+           } else {
+             $('status').textContent = "Not logged in."; // Add a login button.
+             $('info').innerHTML = "You must <a href=\"javascript:login();\">login</a> to facebook.";
+          }
+       });
+};
+
+function login () {
+         FB.login(function(response) {
+            if (response.authResponse) {
+               FB.api('/me', function(response) {
+                  $('status').innerHTML = 'You are logged in as <strong>'+response.name+'</strong>.';
+                  getToken();
+               });
+             } else {
+               $('status').textContent = 'User cancelled login or did not fully authorize.';
+            }
+         },{scope:'user_videos,friends_videos'});
+};
+
+// Find out how long the key is still valid.
+function getExpire (seconds) {
+         return Math.floor(seconds/86400)+' days '+
+                Math.floor(((seconds/86400)%1)*24)+' hours '+
+                Math.floor(((seconds/3600)%1)*60)+' minutes '+
+                Math.round(((seconds/60)%1)*60)+' seconds';
+}
+
+// I don't use jQuery.
+function $ (id) {
+         return document.getElementById(id);
+};
+</script>
+</head>
+<body>
+<div id="wrapper">
+ <strong>Status:</strong> <span id="status"> Loading... </span>
+ <hr />
+ <br />
+ <div id="info"> Please wait... </div>
+ <br />
+ <hr />
+ <div id="about">
+  This is used for generating a facebook access token for <a href="http://louist.github.io/VidInfo/">VidInfo</a>.<br />
+  This WILL be improved later! - By <a href="http://ltdev.im/">Louis T.</a>
+ </div>
+</div>
+<div id="debug"></div>
+</body>
