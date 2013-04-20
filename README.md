@@ -1,4 +1,4 @@
-VidInfo (v0.1.9)
+VidInfo (v0.2.0)
 ======
 
 Install: npm install vidinfo
@@ -29,10 +29,12 @@ Current APIs supported:
    [vzaar.com](http://vzaar.com/ "Title")
    [wistia.com (4)](http://wistia.com/doc/developers "Title")
    [flickr.com (1)](http://www.flickr.com/services/api/ "Title")
+   [facebook.com (1,3)](http://louist.github.io/VidInfo/accessToken.html "Title")
+   [blip.tv](http://blip.tv/ "Title")
 
     1) API key required. See "bambuser" example at the bottom.
     2) This method is BETA.
-    3) 3rd party API. See "3rd pary APIs" below.
+    3) More information available. See "More Information" below.
     4) Requires basic auth (username:password). See "wista" example at the bottom.
 
 Experimental APIs: 
@@ -40,16 +42,23 @@ Experimental APIs:
    [livevideo.com (1)](http://www.livevideo.com/api/ "Title")
    [muzu.tv (1)](http://www.muzu.tv/api/ "Title")
    [traileraddict.com](http://www.traileraddict.com/ "Title")
+   [metacafe.com](http://metacafe.com/ "Title")
+   [collegehumor.com](http://metacafe.com/ "Title")
   
     1) API key required. See "bambuser" example at the bottom.
 
 NOTE: These use [YQL](http://developer.yahoo.com/yql/console/ "Title") to convert XML to JSON.
 
-3rd party APIs:
+More Information:
 ------
-    IMDB - http://imdbapi.org/
+    (imdb.com)
+        IMDB uses a 3rd party API. (http://imdbapi.org/)
 
-NOTE: Not directly supported by the original content owners.
+    (facebook.com)
+        Facebook requires an access token to be generated. The generator makes an access token
+        that lasts for 60 days. You can revisit the generator to find out when your token will expire.
+        I will look for a better method later on, but for now this is how it has to be.
+        Generator: http://louist.github.io/VidInfo/accessToken.html
 
 TODO:
 ------
@@ -57,6 +66,8 @@ TODO:
     2) Create tests.
     3) Improve basic auth and API key support.
     4) Clean up code and find a use for "detectAll".
+    5) Make a better facebook access token generator.
+       (http://louist.github.io/VidInfo/accessToken.html)
 
     *) Support events? I'm not sure about this yet.
     **) Support XML API's maybe? -- I dislike XML.
@@ -70,6 +81,8 @@ Options:
 Settings:
 ------
     format - Use the formatter, true or false.
+    enabled - Path to enabled API configs. -- Default: ./apis/enabled/
+    disabled - Path to disabled API configs. -- Default: ./apis/disabled/
    
 Settings usage:
 ------
@@ -101,6 +114,10 @@ Shortcuts:
     Vzaar.com:                  vzaar, vzaarcom
     Wistia.com:                 wistia, wistacom
     Flickr.com:                 flickr, flickrcom
+    Facebook.com:               fbook, fbvideo, facebook, facebookcom
+    Metacafe.com:               meta, mcafe, metacafe, metacafecom     
+    Blip.tv:                    blip, bliptv
+    Collegehumor.com:           chumor, college, collegehumor, collegehumorcom
 
     *  See "Experimental APIs" above.
 
@@ -127,6 +144,12 @@ Functions:
 
     VidInfo.<apiname>(id,callback[,options]) -- Shortcut for 'byid'.
          See ./examples/byapi.js
+ 
+    VidInfo.getAPILocation(apiname) - Get the location of an API config file. The "apiname" is the full name, such as "youtubecom."
+ 
+    VidInfo.enable(apiname) - Enable an API. The "apiname" is the full name, such as "youtubecom."
+
+    VidInfo.disable(apiname) - Disable an API. The "apiname" is the full name, such as "youtubecom."
 
 Example Usage - Look in "examples" folder for more examples.
 -------
@@ -175,6 +198,11 @@ VidInfo.byurl('http://ltdev.wistia.com/medias/piywx9v8rr',function (obj,e) {
       console.log('(byapi - ERROR) wista: '+JSON.stringify({error:true,message:obj})+'\n\n');
    }
 },{basicauth:'USERNAME:PASSWORD'});
+
+// Facebook (requires access token - http://louist.github.io/VidInfo/accessToken.html)
+vidinfo.byurl('https://www.facebook.com/photo.php?v=10101580633888836&set=vb.225034700870481&type=3&theater',function (obj) {
+   console.log(JSON.stringify(obj)+'\n\n');
+},{apikey:'ACCESS TOKEN'});
 
 // 'detect' example. -- Prints video ID and API link in an object.
 console.log(VidInfo.detect('http://www.youtube.com/watch?v=ZRAr354usf8'));

@@ -201,14 +201,6 @@
             }).filter(function(id){
                 return id;
             });
-            var isEmptyObj = function (obj) {
-                for (var prop in obj) {
-                    if (obj[prop] != obj.constructor.prototype[prop]) {
-                       return false;
-                    };
-                };
-                return true;
-            };
             data.forEach(function (line) {
                 var split = line.split(pattern),
                     count = split.length,
@@ -219,7 +211,7 @@
                        rec[obj.ids[x]] = split[x].replace(/[\"']/g,'');
                     };
                 };
-                if (!isEmptyObj(rec)) {
+                if ((!Object.keys(rec).length)) {
                    obj.records.push(rec);
                 };
             });

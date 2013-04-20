@@ -1,11 +1,12 @@
 /*
- VidInfo - v0.1.9 - Louis T. <LouisT@ltdev.im>
+ VidInfo - v0.2.0 - Louis T. <LouisT@ltdev.im>
  https://github.com/LouisT/VidInfo
 */
 (function(){
-   var http_get = require('./libs/http_get.js');
+   var http_get = require('./libs/http_get.js'),
+       fs = require('fs');
 
-   VidInfo = function (settings) {
+   var VidInfo = function (settings) {
           if (!(this instanceof VidInfo)) {
              return new VidInfo(settings);
           };
@@ -13,25 +14,21 @@
           // Look at the README for available settings.
           this.settings = settings||{format:true};
 
+          // Set the default location of enabled APIs.
+          if (!('enabled' in this.settings)) {
+             this.settings['enabled'] = __dirname+'/apis/enabled/';
+          };
+
+          // Set the default location of disabled APIs.
+          if (!('disabled' in this.settings)) {
+             this.settings['disabled'] = __dirname+'/apis/disabled/';
+          };
+
           // User-Agent sent on API requests.
-          this.userAgent = 'Mozilla/5.0+(compatible; VidInfo/0.1.9; https://github.com/LouisT/VidInfo)';
+          this.userAgent = 'Mozilla/5.0+(compatible; VidInfo/0.2.0; https://github.com/LouisT/VidInfo)';
 
-          // Import supported APIs. -- Change this to prevent a massive API (./apis.js) file?
-          // Might put each API in it's own file. (./apis/enabled/youtube.js, ./apis/disabled/vimeo.js)
-          this.apis = require('./apis');
-
-          // Add 'byid' shortcuts. See ./examples/byapi.js
-          for (var api in this.apis) {
-              var shortcuts = [api];
-              if (('shortcuts' in this.apis[api])) {
-                 shortcuts = shortcuts.concat(this.apis[api].shortcuts||[]);
-              };
-              for (var num in shortcuts) {
-                  this[shortcuts[num]] = function (api,id,cb,opts) {
-                       this.byid(id,api,cb,opts);
-                  }.bind(this,api);
-              };
-           };
+          // Import supported APIs. (./apis/enabled/)
+          this.importAPIs();
    };
 
    // Pull information from the url.
@@ -93,7 +90,10 @@
                for (var num in apidat['regex']) {
                    var regex = apidat['regex'][num];
                    if ((matches = regex.exec(url)) !== null) {
-                      var foropts = {id:matches[1],fields:fields};
+                      // Return full URL or a parsed ID. (blip.tv support)
+                      // This is rather hackish. Find a better way to do this.
+                      var id = (apidat['fullurl']?matches[0]:matches[1]),
+                          foropts = {id:id,fields:fields};
                       if (('apikey' in opts || 'needkey' in apidat)) {
                          if (!('apikey' in opts)) {
                             apidat['error'] = true;
@@ -125,7 +125,7 @@
               return apidat;
             } else {
               cb(apidat,(('error' in apidat)?true:false)); 
-           }
+           };
    };
 
    // Get ALL IDs within a string. Not currently used for anything. -- Improve this! 
@@ -157,7 +157,10 @@
                           if (!(api in ret)) {
                              ret[api] = [];
                           };
-                          var foropts = {id:matches[1],fields:fields};
+                          // Return full URL or a parsed ID. (blip.tv support)
+                          // This is rather hackish. Find a better way to do this.
+                          var id = (apidat['fullurl']?matches[0]:matches[1]),
+                              foropts = {id:id,fields:fields};
                           if ((('keys' in opts && api in opts['keys']) || 'needkey' in apidat)) {
                              if (!('keys' in opts) || !opts['keys'][api]) {
                                 apidat['error'] = true;
@@ -217,7 +220,7 @@
                   if (obj.hasOwnProperty(key)) {
                      newObj[key] = obj[key];
                   };
-               }
+               };
            };
            return newObj;
    };
@@ -245,6 +248,106 @@
    // Get the type of an object.
    VidInfo.prototype.getType = function (obj) {
            return Object.prototype.toString.call(obj).match(/^\[object (.*)\]$/)[1];
+   };
+
+   // Get location of API file.
+   VidInfo.prototype.getAPILocation = function (api) {
+           api = (api.indexOf('.js')===-1?api+'.js':api);
+           var location = false;
+           if (fs.existsSync(this.settings.disabled+api)) {
+              location = this.settings.disabled+api;
+           } else if (fs.existsSync(this.settings.enabled+api)) {
+              location = this.settings.enabled+api;
+           };
+           return location;
+   };
+
+   // Enable an API.
+   VidInfo.prototype.enable = function (api) {
+           var location = this.getAPILocation(api);
+           if (location) {
+              api = api.split('.')[0];
+              this.apis[api] = require(location);
+              this.enabled[api] = true;
+              if (('disabled' in this && api in this.disabled)) {
+                 delete this.disabled[api];
+              };
+              if (this.addShortcuts(api)) {
+                 return true;
+              };
+           };
+           return false;
+   };
+
+   // Disable an API.
+   VidInfo.prototype.disable = function (api) {
+           var location = this.getAPILocation(api);
+           if (location) {
+              var api = api.split('.')[0], 
+                  tmp = require(location);
+              this.disabled[api] = true;
+              if (('enabled' in this && api in this.enabled)) {
+                 delete this.enabled[api];
+              };
+              var shortcuts = [api];
+              if (('shortcuts' in tmp)) {
+                 shortcuts = shortcuts.concat(tmp.shortcuts||[]);
+              };
+              for (var num in shortcuts) {
+                  if ((shortcuts[num] in this)) {
+                     delete this[shortcuts[num]];
+                  };
+              };
+              return true;
+           };
+           return false;
+   }; 
+  
+   // Import enabled APIs, make a list of disabled.
+   VidInfo.prototype.importAPIs = function () {
+           // List of enabled.
+           var enabledFiles = fs.readdirSync(this.settings.enabled);
+           // List of disabled.
+           var disabledFiles = fs.readdirSync(this.settings.disabled);
+
+           // Build the list of disabled APIs.
+           this.disabled = {};
+           for (var num in disabledFiles) {
+               var api = disabledFiles[num];
+               this.disable(api);
+           };
+
+           // Build the list of enabled APIs.
+           this.enabled = {};
+           this.apis = {};
+           for (var enabled in enabledFiles) {
+               var api = enabledFiles[enabled];
+               // If you have a copy in both enabled and disable, do not enable it.
+               if (!(api in this.enabled)) {
+                  this.enable(api);
+               };
+           };
+
+           return (!!Object.keys(this.apis).length);
+   };
+
+   // Add 'byid' shortcuts. See ./examples/byapi.js
+   VidInfo.prototype.addShortcuts = function (api) {
+           if (!(api in this.apis)) {
+              return false;
+           };
+           var shortcuts = [api];
+           if (('shortcuts' in this.apis[api])) {
+              shortcuts = shortcuts.concat(this.apis[api].shortcuts||[]);
+           };
+           for (var num in shortcuts) {
+               if (!(shortcuts[num] in this)) {
+                  this[shortcuts[num]] = function (api,id,cb,opts) {
+                      this.byid(id,api,cb,opts);
+                  }.bind(this,api);
+               };
+           };
+           return true;
    };
 
    module.exports = VidInfo;

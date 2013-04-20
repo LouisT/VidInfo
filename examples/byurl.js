@@ -1,5 +1,5 @@
 /*
- vidinfo/examples/byurl.js - v0.1.9
+ vidinfo/examples/byurl.js - v0.2.0
 
  This file is part of the 'VidInfo' project.
  https://github.com/LouisT/VidInfo
@@ -26,4 +26,6 @@ vidinfo.byurl('https://www.flickr.com/photos/94717151@N07/8624747855/',function 
 vidinfo.byurl('http://flic.kr/p/e9964e',function (obj) {
    console.log('(byurl) flickr - shorturl: '+JSON.stringify(obj)+'\n\n');
 },{apikey:'APIKEY'});
-
+vidinfo.byurl('https://www.facebook.com/photo.php?v=10101580633888836&set=vb.225034700870481&type=3&theater',function (obj) {
+   console.log('(byurl) facebook: '+JSON.stringify(obj)+'\n\n');
+},{apikey:'ACCESS TOKEN'});
