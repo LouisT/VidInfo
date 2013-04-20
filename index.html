@@ -28,7 +28,7 @@
 
     <div class="container">
       <section id="main_content">
-        <h1>VidInfo (v0.1.9)</h1>
+        <h1>VidInfo (v0.2.0)</h1>
 
 <p>Install: npm install vidinfo</p>
 
@@ -57,11 +57,13 @@ However, if you make something interesting, I would like to check it out.</p>
    <a href="http://www.themoviedb.org/documentation/api" title="Title">themoviedb.org (1)</a>
    <a href="http://vzaar.com/" title="Title">vzaar.com</a>
    <a href="http://wistia.com/doc/developers" title="Title">wistia.com (4)</a>
-   <a href="http://www.flickr.com/services/api/" title="Title">flickr.com (1)</a></p>
+   <a href="http://www.flickr.com/services/api/" title="Title">flickr.com (1)</a>
+   <a href="http://louist.github.io/VidInfo/accessToken.html" title="Title">facebook.com (1,3)</a>
+   <a href="http://blip.tv/" title="Title">blip.tv</a></p>
 
 <pre><code>1) API key required. See "bambuser" example at the bottom.
 2) This method is BETA.
-3) 3rd party API. See "3rd pary APIs" below.
+3) More information available. See "More Information" below.
 4) Requires basic auth (username:password). See "wista" example at the bottom.
 </code></pre>
 
@@ -69,19 +71,26 @@ However, if you make something interesting, I would like to check it out.</p>
 
 <p><a href="http://www.livevideo.com/api/" title="Title">livevideo.com (1)</a>
    <a href="http://www.muzu.tv/api/" title="Title">muzu.tv (1)</a>
-   <a href="http://www.traileraddict.com/" title="Title">traileraddict.com</a></p>
+   <a href="http://www.traileraddict.com/" title="Title">traileraddict.com</a>
+   <a href="http://metacafe.com/" title="Title">metacafe.com</a>
+   <a href="http://metacafe.com/" title="Title">collegehumor.com</a></p>
 
 <pre><code>1) API key required. See "bambuser" example at the bottom.
 </code></pre>
 
 <p>NOTE: These use <a href="http://developer.yahoo.com/yql/console/" title="Title">YQL</a> to convert XML to JSON.</p>
 
-<h2>3rd party APIs:</h2>
+<h2>More Information:</h2>
 
-<pre><code>IMDB - http://imdbapi.org/
+<pre><code>(imdb.com)
+    IMDB uses a 3rd party API. (http://imdbapi.org/)
+
+(facebook.com)
+    Facebook requires an access token to be generated. The generator makes an access token
+    that lasts for 60 days. You can revisit the generator to find out when your token will expire.
+    I will look for a better method later on, but for now this is how it has to be.
+    Generator: http://louist.github.io/VidInfo/accessToken.html
 </code></pre>
-
-<p>NOTE: Not directly supported by the original content owners.</p>
 
 <h2>TODO:</h2>
 
@@ -89,6 +98,8 @@ However, if you make something interesting, I would like to check it out.</p>
 2) Create tests.
 3) Improve basic auth and API key support.
 4) Clean up code and find a use for "detectAll".
+5) Make a better facebook access token generator.
+   (http://louist.github.io/VidInfo/accessToken.html)
 
 *) Support events? I'm not sure about this yet.
 **) Support XML API's maybe? -- I dislike XML.
@@ -104,6 +115,8 @@ formatter - The formatter to use on your JSON data. See ./examples/apis.js
 <h2>Settings:</h2>
 
 <pre><code>format - Use the formatter, true or false.
+enabled - Path to enabled API configs. -- Default: ./apis/enabled/
+disabled - Path to disabled API configs. -- Default: ./apis/disabled/
 </code></pre>
 
 <h2>Settings usage:</h2>
@@ -137,6 +150,10 @@ Themoviedb.org:             tdb, tmdb, themoviedborg
 Vzaar.com:                  vzaar, vzaarcom
 Wistia.com:                 wistia, wistacom
 Flickr.com:                 flickr, flickrcom
+Facebook.com:               fbook, fbvideo, facebook, facebookcom
+Metacafe.com*:              meta, mcafe, metacafe, metacafecom     
+Blip.tv:                    blip, bliptv
+Collegehumor.com*:          chumor, college, collegehumor, collegehumorcom
 
 *  See "Experimental APIs" above.
 
@@ -164,6 +181,12 @@ VidInfo.byurl(url,callback[,options]) - Connects to the (should be) correct API 
 
 VidInfo.&lt;apiname&gt;(id,callback[,options]) -- Shortcut for 'byid'.
      See ./examples/byapi.js
+
+VidInfo.getAPILocation(apiname) - Get the location of an API config file. The "apiname" is the full name, such as "youtubecom."
+
+VidInfo.enable(apiname) - Enable an API. The "apiname" is the full name, such as "youtubecom."
+
+VidInfo.disable(apiname) - Disable an API. The "apiname" is the full name, such as "youtubecom."
 </code></pre>
 
 <h2>Example Usage - Look in "examples" folder for more examples.</h2>
@@ -212,6 +235,11 @@ VidInfo.&lt;apiname&gt;(id,callback[,options]) -- Shortcut for 'byid'.
       <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'(byapi - ERROR) wista: '</span><span class="o">+</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="nx">error</span><span class="o">:</span><span class="kc">true</span><span class="p">,</span><span class="nx">message</span><span class="o">:</span><span class="nx">obj</span><span class="p">})</span><span class="o">+</span><span class="s1">'\n\n'</span><span class="p">);</span>
    <span class="p">}</span>
 <span class="p">},{</span><span class="nx">basicauth</span><span class="o">:</span><span class="s1">'USERNAME:PASSWORD'</span><span class="p">});</span>
+
+<span class="c1">// Facebook (requires access token - http://louist.github.io/VidInfo/accessToken.html)</span>
+<span class="nx">vidinfo</span><span class="p">.</span><span class="nx">byurl</span><span class="p">(</span><span class="s1">'https://www.facebook.com/photo.php?v=10101580633888836&amp;set=vb.225034700870481&amp;type=3&amp;theater'</span><span class="p">,</span><span class="kd">function</span> <span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span><span class="o">+</span><span class="s1">'\n\n'</span><span class="p">);</span>
+<span class="p">},{</span><span class="nx">apikey</span><span class="o">:</span><span class="s1">'ACCESS TOKEN'</span><span class="p">});</span>
 
 <span class="c1">// 'detect' example. -- Prints video ID and API link in an object.</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">VidInfo</span><span class="p">.</span><span class="nx">detect</span><span class="p">(</span><span class="s1">'http://www.youtube.com/watch?v=ZRAr354usf8'</span><span class="p">));</span>
