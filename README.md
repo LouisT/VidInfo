@@ -150,7 +150,6 @@ Shortcuts:
     Qik.com:                    qik, qikcom
     Revision3.com:              revis, revision3, revision3com
     Ted.com:                    ted, tedcom
-    Telly.com:                  telly, tellycom
     Themoviedb.org:             tdb, tmdb, themoviedborg
     Traileraddict.com*:         tadd, taddict, traileraddict, traileraddictcom
     Trailers.apple.com:         tapple, trailersapple, trailersapplecom
