@@ -6,16 +6,15 @@
  This is experimental! - See README.md
 */
 module.exports = {
-       url: "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%3D'http%3A%2F%2Fwww.muzu.tv"+
-            "%2Fapi%2Fvideo%2Fdetails%2F{:id}%3Fmuzuid%3D{:apikey}%26format%3Dxml'&format=json",
-       regex: /(?:https?:\/\/)?(?:.*\.)?muzu.tv\/(?:.+)\/(\d+)/i,
-       needkey: true,
-       shortcuts: 'muzu',
+       url: "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%3D'"+
+            "http%3A%2F%2Fapi.movieclips.com%2Fv2%2Fvideos%2F{:id}'&format=json",
+       regex: /(?:https?:\/\/)?(?:.*\.)?movieclips.com\/(.[^-]+)/i,
+       shortcuts: ['mclips','movieclips'],
        formatter: function (data, error, cb) {
             if (!('results' in data['query'])) {
                cb({error:true,message:'No results.'},true);
              } else {
-               cb(data['query']['results'],false);
+               cb(data['query']['results'],error);
             };
        },
 };

@@ -5,8 +5,8 @@
  For more information on oEmbed visit http://oembed.com/
 */
 module.exports = {
-       url: 'http://www.collegehumor.com/oembed.json?url={:id}',
-       regex: /(?:https?:\/\/)?(?:.*\.)?collegehumor\.com\/video\/(?:.+)/i,
+       url: 'http://www.viddler.com/oembed/?url={:id}&format=json',
+       regex: /(?:http:\/\/)?(?:.*\.)?viddler.com\/v\/(?:.+)/i,
        fullurl: true,
-       shortcuts: 'hulu',
+       shortcuts: ['vidd','viddler'],
 };

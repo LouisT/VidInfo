@@ -5,8 +5,8 @@
  For more information on oEmbed visit http://oembed.com/
 */
 module.exports = {
-       url: 'http://www.collegehumor.com/oembed.json?url={:id}',
-       regex: /(?:https?:\/\/)?(?:.*\.)?collegehumor\.com\/video\/(?:.+)/i,
+       url: 'http://noembed.com/embed?url={:id}',
+       regex: /http:\/\/trailers.apple.com\/trailers\/[^\/]+\/[^\/]+/i,
        fullurl: true,
-       shortcuts: 'hulu',
+       shortcuts: ['tapple','trailersapple'],
 };

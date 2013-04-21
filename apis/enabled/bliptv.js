@@ -1,10 +1,10 @@
 /*
- VidInfo - v0.2.0 - Louis T. <LouisT@ltdev.im>
+ VidInfo - v0.2.1 - Louis T. <LouisT@ltdev.im>
  https://github.com/LouisT/VidInfo
 */
 module.exports = {
        url: '{:id}?skin=json&version=2&no_wrap=1',
-       regex: /(?:https?:\/\/)?(?:.*\.)?blip.tv\/(?:.[^\?]+)/i,
+       regex: /(?:https?:\/\/)?(?:.*\.)?blip.tv\/(?:.[^\/]+)\/(?:.[^\?]+)/i,
        fullurl: true,
        shortcuts: 'blip',
 };

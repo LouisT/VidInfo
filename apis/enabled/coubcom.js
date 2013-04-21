@@ -5,8 +5,8 @@
  For more information on oEmbed visit http://oembed.com/
 */
 module.exports = {
-       url: 'http://www.collegehumor.com/oembed.json?url={:id}',
-       regex: /(?:https?:\/\/)?(?:.*\.)?collegehumor\.com\/video\/(?:.+)/i,
+       url: 'http://coub.com/api/oembed.json?url={:id}',
+       regex: /(?:https?:\/\/)?(?:.*\.)?coub\.com\/(?:view|embed)\/(?:.+)/i,
        fullurl: true,
-       shortcuts: 'hulu',
+       shortcuts: 'coub',
 };

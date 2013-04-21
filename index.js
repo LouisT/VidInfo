@@ -1,5 +1,5 @@
 /*
- VidInfo - v0.2.0 - Louis T. <LouisT@ltdev.im>
+ VidInfo - v0.2.1 - Louis T. <LouisT@ltdev.im>
  https://github.com/LouisT/VidInfo
 */
 (function(){
@@ -25,7 +25,7 @@
           };
 
           // User-Agent sent on API requests.
-          this.userAgent = 'Mozilla/5.0+(compatible; VidInfo/0.2.0; https://github.com/LouisT/VidInfo)';
+          this.userAgent = 'Mozilla/5.0+(compatible; VidInfo/0.2.1; https://github.com/LouisT/VidInfo)';
 
           // Import supported APIs. (./apis/enabled/)
           this.importAPIs();
@@ -313,21 +313,17 @@
            // Build the list of disabled APIs.
            this.disabled = {};
            for (var num in disabledFiles) {
-               var api = disabledFiles[num];
-               this.disable(api);
+               this.disable(disabledFiles[num]);
            };
 
            // Build the list of enabled APIs.
            this.enabled = {};
            this.apis = {};
            for (var enabled in enabledFiles) {
-               var api = enabledFiles[enabled];
-               // If you have a copy in both enabled and disable, do not enable it.
-               if (!(api in this.enabled)) {
-                  this.enable(api);
-               };
+               this.enable(enabledFiles[enabled]);
            };
 
+           // Return true or false, depending on loaded modules.
            return (!!Object.keys(this.apis).length);
    };
 

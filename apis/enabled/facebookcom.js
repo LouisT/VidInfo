@@ -1,5 +1,5 @@
 /*
- VidInfo - v0.2.0 - Louis T. <LouisT@ltdev.im>
+ VidInfo - v0.2.1 - Louis T. <LouisT@ltdev.im>
  https://github.com/LouisT/VidInfo
 
  A work in progress. Requires a facebook app to generate an access token.
