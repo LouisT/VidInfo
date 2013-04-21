@@ -51,7 +51,7 @@ oEmbed APIs:
    [qik.com](http://qik.com/ "Title")
    [revision3.com](http://revision3.com/ "Title")
    [ted.com *](http://ted.com/ "Title")
-   [trailers.apple.com *][http://trailers.apples.com/ "Title")
+   [trailers.apple.com *](http://trailers.apples.com/ "Title")
    [viddler.com](http://viddler.com/ "Title")
 
     * Uses a 3rd party oEmbed API. ([noembed.com](https://noembed.com/ "Title"))
