@@ -54,8 +54,8 @@ oEmbed APIs:
    [trailers.apple.com *](http://trailers.apples.com/ "Title")
    [viddler.com](http://viddler.com/ "Title")
 
-    * Uses a 3rd party oEmbed API. ([noembed.com](https://noembed.com/ "Title"))
-      I will add some (most common) oEmbed APIs from [embed.ly](http://embed.ly/ "Title") eventually.
+   * Uses a 3rd party oEmbed API. ([noembed.com](https://noembed.com/ "Title")).
+   I will add some (most common) oEmbed APIs from [embed.ly](http://embed.ly/ "Title") eventually.
       
 [Embed.ly](http://embed.ly/ "Title") API:
 ------
