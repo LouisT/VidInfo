@@ -94,34 +94,32 @@
             return {url:url,opts:opts,http:http,cb:cb};
    };
    http_get.doRequest = function (opts, method, cb) {
-            var body = "";
+            cb.body = "";
             var req = method.request(opts, function(res) {
                 res.setEncoding('utf8');
                 res.on('data', function(chunk) {
-                    body += chunk;
+                    http_get.clearTimeout(req);
+                    cb.body += chunk;
                     if (opts.type == "title") {
-                       body = body.replace(/(\r\n|\n|\r)/gm,"");
-                       if (/<title>(.*?)<\/title>/i.test(body)) {
-                          this.title = http_get.trim(body.replace(/.*<title>(.*?)<\/title>.*/i,"$1"));
+                       cb.body = cb.body.replace(/(\r\n|\n|\r)/gm,"");
+                       if (/<title>(.*?)<\/title>/i.test(cb.body)) {
+                          this.title = http_get.trim(cb.body.replace(/.*<title>(.*?)<\/title>.*/i,"$1"));
                           req.abort();
                        }
-                    }
+                    };
+                    http_get.clearTimeout(req);
                 }).on('end', function() {
-                    if (this.timeout) { 
-                       clearTimeout(this.timeout);
-                    }
+                    http_get.clearTimeout(req);
                     if (opts.type) {
                        if (opts.type != 'default') {
-                          var parsed = returnType(opts.type, body, this);
+                          var parsed = returnType(opts.type, cb.body, this);
                           return cb((parsed?parsed:"No content for requested type."), !parsed, this);
                        }
-                    }
-                    cb(body,null,this);
+                    };
+                    cb(cb.body,null,this);
                 });
             }).on('error', function(e) {
-               if (this.timeout) {
-                  clearTimeout(this.timeout);
-               }
+               http_get.clearTimeout(this);
                if (!this.haderr) {
                   cb(e.message,1,null);
                }
@@ -211,7 +209,7 @@
                        rec[obj.ids[x]] = split[x].replace(/[\"']/g,'');
                     };
                 };
-                if ((!Object.keys(rec).length)) {
+                if ((!Object.keys(obj).length)) {
                    obj.records.push(rec);
                 };
             });
@@ -240,6 +238,11 @@
                   }
             });
             return (jsonify?JSON.stringify(obj):obj);
+   };
+   http_get.clearTimeout = function (obj) {
+            if (obj.timeout) {
+               clearTimeout(obj.timeout);
+            };
    };
    http_get.querystring = function(opts) {
             return require('querystring').stringify(opts);

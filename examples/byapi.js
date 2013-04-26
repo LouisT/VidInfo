@@ -1,5 +1,5 @@
 /*
- vidinfo/examples/byapi.js - v0.2.0
+ vidinfo/examples/byapi.js - v0.2.2
 
  This file is part of the 'VidInfo' project.
  https://github.com/LouisT/VidInfo

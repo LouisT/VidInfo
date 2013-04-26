@@ -1,4 +1,4 @@
-VidInfo (v0.2.1)
+VidInfo (v0.2.2)
 ======
 
 Install: npm install vidinfo
@@ -50,8 +50,8 @@ oEmbed APIs:
    [nfb.ca](http://nfb.ca/ "Title")
    [qik.com](http://qik.com/ "Title")
    [revision3.com](http://revision3.com/ "Title")
-   [ted.com *](http://ted.com/ "Title")
-   [trailers.apple.com *](http://trailers.apples.com/ "Title")
+   [ted.com*](http://ted.com/ "Title")
+   [trailers.apple.com*](http://trailers.apples.com/ "Title")
    [viddler.com](http://viddler.com/ "Title")
 
    * Uses a 3rd party oEmbed API. ([noembed.com](https://noembed.com/ "Title")).
@@ -62,10 +62,10 @@ oEmbed APIs:
     WARNING: Do NOT enable embedly (./apis/embedly.js) with any other APIs!
    
     Embedly is a HUGE oEmbed provider and as such supports some of the APIs already in use.
-    Because of this there are conflicts. In order to use embedly you must first run: node embedlyGenerator.js
-    After you run embedlyGenerator, a new file will be created at: ./apis/embedly.js
+    Because of this there are conflicts. To generate the embedly.js file, see functions below.
+    After you run the embedly generator, a new file will be created at: ./apis/embedly.js
     Embedly is too massive to display what websites it supports, so you'll have to read embedly.js yourself
-    or check the [embed.ly](http://embed.ly/embed/features/providers "Title") website.
+    or check the embed.ly providers list here: http://embed.ly/embed/features/providers
 
     Services URL: http://api.embed.ly/1/services
 
@@ -174,7 +174,7 @@ Shortcuts:
 
 Functions:
 ------
-    VidInfo.detect(url[,callback[,options]]) - Parse a URL and create an object used for 'byurl'.
+    VidInfo.detect(url[,callback[,options]]) - Parse a URL and create an object used for 'byURL'.
          See ./examples/detect.js
 
     VidInfo.detectAll(string[,callback[,options]]) - Parse a string and return an object with all the IDs.
@@ -182,13 +182,13 @@ Functions:
                   Example: {keys:{bambuser:'EXAMPLE-KEY',themoviedb:'ANOTHER-KEY'}}
          See ./examples/detectAll.js
 
-    VidInfo.byid(id,api,callback[,options]) - Connects to the (should be) correct API for video information.
-         See ./examples/byid.js
+    VidInfo.byID(id,api,callback[,options]) - Connects to the (should be) correct API for video information.
+         See ./examples/byid.js - Changed from "byid" for standardization.
 
-    VidInfo.byurl(url,callback[,options]) - Connects to the (should be) correct API for video information.
-         See ./examples/byurl.js
+    VidInfo.byURL(url,callback[,options]) - Connects to the (should be) correct API for video information.
+         See ./examples/byurl.js - Changed from "byurl" for standardization.
 
-    VidInfo.<apiname>(id,callback[,options]) -- Shortcut for 'byid'.
+    VidInfo.<apiname>(id,callback[,options]) -- Shortcut for 'byID'.
          See ./examples/byapi.js
  
     VidInfo.getAPILocation(apiname) - Get the location of an API config file. The "apiname" is the full name, such as "youtubecom."
@@ -197,13 +197,17 @@ Functions:
 
     VidInfo.disable(apiname) - Disable an API. The "apiname" is the full name, such as "youtubecom."
 
+    VidInfo.genEmbedly([callback[,services url]]) - Generate/update the embedly.js config from the services url.
+          Services url: http://api.embed.ly/1/services
+          Callback arguments: {message:<string>,location:<string>,success:<boolean>}
+
 Example Usage - Look in "examples" folder for more examples.
 -------
 ```javascript
 var VidInfo = require('vidinfo')({format:true});
 
 // YouTube -- Only return the title and published date, using 'formatter'.
-VidInfo.byurl('http://www.youtube.com/watch?v=ZRAr354usf8',console.log,{formatter: function (data,cb) {
+VidInfo.byURL('http://www.youtube.com/watch?v=ZRAr354usf8',console.log,{formatter: function (data,cb) {
        var ret = {};
        if ('$t' in data.entry.title) {
           ret.title = data.entry.title.$t;
@@ -215,7 +219,7 @@ VidInfo.byurl('http://www.youtube.com/watch?v=ZRAr354usf8',console.log,{formatte
 }});
   
 // YouTube by video ID.
-VidInfo.byid('ZRAr354usf8','youtube',console.log,{formatter: function (data,cb) {
+VidInfo.byID('ZRAr354usf8','youtube',console.log,{formatter: function (data,cb) {
        var ret = {};
        if ('$t' in data.entry.title) {
           ret.title = data.entry.title.$t;
@@ -226,18 +230,18 @@ VidInfo.byid('ZRAr354usf8','youtube',console.log,{formatter: function (data,cb) 
        cb(ret);
 }});
    
-// 'byid' shortcut.
+// 'byID' shortcut.
 VidInfo.vimeo('61969130',console.log);
 VidInfo.youtube('ZRAr354usf8',console.log);
 VidInfo.yt('ZRAr354usf8',console.log); // YouTube
 
 // Bambuser (API Key required)
-VidInfo.byurl('http://bambuser.com/v/3453034',function (obj) {
+VidInfo.byURL('http://bambuser.com/v/3453034',function (obj) {
        console.log(obj);
 },{apikey:'APIKEY'});
 
 // Wista (Basic auth required)
-VidInfo.byurl('http://ltdev.wistia.com/medias/piywx9v8rr',function (obj,e) {
+VidInfo.byURL('http://ltdev.wistia.com/medias/piywx9v8rr',function (obj,e) {
    if (!e) {
       console.log('(byapi) wista: '+JSON.stringify(obj)+'\n\n');
     } else {
@@ -246,7 +250,7 @@ VidInfo.byurl('http://ltdev.wistia.com/medias/piywx9v8rr',function (obj,e) {
 },{basicauth:'USERNAME:PASSWORD'});
 
 // Facebook (requires access token - http://louist.github.io/VidInfo/accessToken.html)
-vidinfo.byurl('https://www.facebook.com/photo.php?v=10101580633888836&set=vb.225034700870481&type=3&theater',function (obj) {
+VidInfo.byURL('https://www.facebook.com/photo.php?v=10101580633888836&set=vb.225034700870481&type=3&theater',function (obj) {
    console.log(JSON.stringify(obj)+'\n\n');
 },{apikey:'ACCESS TOKEN'});
 

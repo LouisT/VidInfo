@@ -1,5 +1,5 @@
 /*
- VidInfo - v0.2.1 - Louis T. <LouisT@ltdev.im>
+ VidInfo - v0.2.2 - Louis T. <LouisT@ltdev.im>
  https://github.com/LouisT/VidInfo
 */
 (function(){
@@ -25,14 +25,14 @@
           };
 
           // User-Agent sent on API requests.
-          this.userAgent = 'Mozilla/5.0+(compatible; VidInfo/0.2.1; https://github.com/LouisT/VidInfo)';
+          this.userAgent = 'Mozilla/5.0+(compatible; VidInfo/0.2.2; https://github.com/LouisT/VidInfo)';
 
           // Import supported APIs. (./apis/enabled/)
           this.importAPIs();
    };
 
    // Pull information from the url.
-   VidInfo.prototype.byurl = function (url,cb,opts) {
+   VidInfo.prototype.byURL = function (url,cb,opts) {
            var apidat,
                opts = opts||{};
            if (!cb) {
@@ -44,9 +44,14 @@
               cb(apidat,true);
            };
    };
+   // Depricate <obj>.byurl for <obj>.byURL -- better standardization.
+   VidInfo.prototype.byurl = function (url,cb,opts) {
+           console.warn('NOTICE: byurl is depricated, please use byURL.');
+           this.byURL(url,cb,opts);
+   };
 
    // Get information for an ID for the specified API.
-   VidInfo.prototype.byid  = function (id,api,cb,opts) {
+   VidInfo.prototype.byID  = function (id,api,cb,opts) {
            if (!cb) {
               return false; // Needs a callback!
            };
@@ -74,6 +79,11 @@
             } else {
               cb({error:true,message:'No such API!'},true);
            };
+   };
+   // Depricate <obj>.byid for <obj>.byID -- better standardization.
+   VidInfo.prototype.byid = function (url,cb,opts) {
+           console.warn('NOTICE: byid is depricated, please use byID.');
+           this.byID(url,cb,opts);
    };
 
    // Detect what API to use by video url.
@@ -268,6 +278,10 @@
            if (location) {
               api = api.split('.')[0];
               this.apis[api] = require(location);
+
+              // Remove the file from required cache. (Bad idea?)
+              delete require.cache[require.resolve(location)];
+
               this.enabled[api] = true;
               if (('disabled' in this && api in this.disabled)) {
                  delete this.disabled[api];
@@ -298,6 +312,10 @@
                      delete this[shortcuts[num]];
                   };
               };
+
+              // Remove the file from required cache. (Bad idea?)
+              delete require.cache[require.resolve(location)];
+
               return true;
            };
            return false;
@@ -327,6 +345,46 @@
            return (!!Object.keys(this.apis).length);
    };
 
+   // Generate an embed.ly config.
+   // Moved from ./embedlyGenerator.js, needs improvement! 
+   VidInfo.prototype.genEmbedly = function (cb,servurl) {
+           // Do nothing at the end if there is no callback.
+           cb = cb||function(){};
+           servurl = servurl||'http://api.embed.ly/1/services';
+           http_get(servurl,{type:'json'},function (list,err) {
+               if (err) return; // Do nothing... for now.
+               fs.readFile("./libs/template.js", function (err, data) {
+                   if (err) return; // Do nothing... for now.
+                   var temp = data.toString(),
+                       shortcuts = [],
+                       regex = [];
+                   for (var num in list) {
+                       var data = list[num];
+                       if (data.type == "video") {
+                          for (var reg in data['regex']) {
+                              regex.push(new RegExp(data['regex'][reg].replace(/\*/gi,'(?:.*)').replace(/\//gi,'\\/'),'i'));
+                          };
+                          // Prevent adding the same shortcut multiple times.
+                          var sc = data.name.toLowerCase().replace('www','');
+                          if (shortcuts.indexOf(sc) === -1) {
+                             shortcuts.push(sc);
+                          };
+                       };
+                   };
+                   var obj = {REGEX:regex.join(',\n               '),SHORTCUTS:'\''+shortcuts.join('\',\n               \'')+'\'',SERVICEURL:servurl},
+                       location = __dirname+'/apis/embedly.js';
+                       data = VidInfo.prototype.stringFormat(temp,obj);
+                   fs.writeFile(location,data,function (err) {
+                      if (!err) {
+                         cb({message:'File saved to '+location,location:location,success:true});
+                       } else {
+                         cb({message:'Could not save to '+location,location:location,success:false});
+                      };
+                   });
+               });
+           });
+   };
+
    // Add 'byid' shortcuts. See ./examples/byapi.js
    VidInfo.prototype.addShortcuts = function (api) {
            if (!(api in this.apis)) {
@@ -338,9 +396,12 @@
            };
            for (var num in shortcuts) {
                if (!(shortcuts[num] in this)) {
-                  this[shortcuts[num]] = function (api,id,cb,opts) {
-                      this.byid(id,api,cb,opts);
-                  }.bind(this,api);
+                  // Now with 100% less bind!
+                  this[shortcuts[num]] = (function (api) {
+                      return function (id,cb,opts) {
+                         this.byID(id,api,cb,opts);
+                      };
+                  })(api);
                };
            };
            return true;
