@@ -1,5 +1,5 @@
 /*
- VidInfo - v0.2.2 - Louis T. <LouisT@ltdev.im>
+ VidInfo - v0.2.3 - Louis T. <LouisT@ltdev.im>
  https://github.com/LouisT/VidInfo
 
  Not really a direct video link, but video information nevertheless.
@@ -7,6 +7,6 @@
 */
 module.exports = {
        url: 'http://imdbapi.org/?id={:id}&type=json&plot=full&episode=1&lang=en-US&aka=simple&release=simple',
-       regex: /http:\/\/(?:.*\.)?imdb.com\/title\/(tt(\d+))\/?/i,
+       regex: /http:\/\/(?:.*\.)?imdb\.com\/title\/(tt(\d+))\/?/i,
        shortcuts: 'imdb',
 };

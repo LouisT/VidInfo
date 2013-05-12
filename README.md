@@ -1,4 +1,4 @@
-VidInfo (v0.2.2)
+VidInfo (v0.2.3)
 ======
 
 Install: npm install vidinfo
@@ -43,19 +43,27 @@ oEmbed APIs:
    
    [clickthrough.com](http://clickthrough.com/ "Title")
    [collegehumor.com](http://collegehumor.com/ "Title")
+   [comedycentral.com (2)](http://comedycentral.com/ "Title")
    [coub.com](http://coub.com/ "Title")
+   [crackle.com (2)](http://crackle.com/ "Title")
    [dotsub.com](http://dotsub.com/ "Title")
+   [funnyordie.com (2)](http://funnyordie.com/ "Title")
    [hulu.com](http://hulu.com/ "Title")
    [jest.com](http://jest.com/ "Title")
+   [liveleak.com (2)](http://liveleak.com/ "Title")
    [nfb.ca](http://nfb.ca/ "Title")
    [qik.com](http://qik.com/ "Title")
    [revision3.com](http://revision3.com/ "Title")
-   [ted.com*](http://ted.com/ "Title")
-   [trailers.apple.com*](http://trailers.apples.com/ "Title")
+   [ted.com (1)](http://ted.com/ "Title")
+   [trailers.apple.com (1)](http://trailers.apples.com/ "Title")
    [viddler.com](http://viddler.com/ "Title")
+   [yahoo.com (2)](http://screen.yahoo.com/ "Title")
 
-   * Uses a 3rd party oEmbed API. ([noembed.com](https://noembed.com/ "Title")).
-   I will add some (most common) oEmbed APIs from [embed.ly](http://embed.ly/ "Title") eventually.
+    1) Uses a 3rd party oEmbed API. (https://noembed.com/)
+    2) Uses a 3rd party oEmbed API. (https://embed.ly/) 
+       Requires API key, otherwise you have limited requests.
+
+   I will add more (most common) oEmbed APIs from [embed.ly](http://embed.ly/ "Title") eventually.
       
 [Embed.ly](http://embed.ly/ "Title") API:
 ------
@@ -68,6 +76,7 @@ oEmbed APIs:
     or check the embed.ly providers list here: http://embed.ly/embed/features/providers
 
     Services URL: http://api.embed.ly/1/services
+    API key required, signup here: https://app.embed.ly/signup/
 
 Experimental APIs: 
 ------
@@ -129,17 +138,21 @@ Shortcuts:
     Blip.tv:                    blip, bliptv
     Clickthrough.com:           cthrough, clickthrough, clickthroughcom
     Collegehumor.com*:          chumor, college, collegehumor, collegehumorcom
+    Comedycentral.com:          comcen, comedycentral, comedycentralcom
     Coub.com:                   coub, coubcom
+    Crackle.com:                crackle, cracklecom
     Dailymotion.com:            dmo, dailymo, dailymotion, dailymotioncom
     Dotsub.com:                 dotsub, dotsubcom
     Facebook.com:               fbook, fbvideo, facebook, facebookcom
     Flickr.com:                 flickr, flickrcom
+    Funnyordie.com:             ford, funnyor, funnyordie, funnyordiecom
     GiantBomb.com:              gbomb, giantbomb, giantbombcom
     Hulu.com:                   hulu, hulucom
     IMDB.com:                   imdb, imdbapiorg
     Jest.com:                   jest, jestcom
     Justin.tv (stream):         jtvs, jstream, justintvstream
     Justin.tv (video clip):     jtvc, jclip, justintvclip
+    Liveleak.com:               lleak, liveleak, liveleakcom
     Livevideo.com*:             lvid, lvideo, livevideo, livevideocom
     Mag.ma:                     mag, magma
     Metacafe.com*:              meta, mcafe, metacafe, metacafecom
@@ -163,6 +176,7 @@ Shortcuts:
     Vzaar.com:                  vzaar, vzaarcom
     Webcams.travel:             wct, webtra, wtravel, webcamstravel
     Wistia.com:                 wistia, wistacom
+    Yahoo.com:                  yahoo, yvideo, yahoocom
     YouTube.com:                yt, youtube, youtubecom
 
     *  See "Experimental APIs" above.

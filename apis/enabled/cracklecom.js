@@ -5,8 +5,9 @@
  For more information on oEmbed visit http://oembed.com/
 */
 module.exports = {
-       url: 'http://coub.com/api/oembed.json?url={:id}',
-       regex: /(?:https?:\/\/)?(?:.*\.)?coub\.com\/(?:view|embed)\/(?:.+)/i,
+       url: 'http://api.embed.ly/1/oembed?key={:apikey}&url={:id}',
+       regex: /(?:http:\/\/)?(?:.*\.)?crackle\.com\/c\/(?:.[^\?]+)/i,
        fullurl: true,
-       shortcuts: 'coub',
+       needkey: true,
+       shortcuts: 'crackle',
 };

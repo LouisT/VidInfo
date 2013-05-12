@@ -209,22 +209,22 @@
                        rec[obj.ids[x]] = split[x].replace(/[\"']/g,'');
                     };
                 };
-                if ((!Object.keys(obj).length)) {
+                if ((!!Object.keys(rec).length)) {
                    obj.records.push(rec);
                 };
             });
             return (jsonify?JSON.stringify(obj):obj);
    };
    http_get.ini2obj = function (input,jsonify) {
-            var obj = {comments:[]},
+            var obj = {comments:[],_undefined:{}},
                 cursec = false,
                 param, section, comment;
-            input.split(/\r\n|\r|\n/).forEach(function(line) {
+            input.split(/\r?\n|\r/).forEach(function(line) {
                   if ((param = line.match(/^\s*([\w\.\-\_]+)\s*=\s*(.*?)\s*$/))) {
                      if (cursec) {
                         obj[cursec][param[1]] = param[2];
                       } else {
-                        obj[param[1]] = param[2];
+                        obj['_undefined'][param[1]] = param[2];
                      }
                   } else if ((section = line.match(/^\s*\[\s*([^\]]*)\s*\]\s*$/))) {
                      obj[section[1]] = {comments:[]}, cursec = section[1];

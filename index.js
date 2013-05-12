@@ -1,5 +1,5 @@
 /*
- VidInfo - v0.2.2 - Louis T. <LouisT@ltdev.im>
+ VidInfo - v0.2.3 - Louis T. <LouisT@ltdev.im>
  https://github.com/LouisT/VidInfo
 */
 (function(){
@@ -25,7 +25,7 @@
           };
 
           // User-Agent sent on API requests.
-          this.userAgent = 'Mozilla/5.0+(compatible; VidInfo/0.2.2; https://github.com/LouisT/VidInfo)';
+          this.userAgent = 'Mozilla/5.0+(compatible; VidInfo/0.2.3; https://github.com/LouisT/VidInfo)';
 
           // Import supported APIs. (./apis/enabled/)
           this.importAPIs();
@@ -202,7 +202,7 @@
            }
    };
 
-   // Make http requests! -- Moved from 'byurl' and 'byid'
+   // Make http requests! -- Moved from 'byURL' and 'byID'
    VidInfo.prototype.doRequest = function (url,apidat,cb,opts) {
            // Default to JSON for requests. Custom user agent, accept everything!
            var getopts = {type:'json',headers:{'User-Agent':this.userAgent,'Accept':'*/*'}};
@@ -385,7 +385,7 @@
            });
    };
 
-   // Add 'byid' shortcuts. See ./examples/byapi.js
+   // Add 'byID' shortcuts. See ./examples/byapi.js
    VidInfo.prototype.addShortcuts = function (api) {
            if (!(api in this.apis)) {
               return false;
