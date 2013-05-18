@@ -1,5 +1,5 @@
 /*
- vidinfo/examples/byurl.js - v0.2.3
+ vidinfo/examples/byurl.js
 
  This file is part of the 'VidInfo' project.
  https://github.com/LouisT/VidInfo

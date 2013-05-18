@@ -1,5 +1,5 @@
 /*
- VidInfo - v0.2.3 - Louis T. <LouisT@ltdev.im>
+ VidInfo - Louis T. <LouisT@ltdev.im>
  https://github.com/LouisT/VidInfo
 */
 (function(){
@@ -10,23 +10,18 @@
           if (!(this instanceof VidInfo)) {
              return new VidInfo(settings);
           };
-
           // Look at the README for available settings.
           this.settings = settings||{format:true};
-
           // Set the default location of enabled APIs.
           if (!('enabled' in this.settings)) {
              this.settings['enabled'] = __dirname+'/apis/enabled/';
           };
-
           // Set the default location of disabled APIs.
           if (!('disabled' in this.settings)) {
              this.settings['disabled'] = __dirname+'/apis/disabled/';
           };
-
           // User-Agent sent on API requests.
-          this.userAgent = 'Mozilla/5.0+(compatible; VidInfo/0.2.3; https://github.com/LouisT/VidInfo)';
-
+          this.userAgent = 'Mozilla/5.0+(compatible; VidInfo/0.2.4; https://github.com/LouisT/VidInfo)';
           // Import supported APIs. (./apis/enabled/)
           this.importAPIs();
    };
@@ -44,6 +39,7 @@
               cb(apidat,true);
            };
    };
+
    // Depricate <obj>.byurl for <obj>.byURL -- better standardization.
    VidInfo.prototype.byurl = function (url,cb,opts) {
            console.warn('NOTICE: byurl is depricated, please use byURL.');
@@ -80,6 +76,7 @@
               cb({error:true,message:'No such API!'},true);
            };
    };
+
    // Depricate <obj>.byid for <obj>.byID -- better standardization.
    VidInfo.prototype.byid = function (url,cb,opts) {
            console.warn('NOTICE: byid is depricated, please use byID.');
@@ -94,13 +91,16 @@
            for (var api in this.apis) {
                var apidat = this.copyObj(this.apis[api]),
                    fields = ((apidat['fields']||[]).join((apidat['fieldsJoiner']||',')));
+               if (('keys' in opts && api in opts['keys'])) {
+                  opts['apikey'] = opts['keys'][api];
+               };
                if (!(apidat['regex'] instanceof Array)) {
                   apidat['regex'] = [apidat['regex']];
                };
                for (var num in apidat['regex']) {
                    var regex = apidat['regex'][num];
                    if ((matches = regex.exec(url)) !== null) {
-                      // Return full URL or a parsed ID. (blip.tv support)
+                      // Return full URL or a parsed ID.
                       // This is rather hackish. Find a better way to do this.
                       var id = (apidat['fullurl']?matches[0]:matches[1]),
                           foropts = {id:id,fields:fields};
@@ -138,80 +138,45 @@
            };
    };
 
-   // Get ALL IDs within a string. Not currently used for anything. -- Improve this! 
+   // Get ALL IDs within a string.
    VidInfo.prototype.detectAll = function (str,cb,opts) {
            var str = str.replace(/^\s+|\s+$/g,'').replace(/ +/g,' ').split(' '),
                strlen = str.length,
                ret = {},
-               opts = opts||{},
-               matches;
-
-           // Attempt to get the key by API shortcut.
+               opts = opts||{};
+           // Attempt to get the API key by API shortcut.
            if (('keys' in opts)) {
               for (var apin in opts['keys']) {
                   opts['keys'][this.byShortcut(apin)] = opts['keys'][apin];
               };
            };
-
            // Scan the split string for URLs.
            for (var i = 0; i < strlen; i++) {
-               for (var api in this.apis) {
-                   var apidat = this.copyObj(this.apis[api]),
-                       fields = ((apidat['fields']||[]).join((apidat['fieldsJoiner']||',')));
-                   if (!(apidat['regex'] instanceof Array)) {
-                      apidat['regex'] = [apidat['regex']];
-                   };
-                   for (var num in apidat['regex']) {
-                       var regex = apidat['regex'][num];
-                       if ((matches = regex.exec(str[i])) !== null) {
-                          if (!(api in ret)) {
-                             ret[api] = [];
-                          };
-                          // Return full URL or a parsed ID. (blip.tv support)
-                          // This is rather hackish. Find a better way to do this.
-                          var id = (apidat['fullurl']?matches[0]:matches[1]),
-                              foropts = {id:id,fields:fields};
-                          if ((('keys' in opts && api in opts['keys']) || 'needkey' in apidat)) {
-                             if (!('keys' in opts) || !opts['keys'][api]) {
-                                apidat['error'] = true;
-                                apidat['message'] = 'API key is required!';
-                              } else {
-                                foropts['apikey'] = opts['keys'][api];
-                             };
-                          };
-                          if ((('auths' in opts && api in opts['auths']) || 'basicauth' in apidat)) {
-                             if (!('auths' in opts) || !opts['auths'][api]) {
-                                apidat['error'] = true;
-                                apidat['message'] = 'Basic auth `username:password` is required!';
-                              } else {
-                                foropts['basicauth'] = opts['auths'][api];
-                             };
-                          };
-                          apidat['url'] = this.stringFormat(apidat["url"],foropts);
-                          apidat['api'] = api;
-                          apidat['id']  = matches[1];
-                          ret[api].push(apidat);
-                       };
-                   };
+               var detected = this.detect(str[i],false,opts);
+               if (('api' in detected)) {
+                  ret[detected['api']] = detected; 
                };
+           };
+           // Set `empty` in ret if there are no detections.
+           if ((!Object.keys(ret).length)) {
+              ret['empty'] = true;
            };
            if (!cb) {
               return ret;
             } else {
-              cb(ret,false); 
+              // Set `error` to true if `ret` is empty.
+              cb(ret,!Object.keys(ret).length);
            }
-   };
+   };     
 
    // Make http requests! -- Moved from 'byURL' and 'byID'
    VidInfo.prototype.doRequest = function (url,apidat,cb,opts) {
            // Default to JSON for requests. Custom user agent, accept everything!
            var getopts = {type:'json',headers:{'User-Agent':this.userAgent,'Accept':'*/*'}};
-
            // Support for JSON, CVS and INI. Maybe XML at some point.
            if (apidat['type']) {
               getopts['type'] = apidat['type'];
            };
-   
            // Run the request.
            var formatter = (opts['formatter']||(apidat['formatter']||false)),
                parent = this;
@@ -220,7 +185,7 @@
            });
    };
 
-   // Do not overwrite an existing object, just copy it! - For for "this.apis" overwrite.
+   // Do not overwrite an existing object, just copy it!
    VidInfo.prototype.copyObj = function (obj) {
            var newObj = ((obj.constructor===Array)?[]:{});
            for (var key in obj) {
@@ -247,11 +212,10 @@
            return api;
    };
 
-   // Format strings, used with URLs in ./apis.js
+   // Format strings.
    VidInfo.prototype.stringFormat = function (str,opts) {
-           var parent = this;
            return str.replace(/{(\\?:)([^}]+)}/g,function(m,o,k) {
-                  return (parent.getType((v=(opts[k]?opts[k]:m)))=="Function"?v(k,m,opts):v);
+                  return (opts[k]?opts[k]:m);
            });
    };
 
@@ -262,64 +226,111 @@
 
    // Get location of API file.
    VidInfo.prototype.getAPILocation = function (api) {
-           api = (api.indexOf('.js')===-1?api+'.js':api);
-           var location = false;
+           var api = (api.indexOf('.js')===-1?api+'.js':api),
+               location = false;
+           // XXX: Stop using fs.existsSync!?
            if (fs.existsSync(this.settings.disabled+api)) {
-              location = this.settings.disabled+api;
+              location = {is:false,path:this.settings.disabled,file:api};
            } else if (fs.existsSync(this.settings.enabled+api)) {
-              location = this.settings.enabled+api;
+              location = {is:true,path:this.settings.enabled,file:api};
            };
            return location;
    };
 
    // Enable an API.
-   VidInfo.prototype.enable = function (api) {
-           var location = this.getAPILocation(api);
-           if (location) {
-              api = api.split('.')[0];
-              this.apis[api] = require(location);
-
-              // Remove the file from required cache. (Bad idea?)
-              delete require.cache[require.resolve(location)];
-
-              this.enabled[api] = true;
-              if (('disabled' in this && api in this.disabled)) {
-                 delete this.disabled[api];
-              };
-              if (this.addShortcuts(api)) {
-                 return true;
+   VidInfo.prototype.enable = function (api,nomove) {
+           var location = this.getAPILocation(api), nf;
+           // No API!? What is this nonsense!
+           if (!location) {
+              return false;
+           };
+           // Reuse code! "loadAPI.call(this,<location>,<file>)"
+           function loadAPI (location,file) {
+                    api = file.split('.')[0];
+                    this.apis[api] = require(location);
+                    // Remove the file from required cache. (Bad idea?)
+                    delete require.cache[require.resolve(location)];
+                    this.enabled[api] = true;
+                    if (('disabled' in this && api in this.disabled)) {
+                       delete this.disabled[api];
+                    };
+                    // Attempt to add shortcuts if available.
+                    if (('shortcuts' in this.apis[api])) {
+                       return this.addShortcuts(api);
+                     } else {
+                       return true;
+                    };
+           };
+           // Already in the "enabled" folder, or nomove.
+           if (nomove || location.is === true) {
+              return loadAPI.call(this,location['path']+location['file'],location['file']);
+            } else {
+              // Move to the "enabled" filder, then load!
+              if ((nf = this.__moveFile(location['file'],location['is']))) {
+                 return loadAPI.call(this,newfile,location['file']);
+               } else {
+                 return false;
               };
            };
-           return false;
    };
 
    // Disable an API.
-   VidInfo.prototype.disable = function (api) {
-           var location = this.getAPILocation(api);
-           if (location) {
-              var api = api.split('.')[0], 
-                  tmp = require(location);
-              this.disabled[api] = true;
-              if (('enabled' in this && api in this.enabled)) {
-                 delete this.enabled[api];
-              };
-              var shortcuts = [api];
-              if (('shortcuts' in tmp)) {
-                 shortcuts = shortcuts.concat(tmp.shortcuts||[]);
-              };
-              for (var num in shortcuts) {
-                  if ((shortcuts[num] in this)) {
-                     delete this[shortcuts[num]];
-                  };
-              };
-
-              // Remove the file from required cache. (Bad idea?)
-              delete require.cache[require.resolve(location)];
-
-              return true;
+   VidInfo.prototype.disable = function (api,nomove) {
+           var location = this.getAPILocation(api), nf;
+           // No API!? What is this nonsense!
+           if (!location) {
+              return false;
            };
-           return false;
+           // Reuse code! "unloadAPI.call(this,<location>,<file>)"
+           function unloadAPI (location,api) {
+                    var api = api.split('.')[0],
+                        tmp = require(location);
+                    this.disabled[api] = true;
+                    if (('enabled' in this && api in this.enabled)) {
+                       delete this.enabled[api];
+                    };
+                    var shortcuts = [api],
+                        shortcuts = shortcuts.concat(tmp.shortcuts||[]);
+                    for (var num in shortcuts) {
+                        if ((shortcuts[num] in this)) {
+                           delete this[shortcuts[num]];
+                        };
+                    };
+                    // Remove the file from required cache. (Bad idea?)
+                    delete require.cache[require.resolve(location)];
+                    return true;
+           };
+           // Already in the "disabled" folder, or nomove.
+           if (nomove || location.is === false) {
+              return unloadAPI.call(this,location['path']+location['file'],location['file']);
+            } else {
+              // Move to the "enabled" filder, then load!
+              if ((nf = this.__moveFile(location['file'],location['is']))) {
+                 return unloadAPI.call(this,nf,location['file']);
+               } else {
+                 return false;
+              };
+           };
    }; 
+
+   // Move files around. No need for a user to use this!
+   VidInfo.prototype.__moveFile = function (file,mode) {
+           var paths;
+           // XXX: Is this hacky!?
+           switch (mode) {
+                  case false:
+                     paths = [this.settings.enabled,this.settings.disabled];
+                  case true: default:
+                     paths = [this.settings.disabled,this.settings.enabled];
+           };
+           var newfile = paths[0]+file,
+               oldfile = paths[1]+file;
+           // Move the file from "enabled" to "disabled" -- ignored if "nomove" is passed!
+           // XXX: Stop using fs.renameSync and fs.existsSync!?
+           fs.renameSync(oldfile,newfile);
+           // Check if the move was successful.
+           return (fs.existsSync(newfile)?newfile:false);
+   };
   
    // Import enabled APIs, make a list of disabled.
    VidInfo.prototype.importAPIs = function () {
@@ -327,26 +338,23 @@
            var enabledFiles = fs.readdirSync(this.settings.enabled);
            // List of disabled.
            var disabledFiles = fs.readdirSync(this.settings.disabled);
-
            // Build the list of disabled APIs.
            this.disabled = {};
            for (var num in disabledFiles) {
                this.disable(disabledFiles[num]);
            };
-
            // Build the list of enabled APIs.
            this.enabled = {};
            this.apis = {};
            for (var enabled in enabledFiles) {
                this.enable(enabledFiles[enabled]);
            };
-
            // Return true or false, depending on loaded modules.
            return (!!Object.keys(this.apis).length);
    };
 
    // Generate an embed.ly config.
-   // Moved from ./embedlyGenerator.js, needs improvement! 
+   // XXX: Moved from ./embedlyGenerator.js, needs improvement! 
    VidInfo.prototype.genEmbedly = function (cb,servurl) {
            // Do nothing at the end if there is no callback.
            cb = cb||function(){};
@@ -406,6 +414,5 @@
            };
            return true;
    };
-
    module.exports = VidInfo;
 }).call(this);

@@ -1,4 +1,4 @@
-VidInfo (v0.2.3)
+VidInfo (v0.2.4)
 ======
 
 Install: npm install vidinfo
@@ -206,10 +206,13 @@ Functions:
          See ./examples/byapi.js
  
     VidInfo.getAPILocation(apiname) - Get the location of an API config file. The "apiname" is the full name, such as "youtubecom."
- 
-    VidInfo.enable(apiname) - Enable an API. The "apiname" is the full name, such as "youtubecom."
+         Returns: {is:<true/false>,path:<location>,file:<filename>} -- "is" is in enabled (true) or disabled (false) folder.
 
-    VidInfo.disable(apiname) - Disable an API. The "apiname" is the full name, such as "youtubecom."
+    VidInfo.enable(apiname[,nomove]) - Enable an API. The "apiname" is the full name, such as "youtubecom."
+         NOTE: Moves <apiname> from ./apis/disabled/ to ./apis/enabled/ unless "nomove" is true.
+
+    VidInfo.disable(apiname[,nomove]) - Disable an API. The "apiname" is the full name, such as "youtubecom."
+         NOTE: Moves <apiname> from ./apis/enabled/ to ./apis/disabled/ unless "nomove" is true.   
 
     VidInfo.genEmbedly([callback[,services url]]) - Generate/update the embedly.js config from the services url.
           Services url: http://api.embed.ly/1/services

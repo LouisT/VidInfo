@@ -1,5 +1,5 @@
 /*
- VidInfo - v0.2.3 - Louis T. <LouisT@ltdev.im>
+ VidInfo - Louis T. <LouisT@ltdev.im>
  https://github.com/LouisT/VidInfo
 */
 module.exports = {

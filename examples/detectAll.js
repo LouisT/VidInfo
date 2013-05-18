@@ -1,5 +1,5 @@
 /*
- vidinfo/examples/detectAll.js - v0.2.3
+ vidinfo/examples/detectAll.js
 
  This file is part of the 'VidInfo' project.
  https://github.com/LouisT/VidInfo
