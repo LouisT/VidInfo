@@ -167,7 +167,7 @@
               // Set `error` to true if `ret` is empty.
               cb(ret,!Object.keys(ret).length);
            }
-   };     
+   };
 
    // Make http requests! -- Moved from 'byURL' and 'byID'
    VidInfo.prototype.doRequest = function (url,apidat,cb,opts) {
@@ -268,10 +268,9 @@
               // Move to the "enabled" filder, then load!
               if ((nf = this.__moveFile(location['file'],location['is']))) {
                  return loadAPI.call(this,newfile,location['file']);
-               } else {
-                 return false;
               };
            };
+           return false;
    };
 
    // Disable an API.
@@ -307,10 +306,9 @@
               // Move to the "enabled" filder, then load!
               if ((nf = this.__moveFile(location['file'],location['is']))) {
                  return unloadAPI.call(this,nf,location['file']);
-               } else {
-                 return false;
               };
            };
+           return false;
    }; 
 
    // Move files around. No need for a user to use this!
