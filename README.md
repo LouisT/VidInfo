@@ -1,4 +1,4 @@
-VidInfo (v0.2.4)
+VidInfo (v0.2.5)
 ======
 
 Install: npm install vidinfo
@@ -121,6 +121,11 @@ Options:
     basicauth - Your basic auth `username:password`, when needed.
     formatter - The formatter to use on your JSON data. See ./examples/youtubecom.js
 
+    (detectAll options)
+    nocheck - Return information on a video more than once if found multiple times. See ./examples/detectAll.js
+    keys -  An object with API keys.
+    Example: {keys:{bambuser:'EXAMPLE-KEY',themoviedb:'ANOTHER-KEY'},nocheck:true}
+
 Settings:
 ------
     format - Use the formatter, true or false.
@@ -193,7 +198,8 @@ Functions:
 
     VidInfo.detectAll(string[,callback[,options]]) - Parse a string and return an object with all the IDs.
          Options: keys - The list of keys for APIs that might need them.
-                  Example: {keys:{bambuser:'EXAMPLE-KEY',themoviedb:'ANOTHER-KEY'}}
+                  nocheck - Return information on a video more than once if found multiple times.
+                  Example: {keys:{bambuser:'EXAMPLE-KEY',themoviedb:'ANOTHER-KEY'},nocheck:true}
          See ./examples/detectAll.js
 
     VidInfo.byID(id,api,callback[,options]) - Connects to the (should be) correct API for video information.

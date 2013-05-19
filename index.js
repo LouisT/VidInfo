@@ -21,7 +21,7 @@
              this.settings['disabled'] = __dirname+'/apis/disabled/';
           };
           // User-Agent sent on API requests.
-          this.userAgent = 'Mozilla/5.0+(compatible; VidInfo/0.2.4; https://github.com/LouisT/VidInfo)';
+          this.userAgent = 'Mozilla/5.0+(compatible; VidInfo/0.2.5; https://github.com/LouisT/VidInfo)';
           // Import supported APIs. (./apis/enabled/)
           this.importAPIs();
    };
@@ -140,7 +140,7 @@
 
    // Get ALL IDs within a string.
    VidInfo.prototype.detectAll = function (str,cb,opts) {
-           var str = str.replace(/^\s+|\s+$/g,'').replace(/ +/g,' ').split(' '),
+           var str = str.replace(/^\s+|\s+$/g,'').replace(/\s+/g,' ').split(' '),
                strlen = str.length,
                ret = {},
                opts = opts||{};
@@ -153,8 +153,17 @@
            // Scan the split string for URLs.
            for (var i = 0; i < strlen; i++) {
                var detected = this.detect(str[i],false,opts);
-               if (('api' in detected)) {
-                  ret[detected['api']] = detected; 
+               if (('api' in detected && 'id' in detected)) {
+                  // Check if `api` has already been added to `ret`.
+                  if (!(detected['api'] in ret)) {
+                     // Store video IDs in `ids` to prevent detecting the same links.
+                     ret[detected['api']] = {ids:[],matches:[]};
+                  };
+                  // Check to see if the video link was already added to the object.
+                  if (opts['nocheck'] || ret[detected['api']]['ids'].indexOf(detected['id']) == -1) {
+                     ret[detected['api']]['ids'].push(detected['id']);
+                     ret[detected['api']]['matches'].push(detected);
+                  };
                };
            };
            // Set `empty` in ret if there are no detections.
@@ -164,8 +173,8 @@
            if (!cb) {
               return ret;
             } else {
-              // Set `error` to true if `ret` is empty.
-              cb(ret,!Object.keys(ret).length);
+              // Set `error` to true if `empty` is in ret.
+              cb(ret,('empty' in ret));
            }
    };
 
