@@ -28,7 +28,7 @@
 
     <div class="container">
       <section id="main_content">
-        <h1>VidInfo (v0.2.1)</h1>
+        <h1>VidInfo (v0.2.5)</h1>
 
 <p>Install: npm install vidinfo</p>
 
@@ -73,32 +73,42 @@ However, if you make something interesting, I would like to check it out.</p>
 
 <p><a href="http://clickthrough.com/" title="Title">clickthrough.com</a>
    <a href="http://collegehumor.com/" title="Title">collegehumor.com</a>
+   <a href="http://comedycentral.com/" title="Title">comedycentral.com (2)</a>
    <a href="http://coub.com/" title="Title">coub.com</a>
+   <a href="http://crackle.com/" title="Title">crackle.com (2)</a>
    <a href="http://dotsub.com/" title="Title">dotsub.com</a>
+   <a href="http://funnyordie.com/" title="Title">funnyordie.com (2)</a>
    <a href="http://hulu.com/" title="Title">hulu.com</a>
    <a href="http://jest.com/" title="Title">jest.com</a>
+   <a href="http://liveleak.com/" title="Title">liveleak.com (2)</a>
    <a href="http://nfb.ca/" title="Title">nfb.ca</a>
    <a href="http://qik.com/" title="Title">qik.com</a>
    <a href="http://revision3.com/" title="Title">revision3.com</a>
-   <a href="http://ted.com/" title="Title">ted.com*</a>
-   <a href="http://trailers.apples.com/" title="Title">trailers.apple.com*</a>
-   <a href="http://viddler.com/" title="Title">viddler.com</a></p>
+   <a href="http://ted.com/" title="Title">ted.com (1)</a>
+   <a href="http://trailers.apples.com/" title="Title">trailers.apple.com (1)</a>
+   <a href="http://viddler.com/" title="Title">viddler.com</a>
+   <a href="http://screen.yahoo.com/" title="Title">yahoo.com (2)</a></p>
 
-<ul>
-<li>Uses a 3rd party oEmbed API. (<a href="https://noembed.com/" title="Title">noembed.com</a>).
-I will add some (most common) oEmbed APIs from <a href="http://embed.ly/" title="Title">embed.ly</a> eventually.</li>
-</ul><h2>
+<pre><code>1) Uses a 3rd party oEmbed API. (https://noembed.com/)
+2) Uses a 3rd party oEmbed API. (https://embed.ly/) 
+   Requires API key, otherwise you have limited requests.
+</code></pre>
+
+<p>I will add more (most common) oEmbed APIs from <a href="http://embed.ly/" title="Title">embed.ly</a> eventually.</p>
+
+<h2>
 <a href="http://embed.ly/" title="Title">Embed.ly</a> API:</h2>
 
 <pre><code>WARNING: Do NOT enable embedly (./apis/embedly.js) with any other APIs!
 
 Embedly is a HUGE oEmbed provider and as such supports some of the APIs already in use.
-Because of this there are conflicts. In order to use embedly you must first run: node embedlyGenerator.js
-After you run embedlyGenerator, a new file will be created at: ./apis/embedly.js
+Because of this there are conflicts. To generate the embedly.js file, see functions below.
+After you run the embedly generator, a new file will be created at: ./apis/embedly.js
 Embedly is too massive to display what websites it supports, so you'll have to read embedly.js yourself
 or check the embed.ly providers list here: http://embed.ly/embed/features/providers
 
 Services URL: http://api.embed.ly/1/services
+API key required, signup here: https://app.embed.ly/signup/
 </code></pre>
 
 <h2>Experimental APIs: </h2>
@@ -146,6 +156,11 @@ Services URL: http://api.embed.ly/1/services
 <pre><code>apikey - The API key, when needed.
 basicauth - Your basic auth `username:password`, when needed.
 formatter - The formatter to use on your JSON data. See ./examples/youtubecom.js
+
+(detectAll options)
+nocheck - Return information on a video more than once if found multiple times. See ./examples/detectAll.js
+keys -  An object with API keys.
+Example: {keys:{bambuser:'EXAMPLE-KEY',themoviedb:'ANOTHER-KEY'},nocheck:true}
 </code></pre>
 
 <h2>Settings:</h2>
@@ -167,17 +182,21 @@ Bambuser.com:               bam, bambuser, bambusercom
 Blip.tv:                    blip, bliptv
 Clickthrough.com:           cthrough, clickthrough, clickthroughcom
 Collegehumor.com*:          chumor, college, collegehumor, collegehumorcom
+Comedycentral.com:          comcen, comedycentral, comedycentralcom
 Coub.com:                   coub, coubcom
+Crackle.com:                crackle, cracklecom
 Dailymotion.com:            dmo, dailymo, dailymotion, dailymotioncom
 Dotsub.com:                 dotsub, dotsubcom
 Facebook.com:               fbook, fbvideo, facebook, facebookcom
 Flickr.com:                 flickr, flickrcom
+Funnyordie.com:             ford, funnyor, funnyordie, funnyordiecom
 GiantBomb.com:              gbomb, giantbomb, giantbombcom
 Hulu.com:                   hulu, hulucom
 IMDB.com:                   imdb, imdbapiorg
 Jest.com:                   jest, jestcom
 Justin.tv (stream):         jtvs, jstream, justintvstream
 Justin.tv (video clip):     jtvc, jclip, justintvclip
+Liveleak.com:               lleak, liveleak, liveleakcom
 Livevideo.com*:             lvid, lvideo, livevideo, livevideocom
 Mag.ma:                     mag, magma
 Metacafe.com*:              meta, mcafe, metacafe, metacafecom
@@ -201,6 +220,7 @@ Vimeo.com:                  vimeo, vimeocom
 Vzaar.com:                  vzaar, vzaarcom
 Webcams.travel:             wct, webtra, wtravel, webcamstravel
 Wistia.com:                 wistia, wistacom
+Yahoo.com:                  yahoo, yvideo, yahoocom
 YouTube.com:                yt, youtube, youtubecom
 
 *  See "Experimental APIs" above.
@@ -213,28 +233,36 @@ Examples:
 
 <h2>Functions:</h2>
 
-<pre><code>VidInfo.detect(url[,callback[,options]]) - Parse a URL and create an object used for 'byurl'.
+<pre><code>VidInfo.detect(url[,callback[,options]]) - Parse a URL and create an object used for 'byURL'.
      See ./examples/detect.js
 
 VidInfo.detectAll(string[,callback[,options]]) - Parse a string and return an object with all the IDs.
      Options: keys - The list of keys for APIs that might need them.
-              Example: {keys:{bambuser:'EXAMPLE-KEY',themoviedb:'ANOTHER-KEY'}}
+              nocheck - Return information on a video more than once if found multiple times.
+              Example: {keys:{bambuser:'EXAMPLE-KEY',themoviedb:'ANOTHER-KEY'},nocheck:true}
      See ./examples/detectAll.js
 
-VidInfo.byid(id,api,callback[,options]) - Connects to the (should be) correct API for video information.
-     See ./examples/byid.js
+VidInfo.byID(id,api,callback[,options]) - Connects to the (should be) correct API for video information.
+     See ./examples/byid.js - Changed from "byid" for standardization.
 
-VidInfo.byurl(url,callback[,options]) - Connects to the (should be) correct API for video information.
-     See ./examples/byurl.js
+VidInfo.byURL(url,callback[,options]) - Connects to the (should be) correct API for video information.
+     See ./examples/byurl.js - Changed from "byurl" for standardization.
 
-VidInfo.&lt;apiname&gt;(id,callback[,options]) -- Shortcut for 'byid'.
+VidInfo.&lt;apiname&gt;(id,callback[,options]) -- Shortcut for 'byID'.
      See ./examples/byapi.js
 
 VidInfo.getAPILocation(apiname) - Get the location of an API config file. The "apiname" is the full name, such as "youtubecom."
+     Returns: {is:&lt;true/false&gt;,path:&lt;location&gt;,file:&lt;filename&gt;} -- "is" is in enabled (true) or disabled (false) folder.
 
-VidInfo.enable(apiname) - Enable an API. The "apiname" is the full name, such as "youtubecom."
+VidInfo.enable(apiname[,nomove]) - Enable an API. The "apiname" is the full name, such as "youtubecom."
+     NOTE: Moves &lt;apiname&gt; from ./apis/disabled/ to ./apis/enabled/ unless "nomove" is true.
 
-VidInfo.disable(apiname) - Disable an API. The "apiname" is the full name, such as "youtubecom."
+VidInfo.disable(apiname[,nomove]) - Disable an API. The "apiname" is the full name, such as "youtubecom."
+     NOTE: Moves &lt;apiname&gt; from ./apis/enabled/ to ./apis/disabled/ unless "nomove" is true.   
+
+VidInfo.genEmbedly([callback[,services url]]) - Generate/update the embedly.js config from the services url.
+      Services url: http://api.embed.ly/1/services
+      Callback arguments: {message:&lt;string&gt;,location:&lt;string&gt;,success:&lt;boolean&gt;}
 </code></pre>
 
 <h2>Example Usage - Look in "examples" folder for more examples.</h2>
@@ -242,7 +270,7 @@ VidInfo.disable(apiname) - Disable an API. The "apiname" is the full name, such 
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">VidInfo</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'vidinfo'</span><span class="p">)({</span><span class="nx">format</span><span class="o">:</span><span class="kc">true</span><span class="p">});</span>
 
 <span class="c1">// YouTube -- Only return the title and published date, using 'formatter'.</span>
-<span class="nx">VidInfo</span><span class="p">.</span><span class="nx">byurl</span><span class="p">(</span><span class="s1">'http://www.youtube.com/watch?v=ZRAr354usf8'</span><span class="p">,</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">,{</span><span class="nx">formatter</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
+<span class="nx">VidInfo</span><span class="p">.</span><span class="nx">byURL</span><span class="p">(</span><span class="s1">'http://www.youtube.com/watch?v=ZRAr354usf8'</span><span class="p">,</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">,{</span><span class="nx">formatter</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
        <span class="kd">var</span> <span class="nx">ret</span> <span class="o">=</span> <span class="p">{};</span>
        <span class="k">if</span> <span class="p">(</span><span class="s1">'$t'</span> <span class="k">in</span> <span class="nx">data</span><span class="p">.</span><span class="nx">entry</span><span class="p">.</span><span class="nx">title</span><span class="p">)</span> <span class="p">{</span>
           <span class="nx">ret</span><span class="p">.</span><span class="nx">title</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">entry</span><span class="p">.</span><span class="nx">title</span><span class="p">.</span><span class="nx">$t</span><span class="p">;</span>
@@ -254,7 +282,7 @@ VidInfo.disable(apiname) - Disable an API. The "apiname" is the full name, such 
 <span class="p">}});</span>
 
 <span class="c1">// YouTube by video ID.</span>
-<span class="nx">VidInfo</span><span class="p">.</span><span class="nx">byid</span><span class="p">(</span><span class="s1">'ZRAr354usf8'</span><span class="p">,</span><span class="s1">'youtube'</span><span class="p">,</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">,{</span><span class="nx">formatter</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
+<span class="nx">VidInfo</span><span class="p">.</span><span class="nx">byID</span><span class="p">(</span><span class="s1">'ZRAr354usf8'</span><span class="p">,</span><span class="s1">'youtube'</span><span class="p">,</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">,{</span><span class="nx">formatter</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
        <span class="kd">var</span> <span class="nx">ret</span> <span class="o">=</span> <span class="p">{};</span>
        <span class="k">if</span> <span class="p">(</span><span class="s1">'$t'</span> <span class="k">in</span> <span class="nx">data</span><span class="p">.</span><span class="nx">entry</span><span class="p">.</span><span class="nx">title</span><span class="p">)</span> <span class="p">{</span>
           <span class="nx">ret</span><span class="p">.</span><span class="nx">title</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">entry</span><span class="p">.</span><span class="nx">title</span><span class="p">.</span><span class="nx">$t</span><span class="p">;</span>
@@ -265,18 +293,18 @@ VidInfo.disable(apiname) - Disable an API. The "apiname" is the full name, such 
        <span class="nx">cb</span><span class="p">(</span><span class="nx">ret</span><span class="p">);</span>
 <span class="p">}});</span>
 
-<span class="c1">// 'byid' shortcut.</span>
+<span class="c1">// 'byID' shortcut.</span>
 <span class="nx">VidInfo</span><span class="p">.</span><span class="nx">vimeo</span><span class="p">(</span><span class="s1">'61969130'</span><span class="p">,</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">);</span>
 <span class="nx">VidInfo</span><span class="p">.</span><span class="nx">youtube</span><span class="p">(</span><span class="s1">'ZRAr354usf8'</span><span class="p">,</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">);</span>
 <span class="nx">VidInfo</span><span class="p">.</span><span class="nx">yt</span><span class="p">(</span><span class="s1">'ZRAr354usf8'</span><span class="p">,</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">);</span> <span class="c1">// YouTube</span>
 
 <span class="c1">// Bambuser (API Key required)</span>
-<span class="nx">VidInfo</span><span class="p">.</span><span class="nx">byurl</span><span class="p">(</span><span class="s1">'http://bambuser.com/v/3453034'</span><span class="p">,</span><span class="kd">function</span> <span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+<span class="nx">VidInfo</span><span class="p">.</span><span class="nx">byURL</span><span class="p">(</span><span class="s1">'http://bambuser.com/v/3453034'</span><span class="p">,</span><span class="kd">function</span> <span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
 <span class="p">},{</span><span class="nx">apikey</span><span class="o">:</span><span class="s1">'APIKEY'</span><span class="p">});</span>
 
 <span class="c1">// Wista (Basic auth required)</span>
-<span class="nx">VidInfo</span><span class="p">.</span><span class="nx">byurl</span><span class="p">(</span><span class="s1">'http://ltdev.wistia.com/medias/piywx9v8rr'</span><span class="p">,</span><span class="kd">function</span> <span class="p">(</span><span class="nx">obj</span><span class="p">,</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+<span class="nx">VidInfo</span><span class="p">.</span><span class="nx">byURL</span><span class="p">(</span><span class="s1">'http://ltdev.wistia.com/medias/piywx9v8rr'</span><span class="p">,</span><span class="kd">function</span> <span class="p">(</span><span class="nx">obj</span><span class="p">,</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
       <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'(byapi) wista: '</span><span class="o">+</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span><span class="o">+</span><span class="s1">'\n\n'</span><span class="p">);</span>
     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
@@ -285,7 +313,7 @@ VidInfo.disable(apiname) - Disable an API. The "apiname" is the full name, such 
 <span class="p">},{</span><span class="nx">basicauth</span><span class="o">:</span><span class="s1">'USERNAME:PASSWORD'</span><span class="p">});</span>
 
 <span class="c1">// Facebook (requires access token - http://louist.github.io/VidInfo/accessToken.html)</span>
-<span class="nx">vidinfo</span><span class="p">.</span><span class="nx">byurl</span><span class="p">(</span><span class="s1">'https://www.facebook.com/photo.php?v=10101580633888836&amp;set=vb.225034700870481&amp;type=3&amp;theater'</span><span class="p">,</span><span class="kd">function</span> <span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+<span class="nx">VidInfo</span><span class="p">.</span><span class="nx">byURL</span><span class="p">(</span><span class="s1">'https://www.facebook.com/photo.php?v=10101580633888836&amp;set=vb.225034700870481&amp;type=3&amp;theater'</span><span class="p">,</span><span class="kd">function</span> <span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span><span class="o">+</span><span class="s1">'\n\n'</span><span class="p">);</span>
 <span class="p">},{</span><span class="nx">apikey</span><span class="o">:</span><span class="s1">'ACCESS TOKEN'</span><span class="p">});</span>
 
