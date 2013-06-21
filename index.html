@@ -28,15 +28,17 @@
 
     <div class="container">
       <section id="main_content">
-        <h1>VidInfo (v0.2.5)</h1>
+        <h1>
+<a name="vidinfo-v026" class="anchor" href="#vidinfo-v026"><span class="octicon octicon-link"></span></a>VidInfo (v0.2.6)</h1>
 
-<p>Install: npm install vidinfo</p>
+<p>Install: npm install <a href="https://npmjs.org/package/vidinfo" title="Title">vidinfo</a></p>
 
 <p>This project is <a href="http://unlicense.org/" title="Title">Unlicensed</a>.
 In other words, I don't care what you do with it.
 However, if you make something interesting, I would like to check it out.</p>
 
-<h2>Current APIs supported:</h2>
+<h2>
+<a name="current-apis-supported" class="anchor" href="#current-apis-supported"><span class="octicon octicon-link"></span></a>Current APIs supported:</h2>
 
 <p>Supported Formats: JSON, CSV, INI -- XML via <a href="http://developer.yahoo.com/yql/console/" title="Title">YQL</a>.</p>
 
@@ -67,7 +69,8 @@ However, if you make something interesting, I would like to check it out.</p>
 4) Requires basic auth (username:password). See "wista" example at the bottom.
 </code></pre>
 
-<h2>oEmbed APIs:</h2>
+<h2>
+<a name="oembed-apis" class="anchor" href="#oembed-apis"><span class="octicon octicon-link"></span></a>oEmbed APIs:</h2>
 
 <p>For more information on oEmbed visit <a href="http://oembed.com/" title="Title">oEmbed.com</a>.</p>
 
@@ -97,7 +100,7 @@ However, if you make something interesting, I would like to check it out.</p>
 <p>I will add more (most common) oEmbed APIs from <a href="http://embed.ly/" title="Title">embed.ly</a> eventually.</p>
 
 <h2>
-<a href="http://embed.ly/" title="Title">Embed.ly</a> API:</h2>
+<a name="embedly-api" class="anchor" href="#embedly-api"><span class="octicon octicon-link"></span></a><a href="http://embed.ly/" title="Title">Embed.ly</a> API:</h2>
 
 <pre><code>WARNING: Do NOT enable embedly (./apis/embedly.js) with any other APIs!
 
@@ -111,7 +114,8 @@ Services URL: http://api.embed.ly/1/services
 API key required, signup here: https://app.embed.ly/signup/
 </code></pre>
 
-<h2>Experimental APIs: </h2>
+<h2>
+<a name="experimental-apis-" class="anchor" href="#experimental-apis-"><span class="octicon octicon-link"></span></a>Experimental APIs: </h2>
 
 <p><a href="http://www.livevideo.com/api/" title="Title">livevideo.com (1)</a>
    <a href="http://metacafe.com/" title="Title">metacafe.com</a>
@@ -125,7 +129,8 @@ API key required, signup here: https://app.embed.ly/signup/
 <p>NOTE: These use <a href="http://developer.yahoo.com/yql/console/" title="Title">YQL</a> to convert XML to JSON.
       Might switch from YQL to xml2json. "http_get" already supports this.</p>
 
-<h2>More Information:</h2>
+<h2>
+<a name="more-information" class="anchor" href="#more-information"><span class="octicon octicon-link"></span></a>More Information:</h2>
 
 <pre><code>(imdb.com)
     IMDB uses a 3rd party API. (http://imdbapi.org/)
@@ -137,7 +142,8 @@ API key required, signup here: https://app.embed.ly/signup/
     Generator: http://louist.github.io/VidInfo/accessToken.html
 </code></pre>
 
-<h2>TODO:</h2>
+<h2>
+<a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO:</h2>
 
 <pre><code>1) Find more API's to use. -- Please suggest some.
    I have a list I'm working from, but it takes time to get them working.
@@ -151,7 +157,8 @@ API key required, signup here: https://app.embed.ly/signup/
 **) Better support for XML? (Switch from YQL to xml2json?)
 </code></pre>
 
-<h2>Options:</h2>
+<h2>
+<a name="options" class="anchor" href="#options"><span class="octicon octicon-link"></span></a>Options:</h2>
 
 <pre><code>apikey - The API key, when needed.
 basicauth - Your basic auth `username:password`, when needed.
@@ -163,19 +170,22 @@ keys -  An object with API keys.
 Example: {keys:{bambuser:'EXAMPLE-KEY',themoviedb:'ANOTHER-KEY'},nocheck:true}
 </code></pre>
 
-<h2>Settings:</h2>
+<h2>
+<a name="settings" class="anchor" href="#settings"><span class="octicon octicon-link"></span></a>Settings:</h2>
 
 <pre><code>format - Use the formatter, true or false.
 enabled - Path to enabled API configs. -- Default: ./apis/enabled/
 disabled - Path to disabled API configs. -- Default: ./apis/disabled/
 </code></pre>
 
-<h2>Settings usage:</h2>
+<h2>
+<a name="settings-usage" class="anchor" href="#settings-usage"><span class="octicon octicon-link"></span></a>Settings usage:</h2>
 
 <pre><code>var VidInfo = require('vidinfo')({format:true});
 </code></pre>
 
-<h2>Shortcuts:</h2>
+<h2>
+<a name="shortcuts" class="anchor" href="#shortcuts"><span class="octicon octicon-link"></span></a>Shortcuts:</h2>
 
 <pre><code>Archive.org:                arch, archive, archiveorg
 Bambuser.com:               bam, bambuser, bambusercom
@@ -231,7 +241,8 @@ Examples:
     VidInfo.dmo('xycczk',console.log); // Dailymotion
 </code></pre>
 
-<h2>Functions:</h2>
+<h2>
+<a name="functions" class="anchor" href="#functions"><span class="octicon octicon-link"></span></a>Functions:</h2>
 
 <pre><code>VidInfo.detect(url[,callback[,options]]) - Parse a URL and create an object used for 'byURL'.
      See ./examples/detect.js
@@ -265,7 +276,8 @@ VidInfo.genEmbedly([callback[,services url]]) - Generate/update the embedly.js c
       Callback arguments: {message:&lt;string&gt;,location:&lt;string&gt;,success:&lt;boolean&gt;}
 </code></pre>
 
-<h2>Example Usage - Look in "examples" folder for more examples.</h2>
+<h2>
+<a name="example-usage---look-in-examples-folder-for-more-examples" class="anchor" href="#example-usage---look-in-examples-folder-for-more-examples"><span class="octicon octicon-link"></span></a>Example Usage - Look in "examples" folder for more examples.</h2>
 
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">VidInfo</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'vidinfo'</span><span class="p">)({</span><span class="nx">format</span><span class="o">:</span><span class="kc">true</span><span class="p">});</span>
 
