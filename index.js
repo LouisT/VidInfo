@@ -21,7 +21,7 @@
              this.settings['disabled'] = __dirname+'/apis/disabled/';
           };
           // User-Agent sent on API requests.
-          this.userAgent = 'Mozilla/5.0+(compatible; VidInfo/0.2.5; https://github.com/LouisT/VidInfo)';
+          this.userAgent = 'Mozilla/5.0+(compatible; VidInfo/0.2.6; https://github.com/LouisT/VidInfo)';
           // Import supported APIs. (./apis/enabled/)
           this.importAPIs();
    };
@@ -78,9 +78,9 @@
    };
 
    // Depricate <obj>.byid for <obj>.byID -- better standardization.
-   VidInfo.prototype.byid = function (url,cb,opts) {
+   VidInfo.prototype.byid = function (id,cb,opts) {
            console.warn('NOTICE: byid is depricated, please use byID.');
-           this.byID(url,cb,opts);
+           this.byID(id,cb,opts);
    };
 
    // Detect what API to use by video url.
@@ -140,7 +140,7 @@
 
    // Get ALL IDs within a string.
    VidInfo.prototype.detectAll = function (str,cb,opts) {
-           var str = str.replace(/^\s+|\s+$/g,'').replace(/\s+/g,' ').split(' '),
+           var str = str.trim().split(/\s+/),
                strlen = str.length,
                ret = {},
                opts = opts||{};
@@ -253,33 +253,36 @@
            if (!location) {
               return false;
            };
-           // Reuse code! "loadAPI.call(this,<location>,<file>)"
-           function loadAPI (location,file) {
-                    api = file.split('.')[0];
-                    this.apis[api] = require(location);
-                    // Remove the file from required cache. (Bad idea?)
-                    delete require.cache[require.resolve(location)];
-                    this.enabled[api] = true;
-                    if (('disabled' in this && api in this.disabled)) {
-                       delete this.disabled[api];
-                    };
-                    // Attempt to add shortcuts if available.
-                    if (('shortcuts' in this.apis[api])) {
-                       return this.addShortcuts(api);
-                     } else {
-                       return true;
-                    };
-           };
            // Already in the "enabled" folder, or nomove.
            if (nomove || location.is === true) {
-              return loadAPI.call(this,location['path']+location['file'],location['file']);
+              return this.__loadAPI.call(this,location['path']+location['file'],location['file']);
             } else {
-              // Move to the "enabled" filder, then load!
+              // Move to the "enabled" folder, then load!
               if ((nf = this.__moveFile(location['file'],location['is']))) {
-                 return loadAPI.call(this,newfile,location['file']);
+                 return this.__loadAPI.call(this,nf,location['file']);
               };
            };
            return false;
+   };
+   VidInfo.prototype.__loadAPI = function (location,file) {
+           try {
+              api = file.split('.')[0];
+              this.apis[api] = require(location);
+              // Remove the file from required cache. (Bad idea?)
+              delete require.cache[require.resolve(location)];
+              this.enabled[api] = true;
+              if (('disabled' in this && api in this.disabled)) {
+                 delete this.disabled[api];
+              };
+              // Attempt to add shortcuts if available.
+              if (('shortcuts' in this.apis[api])) {
+                 return this.addShortcuts(api);
+               } else {
+                 return true;
+              };
+            } catch (e) {
+              return false;
+           };
    };
 
    // Disable an API.
@@ -289,54 +292,65 @@
            if (!location) {
               return false;
            };
-           // Reuse code! "unloadAPI.call(this,<location>,<file>)"
-           function unloadAPI (location,api) {
-                    var api = api.split('.')[0],
-                        tmp = require(location);
-                    this.disabled[api] = true;
-                    if (('enabled' in this && api in this.enabled)) {
-                       delete this.enabled[api];
-                    };
-                    var shortcuts = [api],
-                        shortcuts = shortcuts.concat(tmp.shortcuts||[]);
-                    for (var num in shortcuts) {
-                        if ((shortcuts[num] in this)) {
-                           delete this[shortcuts[num]];
-                        };
-                    };
-                    // Remove the file from required cache. (Bad idea?)
-                    delete require.cache[require.resolve(location)];
-                    return true;
-           };
            // Already in the "disabled" folder, or nomove.
            if (nomove || location.is === false) {
-              return unloadAPI.call(this,location['path']+location['file'],location['file']);
+              return this.__unloadAPI.call(this,location['path']+location['file'],location['file']);
             } else {
               // Move to the "enabled" filder, then load!
               if ((nf = this.__moveFile(location['file'],location['is']))) {
-                 return unloadAPI.call(this,nf,location['file']);
+                 return this.__unloadAPI.call(this,nf,location['file']);
               };
            };
            return false;
    }; 
 
+   // Unload an API! Moved from "disable" because it was dumb. 
+   VidInfo.prototype.__unloadAPI = function (location,api) {
+           try {
+              var api = api.split('.')[0],
+                  tmp = require(location);
+              this.disabled[api] = true;
+              if (('enabled' in this && api in this.enabled)) {
+                 delete this.enabled[api];
+              };
+              var shortcuts = [api],
+                  shortcuts = shortcuts.concat(tmp.shortcuts||[]);
+              for (var num in shortcuts) {
+                  if ((shortcuts[num] in this)) {
+                     delete this[shortcuts[num]];
+                  };
+              };
+              // Remove the file from required cache. (Bad idea?)
+              delete require.cache[require.resolve(location)];
+              return true;
+            } catch (e) {
+              return false;
+           };
+   };
+
    // Move files around. No need for a user to use this!
    VidInfo.prototype.__moveFile = function (file,mode) {
-           var paths;
-           // XXX: Is this hacky!?
-           switch (mode) {
-                  case false:
-                     paths = [this.settings.enabled,this.settings.disabled];
-                  case true: default:
-                     paths = [this.settings.disabled,this.settings.enabled];
+           try {
+              var paths;
+              // XXX: Is this hacky!?
+              switch (mode) {
+                     case false:
+                          paths = [this.settings.enabled,this.settings.disabled];
+                          break;
+                     case true: default:
+                          paths = [this.settings.disabled,this.settings.enabled];
+                          break;
+              };
+              var newfile = paths[0]+file,
+                  oldfile = paths[1]+file;
+              // Move the file from "enabled" to "disabled" -- ignored if "nomove" is passed!
+              // XXX: Stop using fs.renameSync and fs.existsSync!?
+              fs.renameSync(oldfile,newfile);
+              // Check if the move was successful.
+              return (fs.existsSync(newfile)?newfile:false);
+            } catch (e) {
+              return false;
            };
-           var newfile = paths[0]+file,
-               oldfile = paths[1]+file;
-           // Move the file from "enabled" to "disabled" -- ignored if "nomove" is passed!
-           // XXX: Stop using fs.renameSync and fs.existsSync!?
-           fs.renameSync(oldfile,newfile);
-           // Check if the move was successful.
-           return (fs.existsSync(newfile)?newfile:false);
    };
   
    // Import enabled APIs, make a list of disabled.
@@ -386,7 +400,8 @@
                           };
                        };
                    };
-                   var obj = {REGEX:regex.join(',\n               '),SHORTCUTS:'\''+shortcuts.join('\',\n               \'')+'\'',SERVICEURL:servurl},
+                   var spc = new Array(16).join(' ');
+                   var obj = {REGEX:regex.join(',\n'+spc),SHORTCUTS:'\''+shortcuts.join('\',\n'+spc+'\'')+'\'',SERVICEURL:servurl},
                        location = __dirname+'/apis/embedly.js';
                        data = VidInfo.prototype.stringFormat(temp,obj);
                    fs.writeFile(location,data,function (err) {

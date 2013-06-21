@@ -1,7 +1,7 @@
-VidInfo (v0.2.5)
+VidInfo (v0.2.6)
 ======
 
-Install: npm install vidinfo
+Install: npm install [vidinfo](https://npmjs.org/package/vidinfo "Title")
 
 This project is [Unlicensed](http://unlicense.org/ "Title").
 In other words, I don't care what you do with it.

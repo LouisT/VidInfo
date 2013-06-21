@@ -60,8 +60,8 @@
             if (opts.username && opts.password) {
                opts.auth = opts.username+":"+opts.password;
             }
-            if (opts.type) {
-               opts.type = opts.type.toLowerCase();
+            if ('type' in opts) {
+               opts.type = String(opts.type).toLowerCase();
                if (['head','headers'].indexOf(opts.type) > -1) {
                   opts.method = 'HEAD';
                }

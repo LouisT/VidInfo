@@ -1,14 +1,18 @@
 {
     "name": "vidinfo",
-    "version": "0.2.5",
+    "version": "0.2.6",
+    "homepage": "http://louist.github.io/VidInfo/",
     "author": {
         "name": "Louis T.",
         "email": "louist@ltdev.im",
-        "url": "http://github.com/LouisT/vidinfo"
+        "url": "http://ltdev.im/"
     },
     "repository": {
         "type": "git",
         "url": "git://github.com/LouisT/vidinfo.git"
+    },
+    "bugs": {
+        "url": "https://github.com/LouisT/vidinfo/issues"
     },
     "licenses": [
         {
