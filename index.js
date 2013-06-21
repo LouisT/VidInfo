@@ -264,6 +264,8 @@
            };
            return false;
    };
+
+   // Load an API! Moved from "enable" because it was dumb.
    VidInfo.prototype.__loadAPI = function (location,file) {
            try {
               api = file.split('.')[0];
