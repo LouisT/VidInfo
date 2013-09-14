@@ -29,7 +29,7 @@
     <div class="container">
       <section id="main_content">
         <h1>
-<a name="vidinfo-v026" class="anchor" href="#vidinfo-v026"><span class="octicon octicon-link"></span></a>VidInfo (v0.2.6)</h1>
+<a name="vidinfo-v027" class="anchor" href="#vidinfo-v027"><span class="octicon octicon-link"></span></a>VidInfo (v0.2.7)</h1>
 
 <p>Install: npm install <a href="https://npmjs.org/package/vidinfo" title="Title">vidinfo</a></p>
 
@@ -133,7 +133,7 @@ API key required, signup here: https://app.embed.ly/signup/
 <a name="more-information" class="anchor" href="#more-information"><span class="octicon octicon-link"></span></a>More Information:</h2>
 
 <pre><code>(imdb.com)
-    IMDB uses a 3rd party API. (http://imdbapi.org/)
+    IMDB uses a 3rd party API. Please see http://mymovieapi.com/#notes for more information.
 
 (facebook.com)
     Facebook requires an access token to be generated. The generator makes an access token
@@ -202,7 +202,7 @@ Flickr.com:                 flickr, flickrcom
 Funnyordie.com:             ford, funnyor, funnyordie, funnyordiecom
 GiantBomb.com:              gbomb, giantbomb, giantbombcom
 Hulu.com:                   hulu, hulucom
-IMDB.com:                   imdb, imdbapiorg
+IMDB.com:                   imdb, imdbcom
 Jest.com:                   jest, jestcom
 Justin.tv (stream):         jtvs, jstream, justintvstream
 Justin.tv (video clip):     jtvc, jclip, justintvclip
@@ -279,7 +279,7 @@ VidInfo.genEmbedly([callback[,services url]]) - Generate/update the embedly.js c
 <h2>
 <a name="example-usage---look-in-examples-folder-for-more-examples" class="anchor" href="#example-usage---look-in-examples-folder-for-more-examples"><span class="octicon octicon-link"></span></a>Example Usage - Look in "examples" folder for more examples.</h2>
 
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">VidInfo</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'vidinfo'</span><span class="p">)({</span><span class="nx">format</span><span class="o">:</span><span class="kc">true</span><span class="p">});</span>
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">VidInfo</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'vidinfo'</span><span class="p">)({</span><span class="nx">format</span><span class="o">:</span><span class="kc">true</span><span class="p">});</span>
 
 <span class="c1">// YouTube -- Only return the title and published date, using 'formatter'.</span>
 <span class="nx">VidInfo</span><span class="p">.</span><span class="nx">byURL</span><span class="p">(</span><span class="s1">'http://www.youtube.com/watch?v=ZRAr354usf8'</span><span class="p">,</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">,{</span><span class="nx">formatter</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
@@ -338,6 +338,16 @@ VidInfo.genEmbedly([callback[,services url]]) - Generate/update the embedly.js c
       </section>
     </div>
 
-    
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-23469607-4");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
   </body>
 </html>
