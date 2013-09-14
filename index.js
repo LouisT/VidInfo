@@ -4,7 +4,8 @@
 */
 (function(){
    var http_get = require('./libs/http_get.js'),
-       fs = require('fs');
+       fs = require('fs'),
+       package = require('./package.json');
 
    var VidInfo = function (settings) {
           if (!(this instanceof VidInfo)) {
@@ -21,7 +22,7 @@
              this.settings['disabled'] = __dirname+'/apis/disabled/';
           };
           // User-Agent sent on API requests.
-          this.userAgent = 'Mozilla/5.0+(compatible; VidInfo/0.2.6; https://github.com/LouisT/VidInfo)';
+          this.userAgent = 'Mozilla/5.0+(compatible; '+package.name+'/'+package.version+'; '+package.homepage+')';
           // Import supported APIs. (./apis/enabled/)
           this.importAPIs();
    };

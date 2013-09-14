@@ -1,4 +1,4 @@
-VidInfo (v0.2.6)
+VidInfo (v0.2.7)
 ======
 
 Install: npm install [vidinfo](https://npmjs.org/package/vidinfo "Title")
@@ -94,7 +94,7 @@ NOTE: These use [YQL](http://developer.yahoo.com/yql/console/ "Title") to conver
 More Information:
 ------
     (imdb.com)
-        IMDB uses a 3rd party API. (http://imdbapi.org/)
+        IMDB uses a 3rd party API. Please see http://mymovieapi.com/#notes for more information.
 
     (facebook.com)
         Facebook requires an access token to be generated. The generator makes an access token
@@ -153,7 +153,7 @@ Shortcuts:
     Funnyordie.com:             ford, funnyor, funnyordie, funnyordiecom
     GiantBomb.com:              gbomb, giantbomb, giantbombcom
     Hulu.com:                   hulu, hulucom
-    IMDB.com:                   imdb, imdbapiorg
+    IMDB.com:                   imdb, imdbcom
     Jest.com:                   jest, jestcom
     Justin.tv (stream):         jtvs, jstream, justintvstream
     Justin.tv (video clip):     jtvc, jclip, justintvclip
