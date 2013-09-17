@@ -23,5 +23,12 @@ vidinfo.detect('http://bambuser.com/v/3453034',function (obj) {
 vidinfo.detect('http://bambuser.com/v/3453034',function (obj) {
    console.log('(detect/nokey) bambuser: '+JSON.stringify(obj)+'\n\n');
 });
+vidinfo.detect('http://trakt.tv/movie/after-earth-2013',function (obj) {
+   console.log('(detect) trakt: '+JSON.stringify(obj)+'\n\n');
+},{apikey:'APIKEY'});
+vidinfo.detect('http://trakt.tv/show/under-the-dome',function (obj) {
+   console.log('(detect/nokey) trakt: '+JSON.stringify(obj)+'\n\n');
+});
+
 
 // console.log(vidinfo.detect('http://www.youtube.com/watch?v=QK8mJJJvaes'));

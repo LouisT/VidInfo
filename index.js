@@ -58,11 +58,24 @@
               var apidat = this.copyObj(this.apis[api]),
                   fields = ((apidat['fields']||[]).join((apidat['fieldsJoiner']||','))),
                   foropts = {id:id,fields:fields};
+              // If "matches" is true, the "id" must be an array.
+              if (apidat["matches"]) {
+                 if (this.getType(id) !== "Array") {
+                    return cb({error:true,message:'First argument must be an array.'},true);
+                  } else {
+                    foropts = id;
+                 };
+              };
               if (('apikey' in opts || 'needkey' in apidat)) {
                  if (!('apikey' in opts)) {
                     return cb({error:true,message:'API key is required!'},true);
                   } else {
-                    foropts['apikey'] = opts['apikey'];
+                    // If `foropts` is array, always push the API key to the end.
+                    if (this.getType(foropts) == "Array") {
+                       foropts.push(opts['apikey']);
+                     } else {
+                       foropts['apikey'] = opts['apikey'];
+                    };
                  };
               };
               if (('basicauth' in opts || 'basicauth' in apidat)) {
@@ -103,14 +116,24 @@
                    if ((matches = regex.exec(url)) !== null) {
                       // Return full URL or a parsed ID.
                       // This is rather hackish. Find a better way to do this.
-                      var id = (apidat['fullurl']?matches[0]:matches[1]),
-                          foropts = {id:id,fields:fields};
+                      var id = (apidat["matches"]?matches:(apidat['fullurl']?matches[0]:matches[1])),
+                          // If "matches" is true, build the URL using the `RegEx.exec` result.
+                          foropts = (apidat["matches"]?matches:{id:id,fields:fields});
+                      // Remove the first element.
+                      if (this.getType(foropts) == "Array") {
+                         foropts.shift();
+                      };
                       if (('apikey' in opts || 'needkey' in apidat)) {
                          if (!('apikey' in opts)) {
                             apidat['error'] = true;
                             apidat['message'] = 'API key is required!';
                           } else {
-                            foropts['apikey'] = opts['apikey'];
+                            // If `foropts` is array, always push the API key to the end.
+                            if (this.getType(foropts) == "Array") {
+                               foropts.push(opts['apikey']);
+                             } else {
+                               foropts['apikey'] = opts['apikey'];
+                            };
                          };
                       };
                       if (('basicauth' in opts || 'basicauth' in apidat)) {
@@ -123,7 +146,7 @@
                       };
                       apidat['url'] = this.stringFormat(apidat["url"],foropts);
                       apidat['api'] = api;
-                      apidat['id']  = matches[1];
+                      apidat['id']  = id;
                       break apiloop;
                    };
                };

@@ -1,4 +1,4 @@
-VidInfo (v0.2.7)
+VidInfo (v0.2.8)
 ======
 
 Install: npm install [vidinfo](https://npmjs.org/package/vidinfo "Title")
@@ -23,6 +23,7 @@ Current APIs supported:
    [mag.ma](http://mag.ma/ "Title")
    [on.aol.com](http://on.aol.com/ "Title")
    [themoviedb.org (1)](http://www.themoviedb.org/documentation/api "Title")
+   [trakt.tv (1,2,3)](http://trakt.tv/ "Title")
    [twitch.tv (2)](http://www.twitch.tv/ "Title")
    [ustream.tv (2)](http://www.ustream.tv/ "Title")
    [videolog.tv](http://videolog.tv/ "Title")
@@ -101,16 +102,22 @@ More Information:
         that lasts for 60 days. You can revisit the generator to find out when your token will expire.
         I will look for a better method later on, but for now this is how it has to be.
         Generator: http://louist.github.io/VidInfo/accessToken.html
+    (trakt.tv)
+        This API is massive and can return a lot of information. I need to rewrite parts of VidInfo to support this.
+        For now, extended summary for Movies and TV shows are supported. (TODO #6)
 
 TODO:
 ------
-    1) Find more API's to use. -- Please suggest some.
-       I have a list I'm working from, but it takes time to get them working.
+    1) Find more API's to use. -- Please suggest some. (This should never be finished!)
     2) Create tests.
     3) Improve basic auth and API key support.
-    4) Clean up code and find a use for "detectAll".
+    4) Clean up code/README and find a use for "detectAll".
     5) Make a better facebook access token generator.
        (http://louist.github.io/VidInfo/accessToken.html)
+    6) Add support for more API features besides summaries.
+       NOTE: I might just make multiple API files because this could be complicated...
+             -- I've done this already for places like ustream.tv and and justin.tv -- We'll see what happens!
+    7) Document things better... This README is a mess!
 
     *)  Support events? I'm not sure about this yet.
     **) Better support for XML? (Switch from YQL to xml2json?)
@@ -171,6 +178,7 @@ Shortcuts:
     Themoviedb.org:             tdb, tmdb, themoviedborg
     Traileraddict.com*:         tadd, taddict, traileraddict, traileraddictcom
     Trailers.apple.com:         tapple, trailersapple, trailersapplecom
+    Trakt.tv (show/movie):      trakt, trakttv
     Twitch.tv (stream):         ttvs, tstream, twitchtvstream
     Twitch.tv (video clip):     ttvc, tclip, twitchtvclip
     Ustream.tv (stream):        utvs, ustream, ustreamtvstream
@@ -257,6 +265,7 @@ VidInfo.byID('ZRAr354usf8','youtube',console.log,{formatter: function (data,cb) 
 VidInfo.vimeo('61969130',console.log);
 VidInfo.youtube('ZRAr354usf8',console.log);
 VidInfo.yt('ZRAr354usf8',console.log); // YouTube
+VidInfo.trakt(["show","under-the-dome"],console.log); // Trakt.tv
 
 // Bambuser (API Key required)
 VidInfo.byURL('http://bambuser.com/v/3453034',function (obj) {
@@ -276,6 +285,15 @@ VidInfo.byURL('http://ltdev.wistia.com/medias/piywx9v8rr',function (obj,e) {
 VidInfo.byURL('https://www.facebook.com/photo.php?v=10101580633888836&set=vb.225034700870481&type=3&theater',function (obj) {
    console.log(JSON.stringify(obj)+'\n\n');
 },{apikey:'ACCESS TOKEN'});
+
+// Trakt "byID", must pass an array. ["{:method}","{:id}"] -- Method is show or movie.
+// See http://trakt.tv/api-docs/ for more information.
+VidInfo.byID(["movie","after-earth-2013"],"trakt",function (x) {
+   console.log(JSON.stringify(obj)+'\n\n');
+},{apikey:"APIKEY"})
+VidInfo.byID(["show","under-the-dome"],"trakt",function (x) { 
+   console.log(JSON.stringify(obj)+'\n\n');
+},{apikey:"APIKEY"})
 
 // 'detect' example. -- Prints video ID and API link in an object.
 console.log(VidInfo.detect('http://www.youtube.com/watch?v=ZRAr354usf8'));

@@ -20,3 +20,10 @@ vidinfo.byID('517675925','onaol',function (obj) {
 vidinfo.byID('3453034','bambuser',function (obj) {
    console.log('(byID) bambuser: '+JSON.stringify(obj)+'\n\n');
 },{apikey:'APIKEY'});
+vidinfo.byID(["movie","after-earth-2013"],"trakt",function (obj) {
+   console.log('(byID) trakt(movie): '+JSON.stringify(obj)+'\n\n');
+},{apikey:"APIKEY"})
+vidinfo.byID(["show","under-the-dome"],"trakt",function (obj) {
+   console.log('(byID) trakt(show): '+JSON.stringify(obj)+'\n\n');
+},{apikey:"APIKEY"})
+
