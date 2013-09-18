@@ -288,10 +288,10 @@ VidInfo.byURL('https://www.facebook.com/photo.php?v=10101580633888836&set=vb.225
 
 // Trakt "byID", must pass an array. ["{:method}","{:id}"] -- Method is show or movie.
 // See http://trakt.tv/api-docs/ for more information.
-VidInfo.byID(["movie","after-earth-2013"],"trakt",function (x) {
+VidInfo.byID(["movie","after-earth-2013"],"trakt",function (obj) {
    console.log(JSON.stringify(obj)+'\n\n');
 },{apikey:"APIKEY"})
-VidInfo.byID(["show","under-the-dome"],"trakt",function (x) { 
+VidInfo.byID(["show","under-the-dome"],"trakt",function (obj) { 
    console.log(JSON.stringify(obj)+'\n\n');
 },{apikey:"APIKEY"})
 
