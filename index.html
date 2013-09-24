@@ -29,7 +29,7 @@
     <div class="container">
       <section id="main_content">
         <h1>
-<a name="vidinfo-v027" class="anchor" href="#vidinfo-v027"><span class="octicon octicon-link"></span></a>VidInfo (v0.2.7)</h1>
+<a name="vidinfo-v028" class="anchor" href="#vidinfo-v028"><span class="octicon octicon-link"></span></a>VidInfo (v0.2.8)</h1>
 
 <p>Install: npm install <a href="https://npmjs.org/package/vidinfo" title="Title">vidinfo</a></p>
 
@@ -54,6 +54,7 @@ However, if you make something interesting, I would like to check it out.</p>
    <a href="http://mag.ma/" title="Title">mag.ma</a>
    <a href="http://on.aol.com/" title="Title">on.aol.com</a>
    <a href="http://www.themoviedb.org/documentation/api" title="Title">themoviedb.org (1)</a>
+   <a href="http://trakt.tv/" title="Title">trakt.tv (1,2,3)</a>
    <a href="http://www.twitch.tv/" title="Title">twitch.tv (2)</a>
    <a href="http://www.ustream.tv/" title="Title">ustream.tv (2)</a>
    <a href="http://videolog.tv/" title="Title">videolog.tv</a>
@@ -140,18 +141,24 @@ API key required, signup here: https://app.embed.ly/signup/
     that lasts for 60 days. You can revisit the generator to find out when your token will expire.
     I will look for a better method later on, but for now this is how it has to be.
     Generator: http://louist.github.io/VidInfo/accessToken.html
+(trakt.tv)
+    This API is massive and can return a lot of information. I need to rewrite parts of VidInfo to support this.
+    For now, extended summary for Movies and TV shows are supported. (TODO #6)
 </code></pre>
 
 <h2>
 <a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO:</h2>
 
-<pre><code>1) Find more API's to use. -- Please suggest some.
-   I have a list I'm working from, but it takes time to get them working.
+<pre><code>1) Find more API's to use. -- Please suggest some. (This should never be finished!)
 2) Create tests.
 3) Improve basic auth and API key support.
-4) Clean up code and find a use for "detectAll".
+4) Clean up code/README and find a use for "detectAll".
 5) Make a better facebook access token generator.
    (http://louist.github.io/VidInfo/accessToken.html)
+6) Add support for more API features besides summaries.
+   NOTE: I might just make multiple API files because this could be complicated...
+         -- I've done this already for places like ustream.tv and and justin.tv -- We'll see what happens!
+7) Document things better... This README is a mess!
 
 *)  Support events? I'm not sure about this yet.
 **) Better support for XML? (Switch from YQL to xml2json?)
@@ -220,6 +227,7 @@ Ted.com:                    ted, tedcom
 Themoviedb.org:             tdb, tmdb, themoviedborg
 Traileraddict.com*:         tadd, taddict, traileraddict, traileraddictcom
 Trailers.apple.com:         tapple, trailersapple, trailersapplecom
+Trakt.tv (show/movie):      trakt, trakttv
 Twitch.tv (stream):         ttvs, tstream, twitchtvstream
 Twitch.tv (video clip):     ttvc, tclip, twitchtvclip
 Ustream.tv (stream):        utvs, ustream, ustreamtvstream
@@ -309,6 +317,7 @@ VidInfo.genEmbedly([callback[,services url]]) - Generate/update the embedly.js c
 <span class="nx">VidInfo</span><span class="p">.</span><span class="nx">vimeo</span><span class="p">(</span><span class="s1">'61969130'</span><span class="p">,</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">);</span>
 <span class="nx">VidInfo</span><span class="p">.</span><span class="nx">youtube</span><span class="p">(</span><span class="s1">'ZRAr354usf8'</span><span class="p">,</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">);</span>
 <span class="nx">VidInfo</span><span class="p">.</span><span class="nx">yt</span><span class="p">(</span><span class="s1">'ZRAr354usf8'</span><span class="p">,</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">);</span> <span class="c1">// YouTube</span>
+<span class="nx">VidInfo</span><span class="p">.</span><span class="nx">trakt</span><span class="p">([</span><span class="s2">"show"</span><span class="p">,</span><span class="s2">"under-the-dome"</span><span class="p">],</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">);</span> <span class="c1">// Trakt.tv</span>
 
 <span class="c1">// Bambuser (API Key required)</span>
 <span class="nx">VidInfo</span><span class="p">.</span><span class="nx">byURL</span><span class="p">(</span><span class="s1">'http://bambuser.com/v/3453034'</span><span class="p">,</span><span class="kd">function</span> <span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
@@ -328,6 +337,15 @@ VidInfo.genEmbedly([callback[,services url]]) - Generate/update the embedly.js c
 <span class="nx">VidInfo</span><span class="p">.</span><span class="nx">byURL</span><span class="p">(</span><span class="s1">'https://www.facebook.com/photo.php?v=10101580633888836&amp;set=vb.225034700870481&amp;type=3&amp;theater'</span><span class="p">,</span><span class="kd">function</span> <span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span><span class="o">+</span><span class="s1">'\n\n'</span><span class="p">);</span>
 <span class="p">},{</span><span class="nx">apikey</span><span class="o">:</span><span class="s1">'ACCESS TOKEN'</span><span class="p">});</span>
+
+<span class="c1">// Trakt "byID", must pass an array. ["{:method}","{:id}"] -- Method is show or movie.</span>
+<span class="c1">// See http://trakt.tv/api-docs/ for more information.</span>
+<span class="nx">VidInfo</span><span class="p">.</span><span class="nx">byID</span><span class="p">([</span><span class="s2">"movie"</span><span class="p">,</span><span class="s2">"after-earth-2013"</span><span class="p">],</span><span class="s2">"trakt"</span><span class="p">,</span><span class="kd">function</span> <span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span><span class="o">+</span><span class="s1">'\n\n'</span><span class="p">);</span>
+<span class="p">},{</span><span class="nx">apikey</span><span class="o">:</span><span class="s2">"APIKEY"</span><span class="p">})</span>
+<span class="nx">VidInfo</span><span class="p">.</span><span class="nx">byID</span><span class="p">([</span><span class="s2">"show"</span><span class="p">,</span><span class="s2">"under-the-dome"</span><span class="p">],</span><span class="s2">"trakt"</span><span class="p">,</span><span class="kd">function</span> <span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span> 
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span><span class="o">+</span><span class="s1">'\n\n'</span><span class="p">);</span>
+<span class="p">},{</span><span class="nx">apikey</span><span class="o">:</span><span class="s2">"APIKEY"</span><span class="p">})</span>
 
 <span class="c1">// 'detect' example. -- Prints video ID and API link in an object.</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">VidInfo</span><span class="p">.</span><span class="nx">detect</span><span class="p">(</span><span class="s1">'http://www.youtube.com/watch?v=ZRAr354usf8'</span><span class="p">));</span>
