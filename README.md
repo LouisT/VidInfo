@@ -1,4 +1,4 @@
-VidInfo (v0.2.8)
+VidInfo (v0.2.9)
 ======
 
 Install: npm install [vidinfo](https://npmjs.org/package/vidinfo "Title")
@@ -20,7 +20,7 @@ Current APIs supported:
    [giantbomb.com (1,2)](http://www.giantbomb.com/api/ "Title")
    [imdb.com (2,3)](http://imdb.com/ "Title")
    [justin.tv (2)](http://www.justin.tv/ "Title")
-   [mag.ma](http://mag.ma/ "Title")
+   [mag.ma (5)](http://mag.ma/ "Title")
    [on.aol.com](http://on.aol.com/ "Title")
    [themoviedb.org (1)](http://www.themoviedb.org/documentation/api "Title")
    [trakt.tv (1,2,3)](http://trakt.tv/ "Title")
@@ -37,27 +37,31 @@ Current APIs supported:
     2) This method is BETA.
     3) More information available. See "More Information" below.
     4) Requires basic auth (username:password). See "wista" example at the bottom.
+    5) Disabled by default due to API changes, removals, or extended down time.
 
 oEmbed APIs:
 ------
    For more information on oEmbed visit [oEmbed.com](http://oembed.com/ "Title").
    
+   [animoto.com](http://animoto.com/ "Title")
    [clickthrough.com](http://clickthrough.com/ "Title")
    [collegehumor.com](http://collegehumor.com/ "Title")
    [comedycentral.com (2)](http://comedycentral.com/ "Title")
    [coub.com](http://coub.com/ "Title")
    [crackle.com (2)](http://crackle.com/ "Title")
    [dotsub.com](http://dotsub.com/ "Title")
-   [funnyordie.com (2)](http://funnyordie.com/ "Title")
+   [funnyordie.com](http://funnyordie.com/ "Title")
    [hulu.com](http://hulu.com/ "Title")
    [jest.com](http://jest.com/ "Title")
    [liveleak.com (2)](http://liveleak.com/ "Title")
    [nfb.ca](http://nfb.ca/ "Title")
    [qik.com](http://qik.com/ "Title")
    [revision3.com](http://revision3.com/ "Title")
-   [ted.com (1)](http://ted.com/ "Title")
+   [screenr.com](http://screenr.com/ "Title")
+   [ted.com](http://ted.com/ "Title")
    [trailers.apple.com (1)](http://trailers.apples.com/ "Title")
    [viddler.com](http://viddler.com/ "Title")
+   [videojug.com](http://videojug.com/ "Title")
    [yahoo.com (2)](http://screen.yahoo.com/ "Title")
 
     1) Uses a 3rd party oEmbed API. (https://noembed.com/)
@@ -146,6 +150,7 @@ Settings usage:
 Shortcuts:
 ------
     Archive.org:                arch, archive, archiveorg
+    Animoto.com:                ani, animoto, animotocom
     Bambuser.com:               bam, bambuser, bambusercom
     Blip.tv:                    blip, bliptv
     Clickthrough.com:           cthrough, clickthrough, clickthroughcom
@@ -174,6 +179,7 @@ Shortcuts:
     on.aol.com:                 onaol, onaolcom
     Qik.com:                    qik, qikcom
     Revision3.com:              revis, revision3, revision3com
+    Screenr.com:                scrn, screenr, screenercom
     Ted.com:                    ted, tedcom
     Themoviedb.org:             tdb, tmdb, themoviedborg
     Traileraddict.com*:         tadd, taddict, traileraddict, traileraddictcom
@@ -184,6 +190,7 @@ Shortcuts:
     Ustream.tv (stream):        utvs, ustream, ustreamtvstream
     Ustream.tv (video clip):    utvc, uclip, ustreamtvclip
     Viddler.com:                vidd, viddler, viddlercom
+    Videojug.com:               vjug, videojug, videojugcom
     Videolog.tv:                vlog, videolog, videologtv
     Vimeo.com:                  vimeo, vimeocom
     Vzaar.com:                  vzaar, vzaarcom

@@ -5,8 +5,8 @@
  For more information on oEmbed visit http://oembed.com/
 */
 module.exports = {
-       url: 'http://www.ted.com/talks/oembed.json?url={:id}',
-       regex: /(?:https?:\/\/)(?:.*\.)?ted\.com\/talks\/(?:.[^\?]+)/i,
+       url: 'http://www.screenr.com/api/oembed.json?url={:id}',
+       regex: /(?:https?:\/\/)?(?:.*\.)?screenr\.com\/(?:.[^\/\?]+)/i,
        fullurl: true,
-       shortcuts: 'ted',
+       shortcuts: ['scrn','screenr'],
 };
