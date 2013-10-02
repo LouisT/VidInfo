@@ -248,7 +248,7 @@
    // Format strings.
    VidInfo.prototype.stringFormat = function (str,opts) {
            return str.replace(/{(\\?:)([^}]+)}/g,function(m,o,k) {
-                  return (opts[k]?opts[k]:m);
+                  return (opts[k]?encodeURIComponent(opts[k]):m);
            });
    };
 

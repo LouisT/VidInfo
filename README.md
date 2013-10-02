@@ -1,4 +1,4 @@
-VidInfo (v0.2.9)
+VidInfo (v0.2.10)
 ======
 
 Install: npm install [vidinfo](https://npmjs.org/package/vidinfo "Title")
@@ -58,10 +58,14 @@ oEmbed APIs:
    [qik.com](http://qik.com/ "Title")
    [revision3.com](http://revision3.com/ "Title")
    [screenr.com](http://screenr.com/ "Title")
+   [snotr.com (2)](http://snotr.com/ "Title")
+   [socialcam.com (2)](http://socialcam.com/ "Title")
    [ted.com](http://ted.com/ "Title")
-   [trailers.apple.com (1)](http://trailers.apples.com/ "Title")
+   [theonion.com (2)](http://theonion.com/ "Title")
+   [trailers.apple.com (1)](http://trailers.apple.com/ "Title")
    [viddler.com](http://viddler.com/ "Title")
    [videojug.com](http://videojug.com/ "Title")
+   [vine.co (2)](http://vine.co/ "Title")
    [yahoo.com (2)](http://screen.yahoo.com/ "Title")
 
     1) Uses a 3rd party oEmbed API. (https://noembed.com/)
@@ -180,8 +184,11 @@ Shortcuts:
     Qik.com:                    qik, qikcom
     Revision3.com:              revis, revision3, revision3com
     Screenr.com:                scrn, screenr, screenercom
+    Snotr.com:                  snotr, snotrcom
+    Socialcam.com:              scam, socialcam, socialcamcom
     Ted.com:                    ted, tedcom
     Themoviedb.org:             tdb, tmdb, themoviedborg
+    Theonion.com:               onion, theonion, theonioncom
     Traileraddict.com*:         tadd, taddict, traileraddict, traileraddictcom
     Trailers.apple.com:         tapple, trailersapple, trailersapplecom
     Trakt.tv (show/movie):      trakt, trakttv
@@ -193,6 +200,7 @@ Shortcuts:
     Videojug.com:               vjug, videojug, videojugcom
     Videolog.tv:                vlog, videolog, videologtv
     Vimeo.com:                  vimeo, vimeocom
+    Vine.co:                    vine, vineco
     Vzaar.com:                  vzaar, vzaarcom
     Webcams.travel:             wct, webtra, wtravel, webcamstravel
     Wistia.com:                 wistia, wistacom
