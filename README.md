@@ -129,7 +129,6 @@ TODO:
     7) Document things better... This README is a mess!
 
     *)  Support events? I'm not sure about this yet.
-    **) Better support for XML? (Switch from YQL to xml2json?)
 
 Options:
 ------
