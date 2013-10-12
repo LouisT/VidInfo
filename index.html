@@ -29,7 +29,7 @@
     <div class="container">
       <section id="main_content">
         <h1>
-<a name="vidinfo-v0210" class="anchor" href="#vidinfo-v0210"><span class="octicon octicon-link"></span></a>VidInfo (v0.2.10)</h1>
+<a name="vidinfo-v0211" class="anchor" href="#vidinfo-v0211"><span class="octicon octicon-link"></span></a>VidInfo (v0.2.11)</h1>
 
 <p>Install: npm install <a href="https://npmjs.org/package/vidinfo" title="Title">vidinfo</a></p>
 
@@ -40,7 +40,7 @@ However, if you make something interesting, I would like to check it out.</p>
 <h2>
 <a name="current-apis-supported" class="anchor" href="#current-apis-supported"><span class="octicon octicon-link"></span></a>Current APIs supported:</h2>
 
-<p>Supported Formats: JSON, CSV, INI -- XML via <a href="http://developer.yahoo.com/yql/console/" title="Title">YQL</a>.</p>
+<p>Supported Formats: JSON, CSV, INI -- XML via <a href="https://npmjs.org/package/xml2json" title="Title">xml2json</a>.</p>
 
 <p><a href="http://archive.org/" title="Title">archive.org</a>
    <a href="http://bambuser.com/api/" title="Title">bambuser.com (1)</a>
@@ -126,17 +126,18 @@ API key required, signup here: https://app.embed.ly/signup/
 <h2>
 <a name="experimental-apis-" class="anchor" href="#experimental-apis-"><span class="octicon octicon-link"></span></a>Experimental APIs: </h2>
 
-<p><a href="http://www.livevideo.com/api/" title="Title">livevideo.com (1)</a>
+<p><a href="http://www.livevideo.com/api/" title="Title">livevideo.com (1,2,3)</a>
    <a href="http://metacafe.com/" title="Title">metacafe.com</a>
    <a href="http://movieclips.com/" title="Title">movieclips.com</a>
    <a href="http://www.muzu.tv/api/" title="Title">muzu.tv (1)</a>
    <a href="http://www.traileraddict.com/" title="Title">traileraddict.com</a></p>
 
 <pre><code>1) API key required. See "bambuser" example at the bottom.
+2) Disabled by default due to API changes, removals, or extended down time.
+3) Uses old YQL method due to different issues.
 </code></pre>
 
-<p>NOTE: These use <a href="http://developer.yahoo.com/yql/console/" title="Title">YQL</a> to convert XML to JSON.
-      Might switch from YQL to xml2json. "http_get" already supports this.</p>
+<p>NOTE: These now require xml2json. (<a href="https://npmjs.org/package/xml2json">https://npmjs.org/package/xml2json</a>)</p>
 
 <h2>
 <a name="more-information" class="anchor" href="#more-information"><span class="octicon octicon-link"></span></a>More Information:</h2>
