@@ -1,4 +1,4 @@
-VidInfo (v0.2.10)
+VidInfo (v0.2.11)
 ======
 
 Install: npm install [vidinfo](https://npmjs.org/package/vidinfo "Title")
@@ -9,7 +9,7 @@ However, if you make something interesting, I would like to check it out.
 
 Current APIs supported:
 ------
-   Supported Formats: JSON, CSV, INI -- XML via [YQL](http://developer.yahoo.com/yql/console/ "Title").
+   Supported Formats: JSON, CSV, INI -- XML via [xml2json](https://npmjs.org/package/xml2json "Title").
 
    [archive.org](http://archive.org/ "Title")
    [bambuser.com (1)](http://bambuser.com/api/ "Title")
@@ -89,16 +89,17 @@ oEmbed APIs:
 
 Experimental APIs: 
 ------
-   [livevideo.com (1)](http://www.livevideo.com/api/ "Title")
+   [livevideo.com (1,2,3)](http://www.livevideo.com/api/ "Title")
    [metacafe.com](http://metacafe.com/ "Title")
    [movieclips.com](http://movieclips.com/ "Title")
    [muzu.tv (1)](http://www.muzu.tv/api/ "Title")
    [traileraddict.com](http://www.traileraddict.com/ "Title")
   
     1) API key required. See "bambuser" example at the bottom.
+    2) Disabled by default due to API changes, removals, or extended down time.
+    3) Uses old YQL method due to different issues.
 
-NOTE: These use [YQL](http://developer.yahoo.com/yql/console/ "Title") to convert XML to JSON.
-      Might switch from YQL to xml2json. "http_get" already supports this.
+NOTE: These now require xml2json. (https://npmjs.org/package/xml2json)
 
 More Information:
 ------
