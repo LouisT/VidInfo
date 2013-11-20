@@ -7,6 +7,13 @@
        fs = require('fs'),
        package = require('./package.json');
 
+   /*
+     Fix fs.existsSync for node v0.6.x
+   */
+   if (!('existsSync' in fs)) {
+      fs.existsSync = require('path').existsSync;
+   };
+
    var VidInfo = function (settings) {
           if (!(this instanceof VidInfo)) {
              return new VidInfo(settings);
