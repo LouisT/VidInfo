@@ -29,13 +29,15 @@
     <div class="container">
       <section id="main_content">
         <h1>
-<a name="vidinfo-v0211" class="anchor" href="#vidinfo-v0211"><span class="octicon octicon-link"></span></a>VidInfo (v0.2.11)</h1>
+<a name="vidinfo-v0212" class="anchor" href="#vidinfo-v0212"><span class="octicon octicon-link"></span></a>VidInfo (v0.2.12)</h1>
 
 <p>Install: npm install <a href="https://npmjs.org/package/vidinfo" title="Title">vidinfo</a></p>
 
 <p>This project is <a href="http://unlicense.org/" title="Title">Unlicensed</a>.
 In other words, I don't care what you do with it.
 However, if you make something interesting, I would like to check it out.</p>
+
+<p><a href="https://travis-ci.org/LouisT/VidInfo"><img src="https://travis-ci.org/LouisT/VidInfo.png?branch=master" alt="Build Status"></a></p>
 
 <h2>
 <a name="current-apis-supported" class="anchor" href="#current-apis-supported"><span class="octicon octicon-link"></span></a>Current APIs supported:</h2>
@@ -77,7 +79,7 @@ However, if you make something interesting, I would like to check it out.</p>
 <p>For more information on oEmbed visit <a href="http://oembed.com/" title="Title">oEmbed.com</a>.</p>
 
 <p><a href="http://animoto.com/" title="Title">animoto.com</a>
-   <a href="http://clickthrough.com/" title="Title">clickthrough.com</a>
+   <a href="http://anyclip.com/" title="Title">anyclip.com (2)</a>
    <a href="http://collegehumor.com/" title="Title">collegehumor.com</a>
    <a href="http://comedycentral.com/" title="Title">comedycentral.com (2)</a>
    <a href="http://coub.com/" title="Title">coub.com</a>
@@ -87,6 +89,8 @@ However, if you make something interesting, I would like to check it out.</p>
    <a href="http://hulu.com/" title="Title">hulu.com</a>
    <a href="http://jest.com/" title="Title">jest.com</a>
    <a href="http://liveleak.com/" title="Title">liveleak.com (2)</a>
+   <a href="http://mefeedia.com/" title="Title">mefeedia.com (2)</a>
+   <a href="http://mixbit.com/" title="Title">mixbit.com (2)</a>
    <a href="http://nfb.ca/" title="Title">nfb.ca</a>
    <a href="http://qik.com/" title="Title">qik.com</a>
    <a href="http://revision3.com/" title="Title">revision3.com</a>
@@ -126,15 +130,13 @@ API key required, signup here: https://app.embed.ly/signup/
 <h2>
 <a name="experimental-apis-" class="anchor" href="#experimental-apis-"><span class="octicon octicon-link"></span></a>Experimental APIs: </h2>
 
-<p><a href="http://www.livevideo.com/api/" title="Title">livevideo.com (1,2,3)</a>
-   <a href="http://metacafe.com/" title="Title">metacafe.com</a>
+<p><a href="http://metacafe.com/" title="Title">metacafe.com</a>
    <a href="http://movieclips.com/" title="Title">movieclips.com</a>
    <a href="http://www.muzu.tv/api/" title="Title">muzu.tv (1)</a>
    <a href="http://www.traileraddict.com/" title="Title">traileraddict.com</a></p>
 
 <pre><code>1) API key required. See "bambuser" example at the bottom.
 2) Disabled by default due to API changes, removals, or extended down time.
-3) Uses old YQL method due to different issues.
 </code></pre>
 
 <p>NOTE: These now require xml2json. (<a href="https://npmjs.org/package/xml2json">https://npmjs.org/package/xml2json</a>)</p>
@@ -158,22 +160,21 @@ API key required, signup here: https://app.embed.ly/signup/
 <h2>
 <a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO:</h2>
 
-<pre><code>1) Find more API's to use. -- Please suggest some. (This should never be finished!)
-2) Create tests.
-3) Improve basic auth and API key support.
-4) Clean up code/README and find a use for "detectAll".
-5) Make a better facebook access token generator.
-   (http://louist.github.io/VidInfo/accessToken.html)
-6) Add support for more API features besides summaries.
-   NOTE: I might just make multiple API files because this could be complicated...
-         -- I've done this already for places like ustream.tv and and justin.tv -- We'll see what happens!
-7) Document things better... This README is a mess!
+<ul>
+<li>[ ] Find more API's to use. -- Please suggest some. (This should never be finished!)</li>
+<li>[ ] Create tests. (Started, need to figure out async with assert. "npm test")</li>
+<li>[ ] Improve basic auth and API key support.</li>
+<li>[ ] Make a better facebook access token generator.
+  (<a href="http://louist.github.io/VidInfo/accessToken.html">http://louist.github.io/VidInfo/accessToken.html</a>)</li>
+<li>[ ] Add support for more API features besides summaries.
+  NOTE: I might just make multiple API files because this could be complicated...
+        -- I've done this already for places like ustream.tv and and justin.tv -- We'll see what happens!</li>
+<li>
+<p>[x] Document things better... This README is a mess! (Did I do this?)</p>
 
-*)  Support events? I'm not sure about this yet.
-**) Better support for XML? (Switch from YQL to xml2json?)
-</code></pre>
-
-<h2>
+<p>*)  Support events? I'm not sure about this yet.</p>
+</li>
+</ul><h2>
 <a name="options" class="anchor" href="#options"><span class="octicon octicon-link"></span></a>Options:</h2>
 
 <pre><code>apikey - The API key, when needed.
@@ -205,9 +206,9 @@ disabled - Path to disabled API configs. -- Default: ./apis/disabled/
 
 <pre><code>Archive.org:                arch, archive, archiveorg
 Animoto.com:                ani, animoto, animotocom
+Anyclip.com:                aclip, anyclip, anyclipcom
 Bambuser.com:               bam, bambuser, bambusercom
 Blip.tv:                    blip, bliptv
-Clickthrough.com:           cthrough, clickthrough, clickthroughcom
 Collegehumor.com*:          chumor, college, collegehumor, collegehumorcom
 Comedycentral.com:          comcen, comedycentral, comedycentralcom
 Coub.com:                   coub, coubcom
@@ -224,9 +225,10 @@ Jest.com:                   jest, jestcom
 Justin.tv (stream):         jtvs, jstream, justintvstream
 Justin.tv (video clip):     jtvc, jclip, justintvclip
 Liveleak.com:               lleak, liveleak, liveleakcom
-Livevideo.com*:             lvid, lvideo, livevideo, livevideocom
 Mag.ma:                     mag, magma
+Mefeedia.com:               mefee, mefeedia, mefeediacom
 Metacafe.com*:              meta, mcafe, metacafe, metacafecom
+MixBit.com:                 mix, mixbit, mixbitcom
 Movieclips.com*:            mclips, movieclips, movieclipscom
 Muzu.tv*:                   muzu, muzutv
 Nfb.ca:                     nfb, nfbca
