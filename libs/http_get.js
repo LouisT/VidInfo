@@ -107,7 +107,6 @@
                           req.abort();
                        }
                     };
-                    http_get.clearTimeout(req);
                 }).on('end', function() {
                     http_get.clearTimeout(req);
                     if (opts.type) {

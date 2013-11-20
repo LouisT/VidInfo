@@ -1,6 +1,6 @@
 {
     "name": "vidinfo",
-    "version": "0.2.11",
+    "version": "0.2.12",
     "homepage": "http://louist.github.io/VidInfo/",
     "author": {
         "name": "Louis T.",
@@ -33,6 +33,9 @@
     ],
     "dependencies" : {
         "xml2json":""
+    },
+    "scripts": {
+        "test": "node test.js"
     },
     "description": "Get video information from different APIs.",
     "engine": "node => 0.6",

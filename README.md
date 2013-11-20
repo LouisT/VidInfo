@@ -1,4 +1,4 @@
-VidInfo (v0.2.11)
+VidInfo (v0.2.12)
 ======
 
 Install: npm install [vidinfo](https://npmjs.org/package/vidinfo "Title")
@@ -6,6 +6,8 @@ Install: npm install [vidinfo](https://npmjs.org/package/vidinfo "Title")
 This project is [Unlicensed](http://unlicense.org/ "Title").
 In other words, I don't care what you do with it.
 However, if you make something interesting, I would like to check it out.
+
+[![Build Status](https://travis-ci.org/LouisT/VidInfo.png?branch=master)](https://travis-ci.org/LouisT/VidInfo)
 
 Current APIs supported:
 ------
@@ -44,7 +46,7 @@ oEmbed APIs:
    For more information on oEmbed visit [oEmbed.com](http://oembed.com/ "Title").
    
    [animoto.com](http://animoto.com/ "Title")
-   [clickthrough.com](http://clickthrough.com/ "Title")
+   [anyclip.com (2)](http://anyclip.com/ "Title")
    [collegehumor.com](http://collegehumor.com/ "Title")
    [comedycentral.com (2)](http://comedycentral.com/ "Title")
    [coub.com](http://coub.com/ "Title")
@@ -54,6 +56,8 @@ oEmbed APIs:
    [hulu.com](http://hulu.com/ "Title")
    [jest.com](http://jest.com/ "Title")
    [liveleak.com (2)](http://liveleak.com/ "Title")
+   [mefeedia.com (2)](http://mefeedia.com/ "Title")
+   [mixbit.com (2)](http://mixbit.com/ "Title")
    [nfb.ca](http://nfb.ca/ "Title")
    [qik.com](http://qik.com/ "Title")
    [revision3.com](http://revision3.com/ "Title")
@@ -89,7 +93,6 @@ oEmbed APIs:
 
 Experimental APIs: 
 ------
-   [livevideo.com (1,2,3)](http://www.livevideo.com/api/ "Title")
    [metacafe.com](http://metacafe.com/ "Title")
    [movieclips.com](http://movieclips.com/ "Title")
    [muzu.tv (1)](http://www.muzu.tv/api/ "Title")
@@ -97,7 +100,6 @@ Experimental APIs:
   
     1) API key required. See "bambuser" example at the bottom.
     2) Disabled by default due to API changes, removals, or extended down time.
-    3) Uses old YQL method due to different issues.
 
 NOTE: These now require xml2json. (https://npmjs.org/package/xml2json)
 
@@ -117,16 +119,15 @@ More Information:
 
 TODO:
 ------
-    1) Find more API's to use. -- Please suggest some. (This should never be finished!)
-    2) Create tests.
-    3) Improve basic auth and API key support.
-    4) Clean up code/README and find a use for "detectAll".
-    5) Make a better facebook access token generator.
-       (http://louist.github.io/VidInfo/accessToken.html)
-    6) Add support for more API features besides summaries.
-       NOTE: I might just make multiple API files because this could be complicated...
-             -- I've done this already for places like ustream.tv and and justin.tv -- We'll see what happens!
-    7) Document things better... This README is a mess!
+- [ ] Find more API's to use. -- Please suggest some. (This should never be finished!)
+- [ ] Create tests. (Started, need to figure out async with assert. "npm test")
+- [ ] Improve basic auth and API key support.
+- [ ] Make a better facebook access token generator.
+      (http://louist.github.io/VidInfo/accessToken.html)
+- [ ] Add support for more API features besides summaries.
+      NOTE: I might just make multiple API files because this could be complicated...
+            -- I've done this already for places like ustream.tv and and justin.tv -- We'll see what happens!
+- [x] Document things better... This README is a mess! (Did I do this?)
 
     *)  Support events? I'm not sure about this yet.
 
@@ -155,9 +156,9 @@ Shortcuts:
 ------
     Archive.org:                arch, archive, archiveorg
     Animoto.com:                ani, animoto, animotocom
+    Anyclip.com:                aclip, anyclip, anyclipcom
     Bambuser.com:               bam, bambuser, bambusercom
     Blip.tv:                    blip, bliptv
-    Clickthrough.com:           cthrough, clickthrough, clickthroughcom
     Collegehumor.com*:          chumor, college, collegehumor, collegehumorcom
     Comedycentral.com:          comcen, comedycentral, comedycentralcom
     Coub.com:                   coub, coubcom
@@ -174,9 +175,10 @@ Shortcuts:
     Justin.tv (stream):         jtvs, jstream, justintvstream
     Justin.tv (video clip):     jtvc, jclip, justintvclip
     Liveleak.com:               lleak, liveleak, liveleakcom
-    Livevideo.com*:             lvid, lvideo, livevideo, livevideocom
     Mag.ma:                     mag, magma
+    Mefeedia.com:               mefee, mefeedia, mefeediacom
     Metacafe.com*:              meta, mcafe, metacafe, metacafecom
+    MixBit.com:                 mix, mixbit, mixbitcom
     Movieclips.com*:            mclips, movieclips, movieclipscom
     Muzu.tv*:                   muzu, muzutv
     Nfb.ca:                     nfb, nfbca
