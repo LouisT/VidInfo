@@ -129,8 +129,6 @@ TODO:
             -- I've done this already for places like ustream.tv and and justin.tv -- We'll see what happens!
 - [x] Document things better... This README is a mess! (Did I do this?)
 
-    *)  Support events? I'm not sure about this yet.
-
 Options:
 ------
     apikey - The API key, when needed.
