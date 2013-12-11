@@ -29,7 +29,7 @@
     <div class="container">
       <section id="main_content">
         <h1>
-<a name="vidinfo-v0212" class="anchor" href="#vidinfo-v0212"><span class="octicon octicon-link"></span></a>VidInfo (v0.2.12)</h1>
+<a name="vidinfo-v0213" class="anchor" href="#vidinfo-v0213"><span class="octicon octicon-link"></span></a>VidInfo (v0.2.13)</h1>
 
 <p>Install: npm install <a href="https://npmjs.org/package/vidinfo" title="Title">vidinfo</a></p>
 
@@ -51,7 +51,7 @@ However, if you make something interesting, I would like to check it out.</p>
    <a href="http://louist.github.io/VidInfo/accessToken.html" title="Title">facebook.com (1,3)</a>
    <a href="http://www.flickr.com/services/api/" title="Title">flickr.com (1)</a>
    <a href="http://www.giantbomb.com/api/" title="Title">giantbomb.com (1,2)</a>
-   <a href="http://imdb.com/" title="Title">imdb.com (2,3)</a>
+   <a href="http://www.omdbapi.com/" title="Title">imdb.com (2,3)</a>
    <a href="http://www.justin.tv/" title="Title">justin.tv (2)</a>
    <a href="http://mag.ma/" title="Title">mag.ma (5)</a>
    <a href="http://on.aol.com/" title="Title">on.aol.com</a>
@@ -70,7 +70,8 @@ However, if you make something interesting, I would like to check it out.</p>
 2) This method is BETA.
 3) More information available. See "More Information" below.
 4) Requires basic auth (username:password). See "wista" example at the bottom.
-5) Disabled by default due to API changes, removals, or extended down time.
+5) Located in "./apis/obsolete/" due to API changes, removals, or extended down time.
+   Just because it's located in obsolete does not mean a replacement hasn't been created.
 </code></pre>
 
 <h2>
@@ -136,7 +137,6 @@ API key required, signup here: https://app.embed.ly/signup/
    <a href="http://www.traileraddict.com/" title="Title">traileraddict.com</a></p>
 
 <pre><code>1) API key required. See "bambuser" example at the bottom.
-2) Disabled by default due to API changes, removals, or extended down time.
 </code></pre>
 
 <p>NOTE: These now require xml2json. (<a href="https://npmjs.org/package/xml2json">https://npmjs.org/package/xml2json</a>)</p>
@@ -145,8 +145,8 @@ API key required, signup here: https://app.embed.ly/signup/
 <a name="more-information" class="anchor" href="#more-information"><span class="octicon octicon-link"></span></a>More Information:</h2>
 
 <pre><code>(imdb.com)
-    IMDB uses a 3rd party API. Please see http://mymovieapi.com/#notes for more information.
-
+    IMDB does not have an API so use of a 3rd party API is required.
+    Please see http://www.omdbapi.com/ for more information.
 (facebook.com)
     Facebook requires an access token to be generated. The generator makes an access token
     that lasts for 60 days. You can revisit the generator to find out when your token will expire.
@@ -169,11 +169,7 @@ API key required, signup here: https://app.embed.ly/signup/
 <li>[ ] Add support for more API features besides summaries.
   NOTE: I might just make multiple API files because this could be complicated...
         -- I've done this already for places like ustream.tv and and justin.tv -- We'll see what happens!</li>
-<li>
-<p>[x] Document things better... This README is a mess! (Did I do this?)</p>
-
-<p>*)  Support events? I'm not sure about this yet.</p>
-</li>
+<li>[x] Document things better... This README is a mess! (Did I do this?)</li>
 </ul><h2>
 <a name="options" class="anchor" href="#options"><span class="octicon octicon-link"></span></a>Options:</h2>
 
