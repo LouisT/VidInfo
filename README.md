@@ -1,4 +1,4 @@
-VidInfo (v0.2.12)
+VidInfo (v0.2.13)
 ======
 
 Install: npm install [vidinfo](https://npmjs.org/package/vidinfo "Title")
@@ -20,7 +20,7 @@ Current APIs supported:
    [facebook.com (1,3)](http://louist.github.io/VidInfo/accessToken.html "Title")
    [flickr.com (1)](http://www.flickr.com/services/api/ "Title")
    [giantbomb.com (1,2)](http://www.giantbomb.com/api/ "Title")
-   [imdb.com (2,3)](http://imdb.com/ "Title")
+   [imdb.com (2,3)](http://www.omdbapi.com/ "Title")
    [justin.tv (2)](http://www.justin.tv/ "Title")
    [mag.ma (5)](http://mag.ma/ "Title")
    [on.aol.com](http://on.aol.com/ "Title")
@@ -39,7 +39,8 @@ Current APIs supported:
     2) This method is BETA.
     3) More information available. See "More Information" below.
     4) Requires basic auth (username:password). See "wista" example at the bottom.
-    5) Disabled by default due to API changes, removals, or extended down time.
+    5) Located in "./apis/obsolete/" due to API changes, removals, or extended down time.
+       Just because it's located in obsolete does not mean a replacement hasn't been created.
 
 oEmbed APIs:
 ------
@@ -99,15 +100,14 @@ Experimental APIs:
    [traileraddict.com](http://www.traileraddict.com/ "Title")
   
     1) API key required. See "bambuser" example at the bottom.
-    2) Disabled by default due to API changes, removals, or extended down time.
 
 NOTE: These now require xml2json. (https://npmjs.org/package/xml2json)
 
 More Information:
 ------
     (imdb.com)
-        IMDB uses a 3rd party API. Please see http://mymovieapi.com/#notes for more information.
-
+        IMDB does not have an API so use of a 3rd party API is required.
+        Please see http://www.omdbapi.com/ for more information.
     (facebook.com)
         Facebook requires an access token to be generated. The generator makes an access token
         that lasts for 60 days. You can revisit the generator to find out when your token will expire.

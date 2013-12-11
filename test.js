@@ -1,3 +1,4 @@
+//TODO: Create async tests.
 var assert = require('assert'),
     VidInfo = require('./')();
 function detect () {
@@ -9,6 +10,11 @@ function detect () {
          try {
             var url = "http://www.youtube.com/watch?v=ZRAr354usf8";
             assert(VidInfo.detect(url).api === "youtubecom","\"detect('"+url+"').api\" should return \"youtubecom\".");
+            pass++;
+         } catch (e) { errors.push(e.message); }
+         try {
+            var url = "http://www.imdb.com/title/tt0387808/?ref_=nv_sr_1";
+            assert(VidInfo.detect(url).api === "imdbcom","\"detect('"+url+"').api\" should return \"imdbcom\".");
             pass++;
          } catch (e) { errors.push(e.message); }
          try {
