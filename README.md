@@ -316,3 +316,7 @@ console.log(VidInfo.detect('http://www.youtube.com/watch?v=ZRAr354usf8'));
 // 'detectAll' example. Prints an object with multiple 'detect' objects.
 console.log(VidInfo.detectAll('http://www.youtube.com/watch?v=ZRAr354usf8 http://bambuser.com/v/3453034 http://ltdev.wistia.com/medias/piywx9v8rr http://flic.kr/p/e9964e'));
 ```
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/LouisT/vidinfo/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
