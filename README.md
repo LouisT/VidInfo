@@ -1,3 +1,5 @@
+## Project moved to [MetaInfo](https://github.com/LouisT/MetaInfo "Title")
+
 VidInfo (v0.2.13)
 ======
 
