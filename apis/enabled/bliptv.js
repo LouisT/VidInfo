@@ -1,6 +1,6 @@
 /*
- VidInfo - Louis T. <LouisT@ltdev.im>
- https://github.com/LouisT/VidInfo
+ MetaInfo - Louis T. <LouisT@ltdev.im>
+ https://github.com/LouisT/MetaInfo
 */
 module.exports = {
        url: '{:id}?skin=json&version=2&no_wrap=1',

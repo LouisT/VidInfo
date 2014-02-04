@@ -5,8 +5,8 @@
  For more information on oEmbed visit http://oembed.com/
 */
 module.exports = {
-       url: 'http://www.jest.com/oembed.json?url={:id}',
-       regex: /(?:https?:\/\/)?(?:.*\.)?jest\.com\/embed\/(?:.+)/i,
+       url: 'http://www.ifixit.com/Embed?url={:id}&format=json',
+       regex: /(?:https?:\/\/)(?:.*\.)?ifixit\.com\/(?:guide|teardown)\/(?:.[^\?]+)/i,
        fullurl: true,
-       shortcuts: 'jest',
+       shortcuts: 'ifixit',
 };

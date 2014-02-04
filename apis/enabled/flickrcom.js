@@ -1,6 +1,6 @@
 /*
- VidInfo - Louis T. <LouisT@ltdev.im>
- https://github.com/LouisT/VidInfo
+ MetaInfo - Louis T. <LouisT@ltdev.im>
+ https://github.com/LouisT/MetaInfo
 */
 module.exports = {
        url: 'http://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key={:apikey}&photo_id={:id}&format=json&nojsoncallback=1',

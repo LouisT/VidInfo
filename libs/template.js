@@ -1,8 +1,8 @@
 /*
  WARCNING: DO NOT ENABLE EMBEDLY WITH OTHER APIS!
 
- VidInfo - Louis T. <LouisT@ltdev.im>
- https://github.com/LouisT/VidInfo
+ MetaInfo - Louis T. <LouisT@ltdev.im>
+ https://github.com/LouisT/MetaInfo
 
  For more information on oEmbed visit http://oembed.com/
 

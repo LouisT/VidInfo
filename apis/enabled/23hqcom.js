@@ -5,8 +5,8 @@
  For more information on oEmbed visit http://oembed.com/
 */
 module.exports = {
-       url: 'http://www.jest.com/oembed.json?url={:id}',
-       regex: /(?:https?:\/\/)?(?:.*\.)?jest\.com\/embed\/(?:.+)/i,
+       url: "http://www.23hq.com/23/oembed?url={:id}&format=json",
+       regex: /(?:https?:\/\/)(?:.*\.)?23hq\.com\/(.[^\/]+)\/photo\/(.[^\?]+)/i,
        fullurl: true,
-       shortcuts: 'jest',
+       shortcuts: '23hq',
 };

@@ -1,6 +1,6 @@
 /*
- VidInfo - Louis T. <LouisT@ltdev.im>
- https://github.com/LouisT/VidInfo
+ MetaInfo - Louis T. <LouisT@ltdev.im>
+ https://github.com/LouisT/MetaInfo
 
  TODO: A lot... this API is huge, so for now I'm going to just do summery for TV shows and Movies.
 */

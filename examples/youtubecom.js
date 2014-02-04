@@ -1,8 +1,8 @@
 /*
  Formatter example.
 
- This file is part of the 'VidInfo' project.
- https://github.com/LouisT/VidInfo
+ This file is part of the 'MetaInfo' project.
+ https://github.com/LouisT/MetaInfo
 */
 module.exports = {
           url: 'http://gdata.youtube.com/feeds/api/videos/{:id}?v=2&alt=json',
