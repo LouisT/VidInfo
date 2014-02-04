@@ -1,6 +1,6 @@
 /*
- MetaInfo - Louis T. <LouisT@ltdev.im>
- https://github.com/LouisT/MetaInfo
+ VidInfo - Louis T. <LouisT@ltdev.im>
+ https://github.com/LouisT/VidInfo
 */
 module.exports = {
        url: 'https://api.dailymotion.com/video/{:id}?fields={:fields}',

@@ -1,6 +1,6 @@
 /*
- MetaInfo - Louis T. <LouisT@ltdev.im>
- https://github.com/LouisT/MetaInfo
+ VidInfo - Louis T. <LouisT@ltdev.im>
+ https://github.com/LouisT/VidInfo
 
  Requires xml2json (https://npmjs.org/package/xml2json) 
 */

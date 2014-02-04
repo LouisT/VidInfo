@@ -1,6 +1,6 @@
 /*
- MetaInfo - Louis T. <LouisT@ltdev.im>
- https://github.com/LouisT/MetaInfo
+ VidInfo - Louis T. <LouisT@ltdev.im>
+ https://github.com/LouisT/VidInfo
 
  Not really a direct video link, but video information nevertheless.
 */

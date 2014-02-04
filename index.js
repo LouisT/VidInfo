@@ -1,6 +1,6 @@
 /*
- MetaInfo - Louis T. <LouisT@ltdev.im>
- https://github.com/LouisT/MetaInfo
+ VidInfo - Louis T. <LouisT@ltdev.im>
+ https://github.com/LouisT/VidInfo
 */
 (function(){
    var http_get = require('./libs/http_get.js'),
@@ -14,9 +14,9 @@
       fs.existsSync = require('path').existsSync;
    };
 
-   var MetaInfo = function (settings) {
-          if (!(this instanceof MetaInfo)) {
-             return new MetaInfo(settings);
+   var VidInfo = function (settings) {
+          if (!(this instanceof VidInfo)) {
+             return new VidInfo(settings);
           };
           // Look at the README for available settings.
           this.settings = settings||{format:true};
@@ -35,7 +35,7 @@
    };
 
    // Pull information from the url.
-   MetaInfo.prototype.byURL = function (url,cb,opts) {
+   VidInfo.prototype.byURL = function (url,cb,opts) {
            var apidat,
                opts = opts||{};
            if (!cb) {
@@ -49,13 +49,13 @@
    };
 
    // Depricate <obj>.byurl for <obj>.byURL -- better standardization.
-   MetaInfo.prototype.byurl = function (url,cb,opts) {
+   VidInfo.prototype.byurl = function (url,cb,opts) {
            console.warn('NOTICE: byurl is depricated, please use byURL.');
            this.byURL(url,cb,opts);
    };
 
    // Get information for an ID for the specified API.
-   MetaInfo.prototype.byID  = function (id,api,cb,opts) {
+   VidInfo.prototype.byID  = function (id,api,cb,opts) {
            if (!cb) {
               return false; // Needs a callback!
            };
@@ -99,13 +99,13 @@
    };
 
    // Depricate <obj>.byid for <obj>.byID -- better standardization.
-   MetaInfo.prototype.byid = function (id,cb,opts) {
+   VidInfo.prototype.byid = function (id,cb,opts) {
            console.warn('NOTICE: byid is depricated, please use byID.');
            this.byID(id,cb,opts);
    };
 
    // Detect what API to use by video url.
-   MetaInfo.prototype.detect = function (url,cb,opts) {
+   VidInfo.prototype.detect = function (url,cb,opts) {
            var opts = opts||{},
                matches;
            apiloop:
@@ -153,7 +153,7 @@
                       };
                       apidat['url'] = this.stringFormat(apidat["url"],foropts);
                       apidat['api'] = api;
-                      apidat['id']  = (this.getType(id)=="String"?id.trim():id);
+                      apidat['id']  = id;
                       break apiloop;
                    };
                };
@@ -170,7 +170,7 @@
    };
 
    // Get ALL IDs within a string.
-   MetaInfo.prototype.detectAll = function (str,cb,opts) {
+   VidInfo.prototype.detectAll = function (str,cb,opts) {
            var str = str.trim().split(/\s+/),
                strlen = str.length,
                ret = {},
@@ -210,7 +210,7 @@
    };
 
    // Make http requests! -- Moved from 'byURL' and 'byID'
-   MetaInfo.prototype.doRequest = function (url,apidat,cb,opts) {
+   VidInfo.prototype.doRequest = function (url,apidat,cb,opts) {
            // Default to JSON for requests. Custom user agent, accept everything!
            var getopts = {type:'json',headers:{'User-Agent':this.userAgent,'Accept':'*/*'}};
            // Support for JSON, CVS and INI. Maybe XML at some point.
@@ -226,7 +226,7 @@
    };
 
    // Do not overwrite an existing object, just copy it!
-   MetaInfo.prototype.copyObj = function (obj) {
+   VidInfo.prototype.copyObj = function (obj) {
            var newObj = ((obj.constructor===Array)?[]:{});
            for (var key in obj) {
                if ((this.getType(obj[key]).match(/(object|array)/i))) {
@@ -241,7 +241,7 @@
    };
 
    // Try and detect the API by shortcut.
-   MetaInfo.prototype.byShortcut  = function (api) {
+   VidInfo.prototype.byShortcut  = function (api) {
            if (!(api in this.apis)) {
               for (var apin in this.apis) {
                   if ('shortcuts' in this.apis[apin] && this.apis[apin].shortcuts.indexOf(api) > -1) {
@@ -253,23 +253,19 @@
    };
 
    // Format strings.
-   MetaInfo.prototype.stringFormat = function (str,opts) {
-           // Allow a function to be passed to generate the URL.
-           if (this.getType(str) == "Function") {
-              str = str.call(this,opts);
-           };
+   VidInfo.prototype.stringFormat = function (str,opts) {
            return str.replace(/{(\\?:)([^}]+)}/g,function(m,o,k) {
                   return (opts[k]?encodeURIComponent(opts[k]):m);
            });
    };
 
    // Get the type of an object.
-   MetaInfo.prototype.getType = function (obj) {
+   VidInfo.prototype.getType = function (obj) {
            return Object.prototype.toString.call(obj).match(/^\[object (.*)\]$/)[1];
    };
 
    // Get location of API file.
-   MetaInfo.prototype.getAPILocation = function (api) {
+   VidInfo.prototype.getAPILocation = function (api) {
            var api = (api.indexOf('.js')===-1?api+'.js':api),
                location = false;
            // XXX: Stop using fs.existsSync!?
@@ -282,7 +278,7 @@
    };
 
    // Enable an API.
-   MetaInfo.prototype.enable = function (api,nomove) {
+   VidInfo.prototype.enable = function (api,nomove) {
            var location = this.getAPILocation(api), nf;
            // No API!? What is this nonsense!
            if (!location) {
@@ -301,7 +297,7 @@
    };
 
    // Load an API! Moved from "enable" because it was dumb.
-   MetaInfo.prototype.__loadAPI = function (location,file) {
+   VidInfo.prototype.__loadAPI = function (location,file) {
            try {
               api = file.split('.')[0];
               this.apis[api] = require(location);
@@ -323,7 +319,7 @@
    };
 
    // Disable an API.
-   MetaInfo.prototype.disable = function (api,nomove) {
+   VidInfo.prototype.disable = function (api,nomove) {
            var location = this.getAPILocation(api), nf;
            // No API!? What is this nonsense!
            if (!location) {
@@ -342,7 +338,7 @@
    }; 
 
    // Unload an API! Moved from "disable" because it was dumb. 
-   MetaInfo.prototype.__unloadAPI = function (location,api) {
+   VidInfo.prototype.__unloadAPI = function (location,api) {
            try {
               var api = api.split('.')[0],
                   tmp = require(location);
@@ -366,7 +362,7 @@
    };
 
    // Move files around. No need for a user to use this!
-   MetaInfo.prototype.__moveFile = function (file,mode) {
+   VidInfo.prototype.__moveFile = function (file,mode) {
            try {
               var paths;
               // XXX: Is this hacky!?
@@ -391,7 +387,7 @@
    };
   
    // Import enabled APIs, make a list of disabled.
-   MetaInfo.prototype.importAPIs = function () {
+   VidInfo.prototype.importAPIs = function () {
            // List of enabled.
            var enabledFiles = fs.readdirSync(this.settings.enabled);
            // List of disabled.
@@ -413,7 +409,7 @@
 
    // Generate an embed.ly config.
    // XXX: Moved from ./embedlyGenerator.js, needs improvement! 
-   MetaInfo.prototype.genEmbedly = function (cb,servurl) {
+   VidInfo.prototype.genEmbedly = function (cb,servurl) {
            // Do nothing at the end if there is no callback.
            cb = cb||function(){};
            servurl = servurl||'http://api.embed.ly/1/services';
@@ -440,7 +436,7 @@
                    var spc = new Array(16).join(' ');
                    var obj = {REGEX:regex.join(',\n'+spc),SHORTCUTS:'\''+shortcuts.join('\',\n'+spc+'\'')+'\'',SERVICEURL:servurl},
                        location = __dirname+'/apis/embedly.js';
-                       data = MetaInfo.prototype.stringFormat(temp,obj);
+                       data = VidInfo.prototype.stringFormat(temp,obj);
                    fs.writeFile(location,data,function (err) {
                       if (!err) {
                          cb({message:'File saved to '+location,location:location,success:true});
@@ -453,7 +449,7 @@
    };
 
    // Add 'byID' shortcuts. See ./examples/byapi.js
-   MetaInfo.prototype.addShortcuts = function (api) {
+   VidInfo.prototype.addShortcuts = function (api) {
            if (!(api in this.apis)) {
               return false;
            };
@@ -473,5 +469,5 @@
            };
            return true;
    };
-   module.exports = MetaInfo;
+   module.exports = VidInfo;
 }).call(this);

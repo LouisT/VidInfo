@@ -78,9 +78,6 @@
                opts.headers["Content-type"] = "application/x-www-form-urlencoded";
                opts.headers["Content-length"] = opts.postData.length;
             }
-            if (!('compress' in opts) || opts.compress) {
-               opts.headers['accept-encoding'] = "gzip,deflate";
-            };
             function get_proto(opts) {
                      if (!('protocol' in opts)) {
                         return null;
@@ -98,37 +95,31 @@
    };
    http_get.doRequest = function (opts, method, cb) {
             var req = method.request(opts, function(res) {
-                function onData (chunk) {
-                         http_get.clearTimeout(req);
-                         this.buffer += chunk;
-                         if (opts.type == "title") {
-                            scanTitle(this,res,req);
-                         };
-                         if (!/(gzip|deflate)/i.test(res.headers['content-encoding'])) {
-                            if (('maxSize' in opts) && this.buffer.length >= opts.maxSize) {
-                               req.abort();
-                            };
-                         };
-                };
-                function onEnd () {
-                         if (opts.type && opts.type !== 'default') {
-                            var parsed = returnType(opts.type, this.buffer, res);
-                            return cb((parsed?parsed:"No content for requested type."), !parsed, res);
-                         };
-                         cb(this.buffer,null,res);
-                };
-                try {
-                   switch (res.headers['content-encoding']) {
-                          case 'gzip': case 'deflate':
-                               var unzip = require('zlib').createUnzip();
-                               res.pipe(unzip);
-                               break;
-                          default:
-                               var unzip = res;
-                   };
-                   unzip.buffer = '';
-                   unzip.on('data',onData).on('end',onEnd).on('error',function(e){cb(e.message,1,res);});
-                } catch (e) { cb(e.message,1,res); };
+                res.setEncoding('utf8');
+                res.body = '';
+                res.on('data', function(chunk) {
+                    http_get.clearTimeout(req);
+                    this.body += chunk;
+                    if (opts.type == "title") {
+                       this.body = this.body.replace(/(\r\n|\n|\r)/gm,"");
+                       if (/<title>(.*?)<\/title>/i.test(this.body)) {
+                          this.title = http_get.trim(this.body.replace(/.*<title>(.*?)<\/title>.*/i,"$1"));
+                          req.abort();
+                       }
+                    };
+                    if (('maxSize' in opts) && this.body.length >= opts.maxSize) {
+                       req.abort();
+                    };
+                }).on('end', function() {
+                    http_get.clearTimeout(req);
+                    if (opts.type) {
+                       if (opts.type != 'default') {
+                          var parsed = returnType(opts.type, this.body, this);
+                          return cb((parsed?parsed:"No content for requested type."), !parsed, this);
+                       }
+                    };
+                    cb(this.body,null,this);
+                });
             }).on('error', function(e) {
                http_get.clearTimeout(this);
                if (!this.haderr) {
@@ -145,13 +136,7 @@
             if (opts.postData) {
                req.write(opts.postData);
             }
-            function scanTitle (that,res,req) {
-                     var body = that.buffer.replace(/(\r\n|\n|\r)/gm,"");
-                     if (/<title>(.*?)<\/title>/i.test(body)) {
-                        res.title = http_get.trim(body.replace(/.*<title>(.*?)<\/title>.*/i,"$1"));
-                        req.abort();
-                     }
-            };
+            req.end();
             function returnType (type, body, res) {
                      if (type == "auto") {
                         switch (res.headers['content-type'].match(/[^;]+\/[^;]+/)[0]) {
@@ -198,7 +183,7 @@
                             case 'xml':
                                  try {
                                     var parser = require('xml2json');
-                                    return parser.toJson(body,{object:true});
+                                    return JSON.parse(parser.toJson(body));
                                   } catch (e) {
                                     return false;
                                  }
@@ -206,7 +191,6 @@
                                  return body;
                      }
             }
-            req.end();
    };
    http_get.csv2obj = function (input,jsonify) {
             var data = String(input).split(/\r?\n/),

@@ -1,6 +1,6 @@
 /*
- MetaInfo - Louis T. <LouisT@ltdev.im>
- https://github.com/LouisT/MetaInfo
+ VidInfo - Louis T. <LouisT@ltdev.im>
+ https://github.com/LouisT/VidInfo
 */
 module.exports = {
        url: 'http://www.giantbomb.com/api/video/2300-{:id}/?api_key={:apikey}&format=json',

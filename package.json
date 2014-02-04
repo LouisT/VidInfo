@@ -1,7 +1,7 @@
 {
-    "name": "metainfo",
-    "version": "0.2.14",
-    "homepage": "http://louist.github.io/metainfo/",
+    "name": "vidinfo",
+    "version": "0.2.13",
+    "homepage": "http://louist.github.io/VidInfo/",
     "author": {
         "name": "Louis T.",
         "email": "louist@ltdev.im",
@@ -9,10 +9,10 @@
     },
     "repository": {
         "type": "git",
-        "url": "git://github.com/LouisT/metainfo.git"
+        "url": "git://github.com/LouisT/vidinfo.git"
     },
     "bugs": {
-        "url": "https://github.com/LouisT/metainfo/issues"
+        "url": "https://github.com/LouisT/vidinfo/issues"
     },
     "licenses": [
         {
@@ -37,7 +37,7 @@
     "scripts": {
         "test": "node test.js"
     },
-    "description": "Get meta information from different APIs.",
+    "description": "Get video information from different APIs.",
     "engine": "node => 0.6",
     "main": "index.js"
 }
